@@ -1,0 +1,27 @@
+.navbar {
+display: flex;
+justify-content: space-between;
+align-items: center;
+background-color: #f56f26; 
+padding: 15px 40px;
+color: white;
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+}
+
+.logo a {
+font-size: 26px; 
+font-weight: bold;
+color: white;
+text-decoration: none;
+}
+
+.user-menu a {
+color: #eee;
+text-decoration: none;
+margin-left: 25px; 
+font-size: 15px; 
+}
+
+.user-menu a:hover {
+color: #ddd;
+}

@@ -1,0 +1,23 @@
+<div class="packages-container">
+  <div class="title-section">
+    <h2>Pacotes de Viagem</h2>
+    <p>Selecione o destino dos seus sonhos. Temos opções para todos os gostos e orçamentos.</p>
+  </div>
+
+ <div class="filter-section">
+  <div class="search-filter-wrapper">
+    <input type="text" placeholder=" Buscar por origem, destino ou título...">
+
+    <div class="divider"></div>
+
+    <div class="price-slider">
+      <span>Até R$ 15.000</span>
+      <input type="range" min="1000" max="15000" value="15000">
+    </div>
+  </div>
+</div>
+
+  <div class="package-list">
+    <app-package-card *ngFor="let pacote of pacotes" [pacote]="pacote"></app-package-card>
+  </div>
+</div>

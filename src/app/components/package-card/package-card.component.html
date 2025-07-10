@@ -1,0 +1,18 @@
+<div class="card">
+  <div class="card-image-container">
+    <img [src]="pacote.imagem" [alt]="pacote.titulo">
+    <div class="price-tag">R$ {{ pacote.preco }}</div>
+  </div>
+  <div class="card-content">
+    <h3>{{ pacote.titulo }}</h3>
+    <p class="location-duration">
+      <span>📍 {{ pacote.localizacao }}</span>
+      <span>&#128197; {{ pacote.duracao }}</span>
+    </p>
+    <p class="description">{{ pacote.descricao }}</p>
+    <div class="card-footer">
+      <span class="reviews">⭐ ({{ pacote.reviews }} reviews)</span>
+      <a href="#" class="details-link">Ver Mais +</a>
+    </div>
+  </div>
+</div>

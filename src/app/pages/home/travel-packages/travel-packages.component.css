@@ -1,0 +1,83 @@
+.packages-container {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  text-align: center;
+}
+
+.title-section h2 {
+  font-size: 32px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.title-section p {
+  color: #666;
+  font-size: 16px;
+  margin-bottom: 30px;
+}
+
+/* O .filter-section agora só centraliza o nosso bloco */
+.filter-section {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+/* BLOCO UNIFICADO */
+.search-filter-wrapper {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 8px 15px; /* Padding interno do bloco */
+  width: 100%;
+  max-width: 1000px; /* Largura máxima para o bloco */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* REMOVENDO ESTILOS INDIVIDUAIS DO INPUT */
+.search-filter-wrapper input[type="text"] {
+  flex-grow: 1; /* Faz o input ocupar o espaço disponível */
+  border: none; /* Remove a borda do input */
+  outline: none; /* Remove a linha azul ao focar */
+  background-color: transparent; /* Fundo transparente */
+  font-size: 16px;
+  padding: 8px 0; /* Ajusta o padding vertical interno */
+}
+
+/* ESTILO DO LINHA DIVISORa VERTICAL */
+.divider {
+  width: 1px;
+  background-color: #e0e0e0;
+  height: 40px;
+  margin: 0 15px;
+}
+
+/* SLIDER DE PREÇO */
+.price-slider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+}
+
+.price-slider span {
+  color: #555;
+  font-size: 15px;
+}
+
+.price-slider input[type="range"] {
+  width: 150px; /* Largura do slider */
+}
+
+.package-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 30px;
+  text-align: left;
+}
