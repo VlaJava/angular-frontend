@@ -1,83 +1,96 @@
-.packages-container {
-  max-width: 1200px;
-  margin: 40px auto;
-  padding: 30px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  text-align: center;
+/* ===== Seção Hero ===== */
+
+.hero-section {
+  position: relative;
+  padding: 12rem 0;
+  background-image: url('/assets/homepage/paris.jpg');
+  background-size: cover;
+  background-position: center;
 }
 
-.title-section h2 {
-  font-size: 32px;
-  color: #333;
-  margin-bottom: 10px;
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4); /* Overlay escurecer a imagem */
 }
 
-.title-section p {
-  color: #666;
-  font-size: 16px;
-  margin-bottom: 30px;
+/* Conteúdo do Hero acima do overlay e com sombra */
+.hero-section h1, .hero-section p, .hero-section .btn {
+  position: relative;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
 }
 
-/* O .filter-section agora só centraliza o nosso bloco */
-.filter-section {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 40px;
+.btn-orange {
+  background-color: var(--primary-orange) !important;
+  color: white !important;
+  font-weight: 600;
+  padding: 12px 30px;
+  border-radius: 50px;
+  border: none;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.3s ease;
 }
 
-/* BLOCO UNIFICADO */
-.search-filter-wrapper {
+.btn-orange:hover {
+  background-color: #e66a00 !important;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+---
+/* ===== Seção de Busca ===== */
+
+.search-section {
+  /* Busca sobre a seção hero */
+  margin-top: -80px;
+  position: relative;
+  z-index: 10;
+}
+
+.search-wrapper {
+  background-color: var(--primary-orange);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.input-card {
   display: flex;
   align-items: center;
   background-color: white;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  padding: 8px 15px; /* Padding interno do bloco */
+  border-radius: 15px;
+  padding: 8px 10px;
   width: 100%;
-  max-width: 1000px; /* Largura máxima para o bloco */
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+  height: 54px;
 }
 
-/* REMOVENDO ESTILOS INDIVIDUAIS DO INPUT */
-.search-filter-wrapper input[type="text"] {
-  flex-grow: 1; /* Faz o input ocupar o espaço disponível */
-  border: none; /* Remove a borda do input */
-  outline: none; /* Remove a linha azul ao focar */
-  background-color: transparent; /* Fundo transparente */
-  font-size: 16px;
-  padding: 8px 0; /* Ajusta o padding vertical interno */
+/* Estilo dos inputs de texto e data dentro do card */
+.input-card .form-control {
+  border: none !important;
+  box-shadow: none !important;
+  background-color: transparent !important;
+  padding: 0 15px;
+  flex-grow: 1;
 }
 
-/* ESTILO DO LINHA DIVISORa VERTICAL */
-.divider {
+.divider-vertical {
   width: 1px;
-  background-color: #e0e0e0;
-  height: 40px;
-  margin: 0 15px;
+  height: 25px;
+  background-color: #969696;
 }
 
-/* SLIDER DE PREÇO */
-.price-slider {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  white-space: nowrap;
+.input-card .form-range {
+  flex-grow: 1;
 }
 
-.price-slider span {
-  color: #555;
-  font-size: 15px;
+.input-card span {
+  color: #7d6c6c;
+  font-weight: 500;
 }
 
-.price-slider input[type="range"] {
-  width: 150px; /* Largura do slider */
-}
-
-.package-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 30px;
-  text-align: left;
+input[type="text"][onfocus*="date"]::-webkit-input-placeholder {
+  text-align: center;
 }

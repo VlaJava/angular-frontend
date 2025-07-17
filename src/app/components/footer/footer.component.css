@@ -1,11 +1,30 @@
-footer {
-  background-color: #2c3e50; 
-  color: #ccc;
-  padding: 20px 40px;
-  text-align: center;
-  font-size: 14px;
+.footer-custom {
+  background-color: var(--dark-blue);
 }
 
-.footer-content {
-margin-bottom: 5px;
+/* Logo rodapé */
+.footer-logo {
+  height: 80px;
+  width: auto;
+
+}
+
+.social-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #fff;
+  border-radius: 50%;
+  color: #fff;
+  text-decoration: none;
+  margin: 0 5px;
+  transition: all 0.3s ease;
+}
+
+.social-icon:hover {
+  background-color: var(--primary-orange);
+  border-color: var(--primary-orange);
+  color: #fff;
 }
