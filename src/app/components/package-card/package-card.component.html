@@ -1,18 +1,17 @@
-<div class="card">
-  <div class="card-image-container">
-    <img [src]="pacote.imagem" [alt]="pacote.titulo">
-    <div class="price-tag">R$ {{ pacote.preco }}</div>
-  </div>
-  <div class="card-content">
-    <h3>{{ pacote.titulo }}</h3>
-    <p class="location-duration">
-      <span>📍 {{ pacote.localizacao }}</span>
-      <span>&#128197; {{ pacote.duracao }}</span>
+<div class="card h-100 border-0 shadow-sm package-card">
+  <img [src]="pacote.imagem" class="card-img-top" [alt]="pacote.titulo">
+  <div class="card-body">
+    <h5 class="card-title fw-bold">{{ pacote.titulo }}</h5>
+    <p class="card-text text-muted small">
+      <span class="me-3">📍 {{ pacote.localizacao }}</span>
+      <span>🗓️ {{ pacote.duracao }}</span>
     </p>
-    <p class="description">{{ pacote.descricao }}</p>
-    <div class="card-footer">
-      <span class="reviews">⭐ ({{ pacote.reviews }} reviews)</span>
-      <a href="#" class="details-link">Ver Mais +</a>
+    <p class="card-text description-text">{{ pacote.descricao }}</p>
+  </div>
+  <div class="card-footer bg-transparent border-0 pt-0 pb-3">
+    <div class="d-flex justify-content-between align-items-center">
+      <span class="text-muted small">⭐ ({{ pacote.reviews }} review)</span>
+      <a href="#" class="fw-bold text-decoration-none details-link">Ver Mais +</a>
     </div>
   </div>
 </div>
