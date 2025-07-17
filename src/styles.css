@@ -1,1 +1,16 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+/* Variáveis de cor para uso em todo o projeto */
+:root {
+  --primary-orange: #FF7700;
+  --dark-blue: #1F2937;
+  --light-gray: #f8f9fa;
+  --text-color: #4a4a4a;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--light-gray);
+  color: var(--text-color);
+}
+

@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
-import { PacoteViagem } from '../../../models/pacote-viagem'; // Importe a interface
-import { CommonModule } from '@angular/common'; // 1. IMPORTE O CommonModule
+import { PacoteViagem } from '../../../models/pacote-viagem';
+import { CommonModule } from '@angular/common';
 import { PackageCardComponent } from '../../../components/package-card/package-card.component'; // 2. IMPORTE O PackageCardComponent
 
 @Component({
   selector: 'app-travel-packages',
-  standalone: true, // 3. ADICIONE ESTA LINHA
+  standalone: true,
   imports: [
-    CommonModule, // 4. ADICIONE CommonModule E...
-    PackageCardComponent // ...PackageCardComponent NOS IMPORTS
+    CommonModule,
+    PackageCardComponent
   ],
   templateUrl: './travel-packages.component.html',
   styleUrls: ['./travel-packages.component.css']
@@ -47,5 +47,6 @@ export class TravelPackagesComponent {
       descricao: 'Imersão renascentista, paisagens de colinas e vinhedos, e a deliciosa gastronomia italiana. Explore cidades históricas e deguste vinhos mundialmente famosos.',
       reviews: 0
     }
+    
   ];
 }
