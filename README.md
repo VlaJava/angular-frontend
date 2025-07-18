@@ -1,27 +1,45 @@
-# ViajavaApp
+# ✈️ Projeto ViaJava
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.17.
+ViaJava é uma aplicação front-end desenvolvida com **Angular 17**, focada na visualização e no gerenciamento de pacotes de viagem. Com autenticação de usuários e uma interface moderna, responsiva e intuitiva, o sistema proporciona uma experiência encantadora para explorar destinos incríveis.
 
-## Development server
+🚀 *Este projeto foi gerado com Angular CLI versão* **17.3.14**
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+---
 
-## Code scaffolding
+## ✨ Funcionalidades
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### 🔐 Autenticação de Usuário
+- **Login:** Acesso seguro via `/login`
+- **Cadastro:** Criação de nova conta em `/signup`
+- **Recuperação de Senha:** Solicitação de redefinição em `/forgot-password`
 
-## Build
+### 🧳 Visualização de Pacotes de Viagem
+- **Listagem:** Todos os pacotes disponíveis na página `/travel-packages`
+- **Cards reutilizáveis:** Exibem informações de destino, valores e detalhes de cada pacote
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+### 🎨 Layout e Experiência do Usuário
+- **Design consistente:** Cabeçalho e rodapé aplicados a todas as páginas
+- **Notificações:** Feedback visual via `ngx-toastr`
+- **Estilização moderna:** Utilização de `Bootstrap` e `SCSS` para responsividade
 
-## Running unit tests
+---
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## 🛠️ Tecnologias Utilizadas
 
-## Running end-to-end tests
+| Tecnologia   | Descrição                             |
+|--------------|----------------------------------------|
+| Angular      | Framework principal (v17.3.14)         |
+| TypeScript   | Linguagem principal do projeto         |
+| SCSS         | Estilização modular e moderna          |
+| ngx-toastr   | Biblioteca para notificações visuais   |
+| Bootstrap    | Estilização e responsividade           |
+| Karma        | Ferramenta para testes unitários       |
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+---
 
-## Further help
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+
+
+
+

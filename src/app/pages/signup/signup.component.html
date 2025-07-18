@@ -1,0 +1,97 @@
+
+<app-default-login-layout
+  title="Crie uma conta e viaje hoje mesmo!"
+  primaryBtnText="Cadastrar"
+  secondaryBtnText="Fazer login"
+  [disablePrimaryBtn]="!signupForm.valid"
+  (submit)="submit()"
+  (navigate)="navigate()"
+>
+  <form [formGroup]="signupForm">
+    
+    <!-- Nome -->
+    <app-primary-input
+      inputName="name"
+      type="text"
+      label="Nome Completo"
+      placeholder="ViaJava"
+      formControlName="name"
+    >
+    <img src="/assets/icons/person.svg"/>
+  </app-primary-input>
+
+    <!-- Email -->
+    <app-primary-input
+      inputName="email"
+      type="email"
+      label="Email"
+      placeholder="exemplo@email.com"
+      formControlName="email"
+    >
+    <img src="/assets/icons/email.svg"/>
+  </app-primary-input>
+
+    <!-- Telefone -->
+    <app-primary-input
+      inputName="phone"
+      type="text"
+      label="Telefone"
+      placeholder="(99) 99999-9999"
+      formControlName="phone"
+    >
+      <img src="/assets/icons/phone.svg"/>
+  </app-primary-input>
+
+    <!-- Data de nascimento -->
+    <app-primary-input
+      inputName="dateOfBirth"
+      type="date"
+      label="Data de Nascimento"
+      formControlName="dateOfBirth"
+    >
+  <img src="/assets/icons/cake.svg"/>
+  </app-primary-input>
+    <div>
+    <!-- Tipo de documento -->
+   <select formControlName="documentType" class="div_list">
+      <option value="" disabled selected>Selecione um tipo</option>
+      <option value="cpf">CPF</option>
+      <option value="passaport">Passaporte</option>
+    </select>
+
+    <!-- Número do documento -->
+    <app-primary-input
+      inputName="documentNumber"
+      type="text"
+      label="Número do Documento"
+      placeholder="Digite seu CPF ou Passaporte"
+      formControlName="documentNumber"
+    >
+      <img src="/assets/icons/doc.svg"/>
+  </app-primary-input>
+</div>
+    <!-- Senha -->
+    <app-primary-input
+      inputName="password"
+      type="password"
+      label="Senha"
+      placeholder="Crie uma senha"
+      formControlName="password"
+    >
+      <img src="/assets/icons/passkey.svg"/>
+  </app-primary-input>
+
+    <!-- Confirmação de senha -->
+    <app-primary-input
+      inputName="passwordConfirm"
+      type="password"
+      label="Confirme sua senha"
+      placeholder="Repita sua senha"
+      formControlName="passwordConfirm"
+    >
+      <img src="/assets/icons/passkey.svg"/>
+  </app-primary-input>
+
+  </form>
+</app-default-login-layout>
+

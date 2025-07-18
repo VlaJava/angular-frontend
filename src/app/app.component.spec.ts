@@ -14,16 +14,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have the 'viajava-app' title`, () => {
+  it(`should have the 'projeto_viajava_frontend' title`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('viajava-app');
+    expect(app.title).toEqual('projeto_viajava_frontend');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, viajava-app');
+    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, projeto_viajava_frontend');
   });
 });

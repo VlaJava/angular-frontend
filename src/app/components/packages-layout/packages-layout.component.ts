@@ -1,20 +1,20 @@
 import { Component } from '@angular/core';
-import { PacoteViagem } from '../../../models/pacote-viagem';
+import { PacoteViagem } from '../../models/pacote-viagem';
+import { PackageCardComponent } from '../package-card/package-card.component';
 import { CommonModule } from '@angular/common';
-import { PackageCardComponent } from '../../../components/package-card/package-card.component'; // 2. IMPORTE O PackageCardComponent
 
 @Component({
-  selector: 'app-travel-packages',
+  selector: 'app-packages-layout',
   standalone: true,
   imports: [
     CommonModule,
     PackageCardComponent
-  ],
-  templateUrl: './travel-packages.component.html',
-  styleUrls: ['./travel-packages.component.css']
-})
 
-export class TravelPackagesComponent {
+  ],
+  templateUrl: './packages-layout.component.html',
+  styleUrl: './packages-layout.component.scss'
+})
+export class PackageLayoutComponent {
   // Array com os pacotes de viagem (simulando dados)
   pacotes: PacoteViagem[] = [
     {

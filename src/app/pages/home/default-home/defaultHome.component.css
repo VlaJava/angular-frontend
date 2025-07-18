@@ -1,0 +1,96 @@
+/* ===== Seção Hero ===== */
+
+.hero-section {
+  position: relative;
+  padding: 12rem 0;
+  background-image: url('/assets/homepage/paris.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4); /* Overlay escurecer a imagem */
+}
+
+/* Conteúdo do Hero acima do overlay e com sombra */
+.hero-section h1, .hero-section p, .hero-section .btn {
+  position: relative;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.btn-orange {
+  background-color: var(--primary-orange) !important;
+  color: white !important;
+  font-weight: 600;
+  padding: 12px 30px;
+  border-radius: 50px;
+  border: none;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.3s ease;
+}
+
+.btn-orange:hover {
+  background-color: #e66a00 !important;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+---
+/* ===== Seção de Busca ===== */
+
+.search-section {
+  /* Busca sobre a seção hero */
+  margin-top: -80px;
+  position: relative;
+  z-index: 10;
+}
+
+.search-wrapper {
+  background-color: var(--primary-orange);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.input-card {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border-radius: 15px;
+  padding: 8px 10px;
+  width: 100%;
+  height: 54px;
+}
+
+/* Estilo dos inputs de texto e data dentro do card */
+.input-card .form-control {
+  border: none !important;
+  box-shadow: none !important;
+  background-color: transparent !important;
+  padding: 0 15px;
+  flex-grow: 1;
+}
+
+.divider-vertical {
+  width: 1px;
+  height: 25px;
+  background-color: #969696;
+}
+
+.input-card .form-range {
+  flex-grow: 1;
+}
+
+.input-card span {
+  color: #7d6c6c;
+  font-weight: 500;
+}
+
+input[type="text"][onfocus*="date"]::-webkit-input-placeholder {
+  text-align: center;
+}

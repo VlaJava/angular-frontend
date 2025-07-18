@@ -1,25 +1,20 @@
 import { Component } from '@angular/core';
-
-// import { RouterOutlet } from '@angular/router';
-
-// Os imports de cada parte do app.
+import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './components/header/header.component';
-import { TravelPackagesComponent } from './pages/home/travel-packages/travel-packages.component';
 import { FooterComponent } from './components/footer/footer.component';
-
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
-    //RouterOutlet,
+    RouterOutlet,
     HeaderComponent,
-    TravelPackagesComponent, 
-    FooterComponent
+    FooterComponent,
+    
   ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'viajava-app';
+  title = 'projeto_viajava_frontend';
 }
