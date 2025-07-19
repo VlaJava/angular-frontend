@@ -14,7 +14,7 @@ ViaJava é uma aplicação front-end desenvolvida com **Angular 17**, focada na 
 - **Recuperação de Senha:** Solicitação de redefinição em `/forgot-password`
 
 ### 🧳 Visualização de Pacotes de Viagem
-- **Listagem:** Todos os pacotes disponíveis na página `/travel-packages`
+- **Listagem:** Todos os pacotes disponíveis na página `/`
 - **Cards reutilizáveis:** Exibem informações de destino, valores e detalhes de cada pacote
 
 ### 🎨 Layout e Experiência do Usuário
