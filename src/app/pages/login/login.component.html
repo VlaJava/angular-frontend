@@ -1,43 +1,21 @@
-
 <main style="flex: 1;">
-<app-default-login-layout
-title="Acesse sua conta"
-primaryBtnText="Faça login agora"
-secondaryBtnText="Cadastre-se agora"
-(submit)="submit()"
-(navigate)="navigate()"
-[disablePrimaryBtn]="!loginForm.valid"
+    <app-default-login-layout title="Acesse sua conta" primaryBtnText="Faça login agora"
+        secondaryBtnText="Cadastre-se agora" (submit)="submit()" (navigate)="navigate()"
+        [disablePrimaryBtn]="!loginForm.valid">
+        <form [formGroup]="loginForm">
+            <app-primary-input formControlName="email" inputName="email" type="email" label="Email"
+                placeholder="exemplo@email.com">
+                <img src="/assets/icons/email.svg" />
+            </app-primary-input>
+            <app-primary-input formControlName="password" inputName="password" type="password" label="Senha">
+                <img src="/assets/icons/chave2.svg" />
+            </app-primary-input>
 
->
-<form [formGroup]="loginForm">
-    <app-primary-input
-        formControlName="email"
-        inputName="email"
-        type="email"
-        label="Email"
-        placeholder="exemplo@email.com"
-        
-    >
-    <img src="/assets/icons/email.svg"/>
-    </app-primary-input>
-    <app-primary-input
-    formControlName="password"
-    inputName="password"
-    type="password"
-    label="Senha"
-    
-    >
-    <img src="/assets/icons/chave2.svg"/>
-    </app-primary-input>
-    
-   
-           <span><button>Esqueceu a senha?</button></span> 
-    
+
+            <span><button type="button" class="forgot-password-btn" (click)="navigateToForgotPassword()">Esqueceu a
+                    senha?</button></span>
+
         </form>
-       
-</app-default-login-layout>
+
+    </app-default-login-layout>
 </main>
-
-  
-
-
