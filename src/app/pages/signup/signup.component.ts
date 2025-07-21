@@ -8,12 +8,13 @@ import {
   ValidationErrors
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LoginService } from '../../services/login.service';
 import { ToastrService } from 'ngx-toastr';
 import { PrimaryInputsComponent } from '../../components/primary-input/primary-input.component';
 import { DefaultLoginLayoutComponent } from '../../components/default-login-layout/default-login-layout.component';
+import { AuthService } from '../../services/auth.service'; 
+import { UserSignup } from '../../types/user-signup.type';
 
-
+// Interface do formulário (sem alterações)
 interface SignupForm {
   name: FormControl<string | null>;
   email: FormControl<string | null>;
@@ -25,7 +26,7 @@ interface SignupForm {
   documentNumber: FormControl<string | null>;
 }
 
-// Validador para verificar se senha e confirmação coincidem
+
 function passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
   const password = control.get('password')?.value;
   const confirm = control.get('passwordConfirm')?.value;
@@ -39,18 +40,17 @@ function passwordMatchValidator(control: AbstractControl): ValidationErrors | nu
     DefaultLoginLayoutComponent,
     ReactiveFormsModule,
     PrimaryInputsComponent
-    
   ],
-  providers: [LoginService],
+  
   templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.scss'] // <- Corrigido aqui
+  styleUrls: ['./signup.component.scss']
 })
 export class SignupComponent {
   signupForm: FormGroup<SignupForm>;
 
   constructor(
     private router: Router,
-    private loginService: LoginService,
+    private authService: AuthService, 
     private toastService: ToastrService
   ) {
     this.signupForm = new FormGroup<SignupForm>({
@@ -64,7 +64,7 @@ export class SignupComponent {
       documentNumber: new FormControl('', [Validators.required])
     }, { validators: passwordMatchValidator });
 
-    // Validação dinâmica para o número do documento
+    
     this.signupForm.get('documentType')?.valueChanges.subscribe(type => {
       const control = this.signupForm.get('documentNumber');
       if (type === 'cpf') {
@@ -79,40 +79,35 @@ export class SignupComponent {
   }
 
   submit() {
-    if (this.signupForm.invalid) {
-      Object.values(this.signupForm.controls).forEach(control => control.markAsTouched());
-      this.toastService.warning('Preencha todos os campos corretamente!');
-      return;
-    }
-
-    const {
-      name,
-      email,
-      phone,
-      dateOfBirth,
-      password,
-      documentType,
-      documentNumber
-    } = this.signupForm.value;
-
-    this.loginService.signup(
-      name!,
-      email!,
-      password!,
-      dateOfBirth!,
-      phone!,
-      documentType!,
-      documentNumber!
-    ).subscribe({
-      next: () => {
-        this.toastService.success("Cadastro efetuado com sucesso!");
-        this.navigate();
-      },
-      error: () => {
-        this.toastService.error("Opss! Erro inesperado! Tente novamente.");
-      }
-    });
+  if (this.signupForm.invalid) {
+    Object.values(this.signupForm.controls).forEach(control => control.markAsTouched());
+    this.toastService.warning('Preencha todos os campos corretamente!');
+    return;
   }
+
+  
+  const userData: UserSignup = {
+    name: this.signupForm.value.name!,
+    email: this.signupForm.value.email!,
+    password: this.signupForm.value.password!,
+    phone: this.signupForm.value.phone!,
+    dateOfBirth: this.signupForm.value.dateOfBirth!,
+    documentType: this.signupForm.value.documentType!,
+    documentNumber: this.signupForm.value.documentNumber!,
+  };
+
+ 
+  this.authService.signup(userData).subscribe({
+    next: () => {
+      this.toastService.success("Cadastro efetuado com sucesso!");
+      this.router.navigate(['dashboard']); 
+    },
+    error: (err) => {
+      const errorMessage = err.error?.message || "Ops! Erro inesperado! Tente novamente.";
+      this.toastService.error(errorMessage);
+    }
+  });
+}
 
   navigate() {
     this.router.navigate(['login']);
