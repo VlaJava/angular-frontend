@@ -3,7 +3,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { SignupComponent } from './pages/signup/signup.component';
 import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
 import { DefaultHomeComponent } from './pages/home/default-home/defaultHome.component';
-
+import { PackageDetailsComponent } from './pages/package-details/package-details.component'; 
 
 
 export const routes: Routes = [
@@ -26,7 +26,11 @@ export const routes: Routes = [
         path: "forgot-password",
         component: ForgotPasswordComponent
 
-    }
+    },
+    {
+        path: 'pacote/:id',
+        component: PackageDetailsComponent
+    },
 
 
 
