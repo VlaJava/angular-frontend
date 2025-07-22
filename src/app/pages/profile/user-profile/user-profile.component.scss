@@ -1,0 +1,131 @@
+:host {
+  display: flex;
+  justify-content: center;
+  padding: 40px;
+  background-color: #f4f7f6;
+}
+
+.profile-container {
+  display: flex;
+  gap: 50px;
+  width: 100%;
+  max-width: 900px;
+}
+
+.profile-picture-section {
+  flex: 0 0 200px;
+  text-align: center;
+  
+  .profile-avatar {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border: 5px solid var(--primary-orange);
+    object-fit: cover;
+    margin-bottom: 20px;
+  }
+
+  // --- CÓDIGO ADICIONADO PARA ESTILIZAR O BOTÃO ---
+  .upload-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-top: 20px;
+    background-color: #e9ecef;
+    color: #495057;
+    border-radius: 5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: #d8dde2;
+    }
+  }
+  // --- FIM DO CÓDIGO ADICIONADO ---
+}
+
+.profile-form-section {
+  flex: 1;
+  background-color: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+
+  h2 {
+    text-align: center;
+    font-weight: 700;
+    margin-bottom: 30px;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+}
+
+.document-row {
+  display: flex;
+  gap: 16px;
+  
+  select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f9fa;
+  }
+  
+  .document-number {
+    flex: 1;
+  }
+}
+
+.buttons-wrapper {
+  margin-top: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .delete-link {
+    color: #dc3545;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  
+  .main-actions {
+    display: flex;
+    gap: 16px;
+  }
+}
+
+.btn-primary, .btn-secondary {
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background-color: var(--primary-orange);
+  color: white;
+}
+
+.btn-secondary {
+  background-color: #e9ecef;
+  color: #495057;
+}
+
+:host ::ng-deep app-primary-input input:disabled,
+select:disabled {
+  background-color: #f0f2f5 !important;
+  border: 1px solid #d9d9d9;
+  cursor: default;
+  color: #555;
+  font-weight: 500;
+}
