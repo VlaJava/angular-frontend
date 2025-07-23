@@ -1,7 +1,9 @@
 import { Component, Input } from '@angular/core';
-import { PacoteViagem } from '../../models/pacote-viagem';
+
 import { PackageCardComponent } from '../package-card/package-card.component';
 import { CommonModule } from '@angular/common';
+import { Package } from '../../types/package.type';
+
 
 @Component({
   selector: 'app-packages-layout',
@@ -15,7 +17,7 @@ import { CommonModule } from '@angular/common';
 })
 export class PackageLayoutComponent {
 
-  @Input() pacotes: PacoteViagem[] = [];
+  @Input() pacotes: Package[] = [];
 
   constructor() { }
 
