@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PackageService } from '../../services/package.service';  
-import { PacoteViagem } from '../../models/pacote-viagem';   
-import { CommonModule } from '@angular/common';       
+import { CommonModule } from '@angular/common';
+import { PackageService } from '../../services/package.service';
+import { Package } from '../../types/package.type';
 
 @Component({
   selector: 'app-package-details',
@@ -13,28 +13,40 @@ import { CommonModule } from '@angular/common';
 })
 export class PackageDetailsComponent implements OnInit {
 
-  pacote: PacoteViagem | undefined;
+  pacote: Package | undefined;
+  isLoading = true;
 
   constructor(
-    private route: ActivatedRoute,         
-    private router: Router,                 
-    private packageService: PackageService  
+    private route: ActivatedRoute,
+    private router: Router,
+    private packageService: PackageService
   ) { }
 
   ngOnInit(): void {
-
     const idParam = this.route.snapshot.paramMap.get('id');
     
     if (idParam) {
-      const packageId = +idParam;
+      // ✅ CORREÇÃO: Converte o ID da URL (string) para um número
+      const packageId = +idParam; 
+      this.isLoading = true;
       
-      this.pacote = this.packageService.getPackageById(packageId);
-
-      // se não encontrar um pacote com o ID fornecido,
-      // volta para a página inicial.
-      if (!this.pacote) {
-        this.router.navigate(['/']);
-      }
+      this.packageService.getPackageById(packageId).subscribe({
+        next: (data) => {
+          if (data) {
+            this.pacote = data;
+          } else {
+            this.router.navigate(['/']);
+          }
+          this.isLoading = false;
+        },
+        error: (err) => {
+          console.error('Erro ao buscar o pacote:', err);
+          this.router.navigate(['/']);
+          this.isLoading = false;
+        }
+      });
+    } else {
+      this.router.navigate(['/']);
     }
   }
 }
