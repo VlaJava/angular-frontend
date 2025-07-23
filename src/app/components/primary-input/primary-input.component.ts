@@ -26,6 +26,7 @@ export class PrimaryInputsComponent implements ControlValueAccessor {
   @Input() inputName: string = "";
   @Input() placeholder: string = "";
   @Input() label: string = "";
+  @Input() readonly: boolean = false;
 
   value: string = '';
   isDisabled = false;
