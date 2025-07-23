@@ -10,14 +10,19 @@ import { SignupComponent } from './pages/signup/signup.component';
 import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
 import { DefaultHomeComponent } from './pages/home/default-home/defaultHome.component';
 
+
 import { UserProfileComponent } from './pages/profile/user-profile/user-profile.component';
 import { AdminLayoutComponent } from './components/admin-layout/admin-layout.component';
+
+import { PackageDetailsComponent } from './pages/package-details/package-details.component'; 
 
 import { AdminPackagesComponent } from './pages/admin/admin-packages/admin-packages.component';
 import { AdminUsersComponent } from './pages/admin/admin-users/admin-users.component';
 import { AdminReviewsComponent } from './pages/admin/admin-reviews/admin-reviews.component';
 import { AdminReportsComponent } from './pages/admin/admin-reports/admin-reports.component';
 import { AdminDashboardComponent } from './pages/admin/admin-dashboard/admin-dashboard.component';
+
+
 
 
 
@@ -39,6 +44,10 @@ export const routes: Routes = [
     path: "forgot-password",
     component: ForgotPasswordComponent
   },
+    {
+        path: 'pacote/:id',
+        component: PackageDetailsComponent
+    },
 
   // --- Rota Privada para Usuários Logados ---
   {
