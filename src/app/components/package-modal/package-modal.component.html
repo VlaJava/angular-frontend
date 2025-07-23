@@ -1,0 +1,63 @@
+<div class="modal-overlay" (click)="onCancel()">
+  <div class="modal-container" (click)="$event.stopPropagation()">
+    <h2>Novo Pacote</h2>
+    <form [formGroup]="packageForm" (ngSubmit)="onSave()">
+      <div class="form-group">
+        <label for="titulo">Título *</label>
+        <input id="titulo" type="text" formControlName="titulo">
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="origem">Origem *</label>
+          <input id="origem" type="text" formControlName="origem">
+        </div>
+        <div class="form-group">
+          <label for="destino">Destino *</label>
+          <input id="destino" type="text" formControlName="destino">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="descricao">Descrição *</label>
+        <textarea id="descricao" rows="3" formControlName="descricao"></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="valor">Valor *</label>
+          <input id="valor" type="number" formControlName="valor">
+        </div>
+        <div class="form-group">
+          <label for="limite">Limite de Viajantes *</label>
+          <input id="limite" type="number" formControlName="limiteViajantes">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="dataInicio">Data de início *</label>
+          <input id="dataInicio" type="date" formControlName="dataInicio">
+        </div>
+        <div class="form-group">
+          <label for="dataFinal">Data final *</label>
+          <input id="dataFinal" type="date" formControlName="dataFinal">
+        </div>
+      </div>
+
+      <div class="form-group checkbox-group">
+        <input id="disponivel" type="checkbox" formControlName="disponivel">
+        <label for="disponivel">Disponível</label>
+      </div>
+      
+      <label for="upload-imagem" class="btn-upload">Upload Imagem</label>
+      <input id="upload-imagem" type="file" (change)="onFileSelected($event)" hidden>
+
+      <div class="modal-footer">
+        <button type="button" class="btn-secondary" (click)="onCancel()">Cancelar</button>
+        <button type="submit" class="btn-primary" [disabled]="packageForm.invalid">Salvar</button>
+      </div>
+    </form>
+  </div>
+</div>
+

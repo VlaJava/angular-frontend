@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, map, tap } from 'rxjs';
+import { BehaviorSubject, Observable, map, switchMap, tap } from 'rxjs';
 import { LoginService } from './login.service';
 import { User } from '../types/user.type';
 import { LoginResponse } from '../types/login-response.type';
@@ -24,9 +24,8 @@ export class AuthService {
     this.isAdmin$ = this.currentUser$.pipe(map(user => user?.role === 'admin'));
   }
 
-  // --- MÉTODOS REAIS ---
+  
   login(email: string, password: string): Observable<LoginResponse> {
-    // ✅ Lógica do login real restaurada
     return this.loginService.login(email, password).pipe(
       tap((response) => {
         const user: User = {
@@ -41,16 +40,11 @@ export class AuthService {
   }
 
   signup(data: UserSignup): Observable<LoginResponse> {
-    // ✅ Lógica do signup real restaurada
+    
     return this.loginService.signup(data).pipe(
-      tap((response) => {
-        const user: User = {
-          name: response.name,
-          role: response.role
-        };
-        this.currentUserSubject.next(user);
-        localStorage.setItem('currentUser', JSON.stringify(user));
-        localStorage.setItem('auth-token', response.token);
+      switchMap(() => {
+     
+        return this.login(data.email, data.password!);
       })
     );
   }

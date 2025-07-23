@@ -1,0 +1,95 @@
+:host {
+    padding: 24px;
+    display: block;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+
+    h1 {
+        font-size: 28px;
+        font-weight: 700;
+    }
+}
+
+.table-container {
+    width: 100%;
+    overflow-x: auto; // Para responsividade em telas pequenas
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        
+        th, td {
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        th {
+            font-weight: 600;
+            color: #868e96;
+            font-size: 14px;
+        }
+
+        td {
+            color: var(--text-color);
+        }
+    }
+}
+
+.actions a {
+    
+    text-decoration: none;
+    font-weight: 500;
+    margin-right: 16px;
+    cursor: pointer;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.footer {
+    margin-top: 24px;
+    text-align: right;
+}
+
+
+.btn-primary {
+    background-color: var(--primary-orange);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.delete-link {
+    color: #dc3545; // Um tom de vermelho para perigo
+
+    &:hover {
+      color: #c82333; // Vermelho um pouco mais escuro no hover
+    }
+  }
+
+  .loading-indicator, .empty-state {
+  text-align: center;
+  padding: 40px;
+  color: #868e96;
+  font-size: 16px;
+}

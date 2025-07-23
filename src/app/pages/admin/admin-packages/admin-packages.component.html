@@ -1,1 +1,54 @@
-<p>admin-packages works!</p>
+<div class="header">
+  <h1>Gerenciar Pacotes</h1>
+  <button class="btn-primary" (click)="openModal()">Adicionar Pacote</button>
+</div>
+
+<!-- Seção de Carregamento e Tabela -->
+<div class="table-container">
+  <!-- 1. Mostra um indicador de carregamento -->
+  <div *ngIf="isLoading" class="loading-indicator">
+    Carregando pacotes...
+  </div>
+
+  <!-- 2. Mostra a tabela apenas se não estiver carregando E se houver pacotes -->
+  <table *ngIf="!isLoading && packages.length > 0">
+    <thead>
+      <tr>
+        <th>Título</th>
+        <th>Destino</th>
+        <th>Valor</th>
+        <th>Disponível</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let pkg of packages">
+        <td>{{ pkg.titulo }}</td>
+        <td>{{ pkg.destino }}</td>
+        <td>{{ pkg.valor | currency:'BRL' }}</td>
+        <td>{{ pkg.disponivel ? 'Sim' : 'Não' }}</td>
+        <td class="actions">
+          <a href="#">Editar</a>
+          <!-- 3. Conecta o botão de exclusão ao método -->
+          <a (click)="handleDeletePackage(pkg.id!)" class="delete-link">Excluir</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- 4. Mostra uma mensagem se não houver pacotes -->
+  <div *ngIf="!isLoading && packages.length === 0" class="empty-state">
+    Nenhum pacote encontrado. Adicione um novo!
+  </div>
+</div>
+
+<div class="footer">
+  <button class="btn-secondary">Exportar relatório</button>
+</div>
+
+<!-- O Modal (código inalterado) -->
+<app-package-modal 
+  *ngIf="isModalVisible" 
+  (close)="closeModal()"
+  (save)="handleSavePackage($event)">
+</app-package-modal>
