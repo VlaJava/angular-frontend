@@ -1,11 +1,10 @@
-
 <app-default-login-layout
   title="Crie uma conta e viaje hoje mesmo!"
   primaryBtnText="Cadastrar"
   secondaryBtnText="Fazer login"
   [disablePrimaryBtn]="!signupForm.valid"
   (submit)="submit()"
-  (navigate)="navigate()"
+  (navigate)="navigateToLogin()"
 >
   <form [formGroup]="signupForm">
     
@@ -55,8 +54,8 @@
     <!-- Tipo de documento -->
    <select formControlName="documentType" class="div_list">
       <option value="" disabled selected>Selecione um tipo</option>
-      <option value="cpf">CPF</option>
-      <option value="passaport">Passaporte</option>
+      <option value="CPF">CPF</option>         <!-- CORRIGIDO PARA 'CPF' -->
+      <option value="PASSAPORTE">Passaporte</option> <!-- CORRIGIDO PARA 'PASSAPORTE' -->
     </select>
 
     <!-- Número do documento -->
@@ -94,4 +93,3 @@
 
   </form>
 </app-default-login-layout>
-
