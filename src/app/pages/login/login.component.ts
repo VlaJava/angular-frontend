@@ -2,12 +2,12 @@ import { Component } from '@angular/core';
 import { DefaultLoginLayoutComponent } from '../../components/default-login-layout/default-login-layout.component';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PrimaryInputsComponent } from '../../components/primary-input/primary-input.component';
-import { LoginService } from '../../services/login.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
-// As importações de Header e Footer não estavam sendo usadas e foram removidas.
+import { AuthService } from '../../services/auth.service';
+import { LoginRequest } from '../../types/login-request.type';
 
-// Interface com tipagem mais específica para os controles do formulário
+// Interface para o formulário
 interface LoginForm {
   email: FormControl<string | null>;
   password: FormControl<string | null>;
@@ -21,9 +21,8 @@ interface LoginForm {
     ReactiveFormsModule,
     PrimaryInputsComponent,
   ],
-  
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
 
@@ -31,7 +30,7 @@ export class LoginComponent {
 
   constructor(
     private router: Router,
-    private loginService: LoginService,
+    private authService: AuthService,
     private toastService: ToastrService
   ) {
     this.loginForm = new FormGroup({
@@ -46,23 +45,27 @@ export class LoginComponent {
       return;
     }
 
-    const email = this.loginForm.value.email ?? '';
-    const password = this.loginForm.value.password ?? '';
+    const credenciais: LoginRequest = {
+      email: this.loginForm.value.email ?? '',
+      senha: this.loginForm.value.password ?? ''
+    };
 
-    this.loginService.login(email, password).subscribe({
-      next: () => {
+    // ✅ CORREÇÃO AQUI: Chamando o método a partir do authService, e não do loginForm
+    this.authService.login(credenciais).subscribe({
+      next: (response) => {
+        // A lógica de salvar o token e o usuário pode ser adicionada aqui
         this.toastService.success("Login efetuado com sucesso!");
-        // ✅ AJUSTE PRINCIPAL: Altere "dashboard" para a rota da sua área de usuário
-        this.router.navigate(["dashboard"]);
+        this.router.navigate(["/dashboard"]);
       },
-      error: () => {
+      error: (err) => {
+        console.error(err); // É bom logar o erro para depuração
         this.toastService.error("E-mail ou senha inválidos. Tente novamente.");
       }
     });
   }
 
   navigate() {
-    this.router.navigate(["signup"]);
+    this.router.navigate(["/signup"]);
   }
 
   navigateToForgotPassword(){
