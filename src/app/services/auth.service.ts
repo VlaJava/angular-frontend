@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, map, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, Observable, map, tap } from 'rxjs';
 import { LoginService } from './login.service';
 import { User } from '../types/user.type';
 import { LoginResponse } from '../types/login-response.type';
@@ -16,22 +16,26 @@ export class AuthService {
   public isAdmin$: Observable<boolean>;
 
   constructor(private loginService: LoginService) {
+    // Tenta carregar o usuário do localStorage ao iniciar
     const savedUser = localStorage.getItem('currentUser');
     if (savedUser) {
       this.currentUserSubject.next(JSON.parse(savedUser));
     }
+
     this.isLoggedIn$ = this.currentUser$.pipe(map(user => !!user));
-    this.isAdmin$ = this.currentUser$.pipe(map(user => user?.role === 'admin'));
+    // Verificação de 'admin' agora é case-insensitive para ser mais robusta
+    this.isAdmin$ = this.currentUser$.pipe(map(user => user?.role?.toLowerCase() === 'admin'));
   }
 
-  
   login(email: string, password: string): Observable<LoginResponse> {
     return this.loginService.login(email, password).pipe(
       tap((response) => {
+        // Extrai as informações do usuário da resposta do login
         const user: User = {
             name: response.name,
             role: response.role
         };
+        // Atualiza o estado da aplicação e o localStorage
         this.currentUserSubject.next(user);
         localStorage.setItem('currentUser', JSON.stringify(user));
         localStorage.setItem('auth-token', response.token);
@@ -39,14 +43,13 @@ export class AuthService {
     );
   }
 
-  signup(data: UserSignup): Observable<LoginResponse> {
-    
-    return this.loginService.signup(data).pipe(
-      switchMap(() => {
-     
-        return this.login(data.email, data.password!);
-      })
-    );
+  /**
+   * Ajustado: O método de signup agora apenas realiza o cadastro.
+   * O login automático foi removido, pois o backend requer confirmação de e-mail
+   * antes que o usuário possa fazer login.
+   */
+  signup(data: UserSignup): Observable<any> { // Pode ser CreateUserResponse
+    return this.loginService.signup(data);
   }
 
   forgotPassword(email: string): Observable<unknown> {

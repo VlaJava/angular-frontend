@@ -14,8 +14,8 @@ export class LoginService {
   constructor(private httpClient: HttpClient) { }
 
   
-  login(email: string, password: string) {
-    return this.httpClient.post<LoginResponse>(`${this.apiUrl}/auth`, { email, password });
+  login(email: string, senha: string) {
+    return this.httpClient.post<LoginResponse>(`${this.apiUrl}/auth`, { email, senha });
   }
 
   
@@ -30,8 +30,8 @@ export class LoginService {
   }
 
   
-  resetPassword(token: string, newPassword: string) {
-    const requestBody = { senha: newPassword, confirmarSenha: newPassword };
+  resetPassword(token: string, newPassword: string, newPasswordConfirmation: string) {
+    const requestBody = { novaSenha: newPassword, novaSenhaConfirmacao: newPasswordConfirmation };
     return this.httpClient.post<unknown>(`${this.apiUrl}/auth/forgot-password?token=${token}`, requestBody);
   }
 }
