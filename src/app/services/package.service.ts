@@ -8,11 +8,13 @@ import { Package } from '../types/package.type';
 })
 export class PackageService {
 
+
+  // APAGAR DAQUI PRA BAIXO!!!!!
   private packages: Package[] = [
-    { 
+    {
       id: 1, // ✅ ID alterado para number
-      titulo: 'Aventura na Patagônia', 
-      destino: 'Patagônia, Chile', 
+      titulo: 'Aventura na Patagônia',
+      destino: 'Patagônia, Chile',
       localizacao: 'Patagônia, Chile',
       valor: 7500.00,
       preco: 7500.00,
@@ -22,12 +24,12 @@ export class PackageService {
       duracao: '10 Dias / 9 Noites',
       reviews: 5
     },
-    { 
+    {
       id: 2, // ✅ ID alterado para number
-      titulo: 'Praias Paradisíacas de Bali', 
-      destino: 'Bali, Indonésia', 
+      titulo: 'Praias Paradisíacas de Bali',
+      destino: 'Bali, Indonésia',
       localizacao: 'Bali, Indonésia',
-      valor: 9800.00, 
+      valor: 9800.00,
       preco: 9800.00,
       disponivel: true,
       imagem: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1035&q=80',
@@ -35,12 +37,12 @@ export class PackageService {
       duracao: '12 Dias / 11 Noites',
       reviews: 4
     },
-    { 
+    {
       id: 3, // ✅ ID alterado para number
-      titulo: 'Luzes de Tóquio', 
-      destino: 'Tóquio, Japão', 
+      titulo: 'Luzes de Tóquio',
+      destino: 'Tóquio, Japão',
       localizacao: 'Tóquio, Japão',
-      valor: 12300.00, 
+      valor: 12300.00,
       preco: 12300.00,
       disponivel: false,
       imagem: 'https://images.unsplash.com/photo-1542051841857-5f90071e7989?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
@@ -87,3 +89,42 @@ export class PackageService {
     return of(undefined).pipe(delay(500));
   }
 }
+/** 
+ !!!!!!SÓ DESCOMENTAR E SUBISTITUIR QUANDO TIVER PACOTES REAIS NO BANCO
+
+  
+  private readonly apiUrl = `${environment.apiUrl}/pacotes`;
+
+  
+  constructor(private http: HttpClient) { }
+
+  
+  getPackages(): Observable<Package[]> {
+    return this.http.get<Package[]>(this.apiUrl);
+  }
+
+  
+  getPackageById(id: number): Observable<Package> {
+    const url = `${this.apiUrl}/${id}`;
+    return this.http.get<Package>(url);
+  }
+
+  
+  createPackage(newPackage: Omit<Package, 'id'>): Observable<Package> {
+    return this.http.post<Package>(this.apiUrl, newPackage);
+  }
+
+  
+  updatePackage(id: number, updatedPackage: Package): Observable<Package> {
+    const url = `${this.apiUrl}/${id}`;
+    return this.http.put<Package>(url, updatedPackage);
+  }
+
+  
+  deletePackage(packageId: number): Observable<void> {
+    const url = `${this.apiUrl}/${packageId}`;
+    return this.http.delete<void>(url);
+  }
+}
+
+*/

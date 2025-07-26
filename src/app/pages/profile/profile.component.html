@@ -1,0 +1,35 @@
+<div class="profile-container" *ngIf="user$ | async as user; else loading">
+  <div class="profile-card">
+    <div class="profile-header">
+      <h2>Meu Perfil</h2>
+      <p>Estas são as suas informações de cadastro na ViaJava.</p>
+    </div>
+
+    <div class="profile-details">
+      <div class="detail-item">
+        <label>Nome Completo</label>
+        <p>{{ user.name }}</p>
+      </div>
+      <div class="detail-item">
+        <label>Email</label>
+        <p>{{ user.email }}</p>
+      </div>
+      <div class="detail-item">
+        <label>Documento (CPF/Passaporte)</label>
+        <p>{{ user.document }}</p>
+      </div>
+      <div class="detail-item">
+        <label>Telefone</label>
+        <p>{{ user.phone }}</p>
+      </div>
+    </div>
+
+    <div class="profile-actions">
+      <button class="edit-button">Editar Perfil</button>
+    </div>
+  </div>
+</div>
+
+<ng-template #loading>
+  <p>A carregar perfil...</p>
+</ng-template>

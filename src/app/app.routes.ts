@@ -1,8 +1,5 @@
 import { Routes } from '@angular/router';
 
-// Guards de Rota
-import { authGuard } from './auth/auth.guard';
-import { adminGuard } from './auth/admin.guard';
 
 
 import { LoginComponent } from './pages/login/login.component';
@@ -11,7 +8,6 @@ import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password
 import { DefaultHomeComponent } from './pages/home/default-home/defaultHome.component';
 
 
-import { UserProfileComponent } from './pages/profile/user-profile/user-profile.component';
 import { AdminLayoutComponent } from './components/admin-layout/admin-layout.component';
 
 import { PackageDetailsComponent } from './pages/package-details/package-details.component'; 
@@ -21,9 +17,7 @@ import { AdminUsersComponent } from './pages/admin/admin-users/admin-users.compo
 import { AdminReviewsComponent } from './pages/admin/admin-reviews/admin-reviews.component';
 import { AdminReportsComponent } from './pages/admin/admin-reports/admin-reports.component';
 import { AdminDashboardComponent } from './pages/admin/admin-dashboard/admin-dashboard.component';
-
-
-
+import { ProfileComponent } from './pages/profile/profile.component';
 
 
 export const routes: Routes = [
@@ -51,16 +45,16 @@ export const routes: Routes = [
 
   // --- Rota Privada para Usuários Logados ---
   {
-    path: 'perfil', 
-    component: UserProfileComponent,
-    canActivate: [authGuard] 
+    path: 'profile', 
+    component: ProfileComponent,
+    //canActivate: [AuthGuard] 
   },
 
   // --- Rota Privada para Administradores ---
   {
     path: 'admin',
     component: AdminLayoutComponent, 
-    canActivate: [adminGuard], 
+    //canActivate: [AdminGuard], 
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: AdminDashboardComponent }, 
