@@ -37,6 +37,5 @@ export class HeaderComponent {
     this.authService.logout();
   }
 
-  loginUser() { this.authService.loginAsUser(); }
-  loginAdmin() { this.authService.loginAsAdmin(); }
+  
 }
