@@ -1,1 +1,89 @@
-<p>admin-users works!</p>
+<div class="admin-users-container">
+  <h2>Gestão de Usuários</h2>
+
+  <div class="controls">
+    <input type="text" [(ngModel)]="searchTerm" (keyup.enter)="onSearch()"
+      placeholder="Buscar por nome, documento ou email" class="search-input" />
+    <button (click)="onSearch()" class="btn btn-primary">Buscar</button>
+    <button (click)="addUser()" class="btn btn-success">Adicionar Usuário</button>
+  </div>
+
+  <div *ngIf="showAddEditForm && currentUser as user" class="add-edit-form">
+    <h3>{{ user.id ? 'Editar Usuário' : 'Adicionar Novo Usuário' }}</h3>
+    <form (ngSubmit)="saveUser()">
+      <div class="form-group">
+        <label for="name">Nome:</label>
+        <input type="text" id="name" [(ngModel)]="user.name" name="name" required />
+      </div>
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" [(ngModel)]="user.email" name="email" required />
+      </div>
+      <div class="form-group">
+        <label for="document">Documento (CPF/Passaporte):</label>
+        <input type="text" id="document" [(ngModel)]="user.document" name="document" required />
+      </div>
+      <div class="form-group">
+        <label for="phone">Telefone:</label>
+        <input type="text" id="phone" [(ngModel)]="user.phone" name="phone" />
+      </div>
+      <div class="form-group">
+        <label for="active">Ativo:</label>
+        <input type="checkbox" id="active" [(ngModel)]="user.active" name="active" />
+      </div>
+      <div class="form-group">
+        <label for="role">Role:</label>
+        <select id="role" [(ngModel)]="user.role" name="role" required>
+          <option value="CLIENT">Cliente</option>
+          <option value="ADMIN">Admin</option>
+        </select>
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Salvar</button>
+        <button type="button" (click)="cancelEdit()" class="btn btn-secondary">Cancelar</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="users-table-container">
+    <table class="users-table">
+      <thead>
+        <tr>
+          <th>DADOS PESSOAIS</th>
+          <th>Telefone</th>
+          <th>Status</th>
+          <th>Role</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of filteredUsers">
+          <td>
+            <strong>{{ user.name }}</strong><br />
+            <small>{{ user.email }}</small><br />
+            <small>{{ user.document }}</small>
+          </td>
+          <td>{{ user.phone }}</td>
+          <td>
+            <span [class.status-active]="user.active" [class.status-inactive]="!user.active">
+              {{ user.active ? 'Ativo' : 'Inativo' }}
+            </span>
+          </td>
+          <td>{{ user.role | titlecase }}</td>
+          <td>
+            <div class="action-buttons">
+              <button (click)="editUser(user)" class="btn btn-warning">Editar</button>
+
+              
+
+              <button (click)="deleteUser(user.id)" class="btn btn-danger">Excluir</button>
+            </div>
+          </td>
+        </tr>
+        <tr *ngIf="filteredUsers.length === 0">
+          <td colspan="5" class="no-results">Nenhum usuário encontrado.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
