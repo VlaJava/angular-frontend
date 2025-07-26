@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { PrimaryInputsComponent } from '../../components/primary-input/primary-input.component';
 import { DefaultLoginLayoutComponent } from '../../components/default-login-layout/default-login-layout.component';
-import { AuthService } from '../../services/auth.service'; 
+import { AuthService } from '../../services/auth.service';
 import { UserSignup } from '../../types/user-signup.type';
 
 // Interface do formulário (sem alterações)
@@ -41,7 +41,7 @@ function passwordMatchValidator(control: AbstractControl): ValidationErrors | nu
     ReactiveFormsModule,
     PrimaryInputsComponent
   ],
-  
+
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss']
 })
@@ -50,7 +50,7 @@ export class SignupComponent {
 
   constructor(
     private router: Router,
-    private authService: AuthService, 
+    private authService: AuthService,
     private toastService: ToastrService
   ) {
     this.signupForm = new FormGroup<SignupForm>({
@@ -64,13 +64,13 @@ export class SignupComponent {
       documentNumber: new FormControl('', [Validators.required])
     }, { validators: passwordMatchValidator });
 
-    
+    // >>>>> CORREÇÕES APLICADAS AQUI <<<<<
     this.signupForm.get('documentType')?.valueChanges.subscribe(type => {
       const control = this.signupForm.get('documentNumber');
-      if (type === 'cpf') {
+      if (type === 'CPF') { // AGORA É 'CPF' EM MAIÚSCULAS
         control?.setValidators([Validators.required, Validators.pattern(/^\d{11}$/)]);
-      } else if (type === 'passaport') {
-        control?.setValidators([Validators.required, Validators.minLength(6), Validators.maxLength(9)]);
+      } else if (type === 'PASSAPORTE') { // AGORA É 'PASSAPORTE' EM MAIÚSCULAS
+        control?.setValidators([Validators.required, Validators.pattern(/^\d{8}$/)]); // AGORA É EXATAMENTE 8 DÍGITOS
       } else {
         control?.setValidators([Validators.required]);
       }
@@ -79,37 +79,37 @@ export class SignupComponent {
   }
 
   submit() {
-  if (this.signupForm.invalid) {
-    Object.values(this.signupForm.controls).forEach(control => control.markAsTouched());
-    this.toastService.warning('Preencha todos os campos corretamente!');
-    return;
+    if (this.signupForm.invalid) {
+      Object.values(this.signupForm.controls).forEach(control => control.markAsTouched());
+      this.toastService.warning('Preencha todos os campos corretamente!');
+      return;
+    }
+
+    // Mapeando os nomes do formulário para os nomes esperados pelo backend
+    const userData: UserSignup = {
+      nome: this.signupForm.value.name!,
+      email: this.signupForm.value.email!,
+      senha: this.signupForm.value.password!,
+      telefone: this.signupForm.value.phone!,
+      dataNasc: this.signupForm.value.dateOfBirth!,
+      tipoDocumento: this.signupForm.value.documentType!,
+      numeroDocumento: this.signupForm.value.documentNumber!,
+    };
+
+    this.authService.signup(userData).subscribe({
+      next: () => {
+        this.toastService.success("Cadastro efetuado com sucesso! Verifique seu e-mail para confirmar a conta.");
+        this.router.navigate(['/login']); // Redireciona para o login após o sucesso
+      },
+      error: (err) => {
+        // Pega a mensagem de erro específica do backend, se houver
+        const errorMessage = err.error?.message || "Ops! Erro inesperado! Tente novamente.";
+        this.toastService.error(errorMessage);
+      }
+    });
   }
 
-  
-  const userData: UserSignup = {
-    name: this.signupForm.value.name!,
-    email: this.signupForm.value.email!,
-    password: this.signupForm.value.password!,
-    phone: this.signupForm.value.phone!,
-    dateOfBirth: this.signupForm.value.dateOfBirth!,
-    documentType: this.signupForm.value.documentType!,
-    documentNumber: this.signupForm.value.documentNumber!,
-  };
-
- 
-  this.authService.signup(userData).subscribe({
-    next: () => {
-      this.toastService.success("Cadastro efetuado com sucesso!");
-      this.router.navigate(['dashboard']); 
-    },
-    error: (err) => {
-      const errorMessage = err.error?.message || "Ops! Erro inesperado! Tente novamente.";
-      this.toastService.error(errorMessage);
-    }
-  });
-}
-
-  navigate() {
-    this.router.navigate(['login']);
+  navigateToLogin() {
+    this.router.navigate(['/login']);
   }
 }

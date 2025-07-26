@@ -1,10 +1,12 @@
 export interface PacoteViagem {
-  id: number;
+  id: string; 
+  titulo: string;
+  destino: string;
+  localizacao: string;
   imagem: string;
   preco: number;
-  titulo: string;
-  localizacao: string;
   duracao: string;
   descricao: string;
-  reviews: number;
+  disponivel: boolean;
+  reviews?: number;
 }

@@ -6,7 +6,7 @@ import { User } from '../types/user.type';
 import { LoginResponse } from '../types/login-response.type';
 import { UserSignup } from '../types/user-signup.type';
 import { environment } from '../../environments/environment';
-
+import { LoginRequest } from '../types/login-request.type';
 
 @Injectable({
   providedIn: 'root'
@@ -35,7 +35,7 @@ export class AuthService {
    * 1. Chama /auth/login para obter o token.
    * 2. Usa o token para chamar /users/profile e obter os dados completos do usuário.
    */
-  login(credenciais: LoginResponse): Observable<User> {
+  login(credenciais: LoginRequest): Observable<User> {
     // Etapa 1: Autenticar e obter o token
     return this.http.post<LoginResponse>(`${this.apiUrl}/auth/login`, credenciais).pipe(
       // Guarda o token no localStorage assim que ele é recebido

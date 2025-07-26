@@ -18,6 +18,7 @@ import { AdminReviewsComponent } from './pages/admin/admin-reviews/admin-reviews
 import { AdminReportsComponent } from './pages/admin/admin-reports/admin-reports.component';
 import { AdminDashboardComponent } from './pages/admin/admin-dashboard/admin-dashboard.component';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
 
 
 export const routes: Routes = [
@@ -37,6 +38,13 @@ export const routes: Routes = [
   {
     path: "forgot-password",
     component: ForgotPasswordComponent
+  },
+  {
+      
+    path: 'reset-password', 
+    component: ResetPasswordComponent
+  
+
   },
     {
         path: 'pacote/:id',
