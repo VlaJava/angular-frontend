@@ -1,0 +1,131 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-container {
+    background-color: white;
+    padding: 32px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    max-width: 600px;
+
+    h2 {
+        margin-top: 0;
+        margin-bottom: 24px;
+        font-weight: 700;
+    }
+}
+
+.form-group {
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+
+    label {
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: #495057;
+    }
+
+    input, textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+}
+
+.form-row {
+    display: flex;
+    gap: 16px;
+    > .form-group {
+        flex: 1;
+    }
+}
+
+// ✅ CÓDIGO AJUSTADO
+.checkbox-group {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px; // Usar 'gap' é mais limpo para o espaçamento
+
+    // Remove a margem padrão do label
+    label {
+        margin-bottom: 0;
+        order: 2; // Garante que o texto venha depois da caixa
+    }
+
+    // Garante que a caixa de seleção não tenha estilos estranhos
+    input[type="checkbox"] {
+        order: 1; // Garante que a caixa venha antes do texto
+        width: auto; // Sobrescreve o 'width: 100%' da regra geral de inputs
+        margin: 0;
+    }
+}
+
+.btn-upload {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 12px;
+    background-color: #6c757d; // Cinza escuro, como na referência
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    margin-top: 16px;
+}
+
+.modal-footer {
+    margin-top: 24px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 16px;
+}
+
+.btn-primary {
+    background-color: var(--primary-orange);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+        background-color: var(--secondary-orange);
+    }
+
+    &:disabled {
+        background-color: #f9bda8;
+        cursor: not-allowed;
+    }
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: #6c757d;
+    border: none;
+    padding: 12px 24px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+        background-color: #f1f1f1;
+    }
+}

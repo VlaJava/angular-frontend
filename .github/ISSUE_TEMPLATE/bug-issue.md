@@ -1,15 +1,6 @@
 ---
 name: Bug Issue
 about: Issue para apontamento de bugs
-title: "[BUG]"
-labels: bug
-assignees: ''
-
----
-
----
-name: Bug Issue
-about: Issue para apontamento de bugs
 title: ''
 labels: bug
 assignees: ''

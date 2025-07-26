@@ -1,0 +1,79 @@
+/* src/app/header/header.component.scss */
+
+.navbar {
+  background-color: var(--primary-orange);
+  padding: 8px 0; // Um padding vertical para a barra
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/*
+ * A MÁGICA DO ALINHAMENTO ACONTECE AQUI:
+ * Este seletor mira no .container que é filho direto da .navbar
+*/
+.navbar > .container {
+  display: flex;                  /* 1. Ativa o modo Flexbox */
+  align-items: center;            /* 2. ALINHA TUDO VERTICALMENTE AO CENTRO! */
+  justify-content: space-between; /* 3. Empurra o logo para a esquerda e o menu para a direita */
+}
+
+.navbar-brand {
+  font-size: 1.5rem;
+  font-weight: 700;
+  // O alinhamento dele agora é controlado pelo .container
+}
+
+/*
+ * O container da direita (pacotes + ícone) já é um flex container
+ * graças à classe "d-flex" no HTML. Só precisamos garantir o alinhamento
+ * entre os itens dele também.
+*/
+.d-flex.align-items-center {
+  align-items: center !important; // Garante o alinhamento vertical dos itens da direita
+}
+
+/* Estilo do botão pacotes */
+.pacotes-link {
+  padding: 8px 16px;
+  border-radius: 5px;
+  transition: background-color 0.1s ease-in-out;
+  margin-right: 1rem; // Adiciona um espaço entre "PACOTES" e o ícone de usuário
+
+  &:hover {
+    background-color: #E65100;
+  }
+}
+
+/* Estilos para o ícone de usuário */
+.user-icon-button {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-user-icon {
+  width: 24px;
+  height: 24px;
+}
+
+
+/* === ESTILOS DO DROPDOWN (inalterados) === */
+:host ::ng-deep .dropdown-toggle::after {
+  display: none;
+}
+:host ::ng-deep .dropdown-menu {
+  background-color: white;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+:host ::ng-deep .dropdown-item {
+  color: var(--primary-orange);
+}
+:host ::ng-deep .dropdown-item:hover,
+:host ::ng-deep .dropdown-item:focus {
+  color: var(--secondary-orange);
+  background-color: rgba(255, 255, 255, 0.1);
+}
+:host ::ng-deep .dropdown-divider {
+  border-top: 1px solid rgba(15, 2, 2, 0.15);
+}

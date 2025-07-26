@@ -1,0 +1,47 @@
+<!-- Indicador de Carregamento -->
+<div class="container my-5 text-center" *ngIf="isLoading">
+  <div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+  <p class="mt-2">Carregando detalhes do pacote...</p>
+</div>
+
+<!-- Conteúdo do Pacote -->
+<div class="container my-5" *ngIf="!isLoading && pacote">
+  <div class="row g-5">
+
+    <div class="col-lg-7">
+      <!-- ✅ Usa 'pacote.imagem' e 'pacote.titulo' -->
+      <img [src]="pacote.imagem" class="img-fluid rounded-3 shadow-lg w-100" [alt]="pacote.titulo">
+    </div>
+
+    <div class="col-lg-5">
+      <!-- ✅ Usa 'pacote.titulo' e 'pacote.destino' -->
+      <h2 class="fw-bold mb-1">{{ pacote.titulo }}</h2>
+      <p class="text-muted mb-2">{{ pacote.destino }}</p>
+      <div class="mb-3">
+        <span class="text-warning fs-5">★★★★☆</span>
+      </div>
+      <!-- ✅ Usa 'pacote.descricao' -->
+      <p class="mb-4">{{ pacote.descricao }}</p>
+
+      <ul class="list-unstyled">
+        <li class="mb-2 d-flex align-items-center">
+          <strong class="me-2">🗓️ Duração:</strong> {{ pacote.duracao }}
+        </li>
+        <!-- Outros detalhes podem ser adicionados aqui -->
+        <li class="mb-2 d-flex align-items-center">
+          <strong class="me-2">💲 Preço por pessoa:</strong>
+          <!-- ✅ Usa 'pacote.valor' e o pipe currency -->
+          <span class="fw-bold fs-5 ms-1">{{ pacote.valor | currency:'BRL' }}</span>
+        </li>
+      </ul>
+
+      <div class="d-grid mt-4">
+        <button class="btn btn-orange btn-lg">Reservar Agora</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Seções de 'O pacote oferece' e 'Avaliações' (sem alterações) -->
+</div>

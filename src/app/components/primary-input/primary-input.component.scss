@@ -1,0 +1,49 @@
+@import "../../../styles/variables.scss";
+
+.input-wrapper{
+    color: $text-color;
+    font-size: 16px;
+    text-align: start;
+
+    label{
+        margin-bottom: 15px;
+    }
+
+    .input-content{
+        display: flex;
+        width: 100%;
+        border-radius: 8px;
+       
+
+        .icon{
+            padding: 14px;
+            background-color: $secondary-color;
+            border-radius: 0 8px 8px 0;
+
+
+            img{
+                height: 20px;
+                width: 20px;
+                align-items: center;
+
+            }
+
+
+        }
+
+        input {
+            border: none;
+            border-radius: 8px 0 0 8px;
+            background-color: $gray-secondary-bg;
+        
+            color: $text-color;
+            font-size: 16px;
+            padding: 12px 0 12px 20px;
+            width: 100%;
+        }
+    }
+
+    
+}
+
+
