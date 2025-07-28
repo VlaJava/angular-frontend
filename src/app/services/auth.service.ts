@@ -37,7 +37,7 @@ export class AuthService {
    */
   login(credenciais: LoginRequest): Observable<User> {
     // Etapa 1: Autenticar e obter o token
-    return this.http.post<LoginResponse>(`${this.apiUrl}/auth/login`, credenciais).pipe(
+    return this.http.post<LoginResponse>(`${this.apiUrl}/auth`, credenciais).pipe(
       // Guarda o token no localStorage assim que ele é recebido
       tap(response => localStorage.setItem('auth-token', response.token)),
       

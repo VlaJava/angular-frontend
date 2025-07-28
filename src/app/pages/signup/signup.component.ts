@@ -87,13 +87,13 @@ export class SignupComponent {
 
     // Mapeando os nomes do formulário para os nomes esperados pelo backend
     const userData: UserSignup = {
-      nome: this.signupForm.value.name!,
+      name: this.signupForm.value.name!,
       email: this.signupForm.value.email!,
-      senha: this.signupForm.value.password!,
-      telefone: this.signupForm.value.phone!,
-      dataNasc: this.signupForm.value.dateOfBirth!,
-      tipoDocumento: this.signupForm.value.documentType!,
-      numeroDocumento: this.signupForm.value.documentNumber!,
+      password: this.signupForm.value.password!,
+      phone: this.signupForm.value.phone!,
+      birthdate: this.signupForm.value.dateOfBirth!,
+      documentType: this.signupForm.value.documentType!,
+      documentNumber: this.signupForm.value.documentNumber!,
     };
 
     this.authService.signup(userData).subscribe({
