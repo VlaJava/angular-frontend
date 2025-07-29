@@ -51,7 +51,7 @@ export class AdminPackagesComponent implements OnInit {
     this.isModalVisible = false;
   }
 
-  handleSavePackage(packageData: Package) {
+ handleSavePackage(packageData: Omit<Package, 'id'>) {
     
     this.packageService.createPackage(packageData).subscribe({
       next: () => {
