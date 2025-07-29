@@ -1,7 +1,7 @@
 <div class="header">
   <h1>Gerenciar Pacotes</h1>
   <!-- Chama o método para adicionar -->
-  <button class="btn-primary" (click)="openAddModal()">Adicionar Pacote</button>
+  <button class="btn-primary" (click)="openAddModal()"><i class="bi bi-plus-square"></i>Adicionar Pacote</button>
 </div>
 
 <div class="table-container">
@@ -27,8 +27,8 @@
         <td>{{ pkg.available ? 'Sim' : 'Não' }}</td>
         <td class="actions text-center">
           <!-- Chama o método para editar, passando o pacote (pkg) -->
-          <a (click)="openEditModal(pkg)" class="edit-link">Editar</a>
-          <a (click)="handleDeletePackage(pkg.id!)" class="delete-link">Excluir</a>
+          <a (click)="openEditModal(pkg)"><i class="bi bi-pencil-square"></i></a>
+          <a (click)="handleDeletePackage(pkg.id!)"><i class="bi bi-trash"></i></a>
         </td>
       </tr>
     </tbody>
