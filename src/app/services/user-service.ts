@@ -1,117 +1,76 @@
-// src/app/services/user.service.ts
-
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { delay, map } from 'rxjs/operators';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable, map } from 'rxjs';
+import { environment } from '../../environments/environment';
 import { User } from '../types/user.type';
 
-/**
- * @class UserService
- * @description Serviço para gerenciar operações de usuários.
- * Atualmente, usa dados mockados para simular um backend.
- * Em uma aplicação real, faria chamadas HTTP para uma API.
- */
+// Assumindo que a sua API de utilizadores retorna uma resposta paginada
+interface UserResponse {
+  users: User[];
+  // ...outras propriedades
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  // Dados mockados para simular o armazenamento de usuários no backend
-  private mockUsers: User[] = [
-    { id: 1, name: 'João Silva', email: 'joao.silva@example.com', document: '123.456.789-00', phone: '11987654321', active: true, role: 'CLIENT' },
-    { id: 2, name: 'Maria Souza', email: 'maria.souza@example.com', document: '987.654.321-01', phone: '21912345678', active: true, role: 'ADMIN' },
-    { id: 3, name: 'Carlos Santos', email: 'carlos.santos@example.com', document: '111.222.333-44', phone: '31998765432', active: false, role: 'CLIENT' },
-    { id: 4, name: 'Ana Oliveira', email: 'ana.oliveira@example.com', document: '555.666.777-88', phone: '41911223344', active: true, role: 'CLIENT' },
-    { id: 5, name: 'Pedro Costa', email: 'pedro.costa@example.com', document: '999.888.777-66', phone: '51955667788', active: true, role: 'ADMIN' }
-  ];
+  private apiUrl = `${environment.apiUrl}/users`;
 
-  private nextId: number = this.mockUsers.length > 0 ? Math.max(...this.mockUsers.map(u => u.id)) + 1 : 1;
-
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   /**
    * @method getUsers
-   * @description Retorna uma lista de usuários, opcionalmente filtrada por um termo de busca.
-   * @param searchTerm Termo para buscar por nome, documento ou email.
-   * @returns Observable de um array de usuários.
+   * @description Busca a lista de todos os utilizadores do backend.
+   * @param searchTerm - Termo opcional para filtrar os utilizadores no backend.
    */
   getUsers(searchTerm: string = ''): Observable<User[]> {
-    const lowerCaseSearchTerm = searchTerm.toLowerCase();
-    const filtered = this.mockUsers.filter(user =>
-      user.name.toLowerCase().includes(lowerCaseSearchTerm) ||
-      user.email.toLowerCase().includes(lowerCaseSearchTerm) ||
-      user.document.toLowerCase().includes(lowerCaseSearchTerm)
+    const options = searchTerm ? { params: new HttpParams().set('search', searchTerm) } : {};
+    return this.http.get<UserResponse>(this.apiUrl, options).pipe(
+      map(response => response.users)
     );
-    // Simula um atraso de rede
-    return of(filtered).pipe(delay(300));
   }
 
   /**
    * @method createUser
-   * @description Adiciona um novo usuário.
-   * @param user Os dados do novo usuário (sem ID e active, que serão gerados).
-   * @returns Observable do usuário criado.
+   * @description Cria um novo utilizador no backend.
+   * @param userData Os dados do novo utilizador.
    */
-  createUser(user: Omit<User, 'id' | 'active'>): Observable<User> {
-    const newUser: User = {
-      ...user,
-      id: this.nextId++,
-      active: true // Novos usuários são ativos por padrão
-    };
-    this.mockUsers.push(newUser);
-    // Simula um atraso de rede
-    return of(newUser).pipe(delay(300));
+  // CORREÇÃO: Alterado o tipo para Partial<User> para ser mais flexível.
+  createUser(userData: Partial<User>): Observable<User> {
+    return this.http.post<User>(this.apiUrl, userData);
   }
 
   /**
    * @method updateUser
-   * @description Atualiza um usuário existente.
-   * @param id O ID do usuário a ser atualizado.
-   * @param updatedUser Os novos dados do usuário.
-   * @returns Observable do usuário atualizado.
+   * @description Atualiza os dados de um utilizador existente.
+   * @param id O ID do utilizador a ser atualizado.
+   * @param updatedData Os novos dados do utilizador.
    */
-  updateUser(id: number, updatedUser: User): Observable<User> {
-    const index = this.mockUsers.findIndex(u => u.id === id);
-    if (index > -1) {
-      this.mockUsers[index] = { ...updatedUser }; // Garante que a referência do objeto seja atualizada
-      // Simula um atraso de rede
-      return of(this.mockUsers[index]).pipe(delay(300));
-    }
-    // Em um cenário real, você lançaria um erro ou retornaria um Observable de erro
-    return of(null as any).pipe(delay(300)); // Retorna null para simular falha
+  // CORREÇÃO: Alterado o tipo do ID para aceitar string ou number.
+  updateUser(id: string | number, updatedData: Partial<User>): Observable<User> {
+    return this.http.put<User>(`${this.apiUrl}/${id}`, updatedData);
   }
-
+  
   /**
    * @method toggleUserActiveStatus
-   * @description Alterna o status de ativação de um usuário (ativo/desabilitado).
-   * @param id O ID do usuário.
-   * @param newStatus O novo status (true para ativo, false para desabilitado).
-   * @returns Observable do usuário com o status atualizado.
+   * @description Ativa ou desativa um utilizador (Soft Delete).
+   * @param id O ID do utilizador.
+   * @param newStatus O novo estado (true para ativo, false para inativo).
    */
-  toggleUserActiveStatus(id: number, newStatus: boolean): Observable<User> {
-    const user = this.mockUsers.find(u => u.id === id);
-    if (user) {
-      user.active = newStatus;
-      // Simula um atraso de rede
-      return of(user).pipe(delay(300));
-    }
-    // Em um cenário real, você lançaria um erro ou retornaria um Observable de erro
-    return of(null as any).pipe(delay(300)); // Retorna null para simular falha
+  // CORREÇÃO: Alterado o tipo do ID para aceitar string ou number.
+  toggleUserActiveStatus(id: string | number, newStatus: boolean): Observable<User> {
+    // Usamos PATCH para uma atualização parcial, alterando apenas o status
+    // O backend precisa de um endpoint para lidar com esta lógica.
+    return this.http.patch<User>(`${this.apiUrl}/${id}/status`, { active: newStatus });
   }
 
   /**
    * @method deleteUser
-   * @description Exclui um usuário.
-   * @param id O ID do usuário a ser excluído.
-   * @returns Observable vazio (void) após a exclusão.
+   * @description Exclui permanentemente um utilizador. Use com cuidado.
+   * @param id O ID do utilizador a ser excluído.
    */
-  deleteUser(id: number): Observable<void> {
-    const initialLength = this.mockUsers.length;
-    this.mockUsers = this.mockUsers.filter(u => u.id !== id);
-    if (this.mockUsers.length < initialLength) {
-      // Simula um atraso de rede
-      return of(void 0).pipe(delay(300)); // Retorna void para sucesso
-    }
-    // Em um cenário real, você lançaria um erro ou retornaria um Observable de erro
-    return of(null as any).pipe(delay(300)); // Retorna null para simular falha
+  // CORREÇÃO: Alterado o tipo do ID para aceitar string ou number.
+  deleteUser(id: string | number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }

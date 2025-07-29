@@ -1,9 +1,9 @@
 export interface UserSignup {
-  nome: string;
+  name: string;
   email: string;
-  senha: string; 
-  telefone: string;
-  dataNasc: string;
-  tipoDocumento: string;
-  numeroDocumento: string;
+  password: string; 
+  phone: string;
+  birthdate: string;
+  documentType: string;
+  documentNumber: string;
 }

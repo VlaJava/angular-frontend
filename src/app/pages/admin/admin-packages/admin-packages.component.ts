@@ -1,34 +1,34 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common'; // Adicionado CurrencyPipe
 import { PackageModalComponent } from '../../../components/package-modal/package-modal.component';
 import { PackageService } from '../../../services/package.service';
 import { ToastrService } from 'ngx-toastr';
-// ✅ 1. Caminho da interface corrigido para o ficheiro de tipos centralizado
 import { Package } from '../../../types/package.type';
-
 
 @Component({
   selector: 'app-admin-packages',
   standalone: true,
   imports: [
     CommonModule,
-    PackageModalComponent
+    PackageModalComponent,
+    CurrencyPipe 
   ],
   templateUrl: './admin-packages.component.html',
   styleUrls: ['./admin-packages.component.scss']
 })
 export class AdminPackagesComponent implements OnInit {
-  isModalVisible = false;
+  isModalOpen = false; 
   isLoading = true; 
   packages: Package[] = [];
-
   
+  
+  selectedPackageForEdit: Package | null = null;
+
   constructor(
     private packageService: PackageService,
     private toastr: ToastrService
   ) {}
 
-  
   ngOnInit(): void {
     this.loadPackages();
   }
@@ -47,37 +47,37 @@ export class AdminPackagesComponent implements OnInit {
     });
   }
 
-  openModal() {
-    this.isModalVisible = true;
+  
+  openAddModal(): void {
+    this.selectedPackageForEdit = null; 
+    this.isModalOpen = true;
   }
 
-  closeModal() {
-    this.isModalVisible = false;
+  
+  openEditModal(pkg: Package): void {
+    this.selectedPackageForEdit = pkg; 
+    this.isModalOpen = true;
   }
 
-  handleSavePackage(packageData: Package) {
-    this.packageService.createPackage(packageData).subscribe({
-      next: () => {
-        this.toastr.success('Pacote criado com sucesso!');
-        this.loadPackages();
-        this.closeModal();
-      },
-      error: () => {
-        this.toastr.error('Erro ao criar o pacote.');
-      }
-    });
+  
+  handleModalClose(wasSaved: boolean): void {
+    this.isModalOpen = false;
+    this.selectedPackageForEdit = null; 
+    if (wasSaved) {
+      
+      this.loadPackages();
+    }
   }
-
-  // ✅ 2. Tipo do parâmetro 'packageId' corrigido de 'string' para 'number'
-  handleDeletePackage(packageId: number): void {
-    if (confirm('Tem certeza que deseja excluir este pacote?')) {
+ 
+  handleDeletePackage(packageId: string): void {
+    if (confirm('Tem a certeza de que deseja apagar este pacote?')) {
       this.packageService.deletePackage(packageId).subscribe({
         next: () => {
-          this.toastr.success('Pacote excluído com sucesso!');
+          this.toastr.success('Pacote apagado com sucesso!');
           this.loadPackages();
         },
         error: () => {
-          this.toastr.error('Erro ao excluir o pacote.');
+          this.toastr.error('Erro ao apagar o pacote.');
         }
       });
     }
