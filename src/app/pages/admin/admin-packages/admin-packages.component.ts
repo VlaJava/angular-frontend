@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common'; // Adicionado CurrencyPipe
 import { PackageModalComponent } from '../../../components/package-modal/package-modal.component';
 import { PackageService } from '../../../services/package.service';
 import { ToastrService } from 'ngx-toastr';
@@ -10,15 +10,19 @@ import { Package } from '../../../types/package.type';
   standalone: true,
   imports: [
     CommonModule,
-    PackageModalComponent
+    PackageModalComponent,
+    CurrencyPipe 
   ],
   templateUrl: './admin-packages.component.html',
   styleUrls: ['./admin-packages.component.scss']
 })
 export class AdminPackagesComponent implements OnInit {
-  isModalVisible = false;
+  isModalOpen = false; 
   isLoading = true; 
   packages: Package[] = [];
+  
+  
+  selectedPackageForEdit: Package | null = null;
 
   constructor(
     private packageService: PackageService,
@@ -43,39 +47,37 @@ export class AdminPackagesComponent implements OnInit {
     });
   }
 
-  openModal() {
-    this.isModalVisible = true;
-  }
-
-  closeModal() {
-    this.isModalVisible = false;
-  }
-
- handleSavePackage(packageData: Omit<Package, 'id'>) {
-    
-    this.packageService.createPackage(packageData).subscribe({
-      next: () => {
-        this.toastr.success('Pacote salvo com sucesso!');
-        this.loadPackages();
-        this.closeModal();
-      },
-      error: () => {
-        this.toastr.error('Erro ao salvar o pacote.');
-      }
-    });
+  
+  openAddModal(): void {
+    this.selectedPackageForEdit = null; 
+    this.isModalOpen = true;
   }
 
   
+  openEditModal(pkg: Package): void {
+    this.selectedPackageForEdit = pkg; 
+    this.isModalOpen = true;
+  }
+
+  
+  handleModalClose(wasSaved: boolean): void {
+    this.isModalOpen = false;
+    this.selectedPackageForEdit = null; 
+    if (wasSaved) {
+      
+      this.loadPackages();
+    }
+  }
+ 
   handleDeletePackage(packageId: string): void {
-    
-    if (confirm('Tem certeza que deseja excluir este pacote?')) {
+    if (confirm('Tem a certeza de que deseja apagar este pacote?')) {
       this.packageService.deletePackage(packageId).subscribe({
         next: () => {
-          this.toastr.success('Pacote excluído com sucesso!');
+          this.toastr.success('Pacote apagado com sucesso!');
           this.loadPackages();
         },
         error: () => {
-          this.toastr.error('Erro ao excluir o pacote.');
+          this.toastr.error('Erro ao apagar o pacote.');
         }
       });
     }

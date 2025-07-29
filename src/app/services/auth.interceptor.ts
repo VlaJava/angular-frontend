@@ -1,5 +1,4 @@
-// src/app/core/interceptors/auth.interceptor.ts
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core'; // Alteração 1: Importar Injector
 import {
   HttpEvent,
   HttpInterceptor,
@@ -9,31 +8,32 @@ import {
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { AuthService } from '../services/auth.service'; 
+import { AuthService } from '../services/auth.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-  constructor(private authService: AuthService) {} 
+  // Alteração 2: Injetar o Injector em vez do AuthService diretamente.
+  constructor(private injector: Injector) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    // Pega o token do localStorage
+    // Alteração 3: Obter o AuthService e o token DENTRO do método intercept.
+    // Isto quebra o ciclo de dependência na inicialização.
+    const authService = this.injector.get(AuthService);
     const token = localStorage.getItem('auth-token');
 
-    // Se o token existir, clona a requisição e adiciona o cabeçalho de autorização
+    let authReq = req;
     if (token) {
-      const clonedReq = req.clone({
+      authReq = req.clone({
         headers: req.headers.set('Authorization', `Bearer ${token}`)
       });
-      req = clonedReq;
     }
 
-    return next.handle(req).pipe(
+    return next.handle(authReq).pipe(
       catchError((error: HttpErrorResponse) => {
-        // Se o erro for 401 (Não Autorizado), faz o logout automático.
-        // Isso acontece se o token expirou ou se tornou inválido no backend.
         if (error.status === 401) {
-          this.authService.logout();
+          // Usar a instância do authService obtida anteriormente.
+          authService.logout();
         }
         return throwError(() => error);
       })

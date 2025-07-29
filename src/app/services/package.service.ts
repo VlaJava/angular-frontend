@@ -50,11 +50,9 @@ export class PackageService {
   /**
    * Atualiza um pacote existente.
    */
-  updatePackage(id: string, updatedPackage: Package): Observable<Package> {
-    const url = `${this.apiUrl}/${id}`;
-    return this.http.put<Package>(url, updatedPackage);
+ updatePackage(id: string, packageData: Omit<Package, 'id'>): Observable<Package> {
+    return this.http.put<Package>(`${this.apiUrl}/${id}`, packageData);
   }
-
   /**
    * Deleta um pacote pelo seu ID.
    */

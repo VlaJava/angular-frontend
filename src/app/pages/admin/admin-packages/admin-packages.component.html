@@ -1,16 +1,14 @@
 <div class="header">
   <h1>Gerenciar Pacotes</h1>
-  <button class="btn-primary" (click)="openModal()">Adicionar Pacote</button>
+  <!-- Chama o método para adicionar -->
+  <button class="btn-primary" (click)="openAddModal()">Adicionar Pacote</button>
 </div>
 
-<!-- Seção de Carregamento e Tabela -->
 <div class="table-container">
-  <!-- 1. Mostra um indicador de carregamento -->
   <div *ngIf="isLoading" class="loading-indicator">
     Carregando pacotes...
   </div>
 
-  <!-- 2. Mostra a tabela apenas se não estiver carregando E se houver pacotes -->
   <table *ngIf="!isLoading && packages.length > 0">
     <thead>
       <tr>
@@ -18,7 +16,7 @@
         <th>Destino</th>
         <th>Valor</th>
         <th>Disponível</th>
-        <th>Ações</th>
+        <th class="text-center">Ações</th>
       </tr>
     </thead>
     <tbody>
@@ -26,29 +24,24 @@
         <td>{{ pkg.title }}</td>
         <td>{{ pkg.destination }}</td>
         <td>{{ pkg.price | currency:'BRL' }}</td>
-        
-        <td class="actions">
-          <a href="#">Editar</a>
-          <!-- 3. Conecta o botão de exclusão ao método -->
+        <td>{{ pkg.available ? 'Sim' : 'Não' }}</td>
+        <td class="actions text-center">
+          <!-- Chama o método para editar, passando o pacote (pkg) -->
+          <a (click)="openEditModal(pkg)" class="edit-link">Editar</a>
           <a (click)="handleDeletePackage(pkg.id!)" class="delete-link">Excluir</a>
         </td>
       </tr>
     </tbody>
   </table>
 
-  <!-- 4. Mostra uma mensagem se não houver pacotes -->
   <div *ngIf="!isLoading && packages.length === 0" class="empty-state">
     Nenhum pacote encontrado. Adicione um novo!
   </div>
 </div>
 
-<div class="footer">
-  <button class="btn-secondary">Exportar relatório</button>
-</div>
-
-<!-- O Modal (código inalterado) -->
+<!-- O Modal agora recebe o pacote a ser editado e emite um evento quando fecha -->
 <app-package-modal 
-  *ngIf="isModalVisible" 
-  (close)="closeModal()"
-  (save)="handleSavePackage($event)">
+  *ngIf="isModalOpen" 
+  [packageToEdit]="selectedPackageForEdit"
+  (close)="handleModalClose($event)">
 </app-package-modal>
