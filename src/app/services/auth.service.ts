@@ -52,39 +52,41 @@ export class AuthService {
     );
   }
 
-  /**
-   * Limpa os dados do usuário do navegador, efetivamente fazendo o logout.
-   */
+  
   logout(): void {
     localStorage.removeItem('currentUser');
     localStorage.removeItem('auth-token');
     this.currentUserSubject.next(null);
   }
 
-  /**
-   * Tenta validar um token existente no localStorage ao recarregar a página.
-   * Se o token for válido, busca os dados do usuário. Se não, faz o logout.
-   */
-  private loadUserFromStorage(): void {
-    const token = localStorage.getItem('auth-token');
-    if (token) {
-      this.fetchUserProfile().subscribe({
-        next: user => this.currentUserSubject.next(user),
-        error: () => this.logout() // Se o token estiver expirado ou inválido
-      });
-    }
-  }
   
-  /**
-   * Método privado que busca os dados do perfil do usuário logado.
-   * É chamado tanto no login quanto no recarregamento da página.
-   * Requer que exista um endpoint 'GET /users/profile' no seu backend.
-   */
+private loadUserFromStorage(): void {
+  const token = localStorage.getItem('auth-token');
+
+  if (token) {
+    
+    this.fetchUserProfile().subscribe({
+      
+      next: user => {
+       
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        this.currentUserSubject.next(user);
+      },
+      
+      error: () => this.logout() 
+    });
+  } else {
+    
+    this.logout(); 
+  }
+}
+  
+ 
   private fetchUserProfile(): Observable<User> {
-    return this.http.get<User>(`${this.apiUrl}/users/profile`);
+    return this.http.get<User>(`${this.apiUrl}/users`);
   }
 
-  // --- Outros métodos que interagem com o backend ---
+
 
   signup(data: UserSignup): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/users`, data);

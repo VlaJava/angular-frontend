@@ -47,7 +47,7 @@ export class LoginComponent {
 
     const credenciais: LoginRequest = {
       email: this.loginForm.value.email ?? '',
-      senha: this.loginForm.value.password ?? ''
+      password: this.loginForm.value.password ?? ''
     };
 
     // ✅ CORREÇÃO AQUI: Chamando o método a partir do authService, e não do loginForm

@@ -23,10 +23,10 @@
     </thead>
     <tbody>
       <tr *ngFor="let pkg of packages">
-        <td>{{ pkg.titulo }}</td>
-        <td>{{ pkg.destino }}</td>
-        <td>{{ pkg.valor | currency:'BRL' }}</td>
-        <td>{{ pkg.disponivel ? 'Sim' : 'Não' }}</td>
+        <td>{{ pkg.title }}</td>
+        <td>{{ pkg.destination }}</td>
+        <td>{{ pkg.price | currency:'BRL' }}</td>
+        
         <td class="actions">
           <a href="#">Editar</a>
           <!-- 3. Conecta o botão de exclusão ao método -->

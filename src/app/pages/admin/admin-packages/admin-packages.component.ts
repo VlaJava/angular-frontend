@@ -3,9 +3,7 @@ import { CommonModule } from '@angular/common';
 import { PackageModalComponent } from '../../../components/package-modal/package-modal.component';
 import { PackageService } from '../../../services/package.service';
 import { ToastrService } from 'ngx-toastr';
-// ✅ 1. Caminho da interface corrigido para o ficheiro de tipos centralizado
 import { Package } from '../../../types/package.type';
-
 
 @Component({
   selector: 'app-admin-packages',
@@ -22,13 +20,11 @@ export class AdminPackagesComponent implements OnInit {
   isLoading = true; 
   packages: Package[] = [];
 
-  
   constructor(
     private packageService: PackageService,
     private toastr: ToastrService
   ) {}
 
-  
   ngOnInit(): void {
     this.loadPackages();
   }
@@ -56,20 +52,22 @@ export class AdminPackagesComponent implements OnInit {
   }
 
   handleSavePackage(packageData: Package) {
+    
     this.packageService.createPackage(packageData).subscribe({
       next: () => {
-        this.toastr.success('Pacote criado com sucesso!');
+        this.toastr.success('Pacote salvo com sucesso!');
         this.loadPackages();
         this.closeModal();
       },
       error: () => {
-        this.toastr.error('Erro ao criar o pacote.');
+        this.toastr.error('Erro ao salvar o pacote.');
       }
     });
   }
 
-  // ✅ 2. Tipo do parâmetro 'packageId' corrigido de 'string' para 'number'
-  handleDeletePackage(packageId: number): void {
+  
+  handleDeletePackage(packageId: string): void {
+    
     if (confirm('Tem certeza que deseja excluir este pacote?')) {
       this.packageService.deletePackage(packageId).subscribe({
         next: () => {
