@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, map, tap, switchMap, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, map, tap, switchMap, throwError, of } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
 
 import { User } from '../types/user.type';
-// ✅ CORREÇÃO: A interface agora corresponde à resposta da API
 import { LoginResponse } from '../types/login-response.type';
 import { UserSignup } from '../types/user-signup.type';
 import { environment } from '../../environments/environment';
 import { LoginRequest } from '../types/login-request.type';
 
-// Interface para descrever o conteúdo do token descodificado
+
 interface DecodedToken {
-  sub: string; // 'sub' (subject) é o padrão para o ID do utilizador no JWT
+  sub: string;    // 'sub' (subject) é o ID do utilizador
+  scope: string;  // 'scope' é onde a sua API coloca a role (ex: "ADMIN")
 }
 
 @Injectable({
@@ -30,19 +30,27 @@ export class AuthService {
   constructor(private http: HttpClient) {
     this.loadUserFromStorage();
     this.isLoggedIn$ = this.currentUser$.pipe(map(user => !!user));
+    
     this.isAdmin$ = this.currentUser$.pipe(map(user => user?.role === 'ADMIN'));
   }
 
   login(credenciais: LoginRequest): Observable<User> {
     return this.http.post<LoginResponse>(`${this.apiUrl}/auth`, credenciais).pipe(
-      // ✅ CORREÇÃO: Usamos 'response.accessToken'
       tap(response => localStorage.setItem('auth-token', response.accessToken)),
       switchMap(response => {
         try {
-          // ✅ CORREÇÃO: Descodificamos o 'response.accessToken'
           const decodedToken = jwtDecode<DecodedToken>(response.accessToken);
           const userId = decodedToken.sub;
-          return this.fetchUserProfile(userId);
+          
+          const userRole = decodedToken.scope as 'ADMIN' | 'CLIENT';
+
+          
+          return this.fetchUserProfile(userId).pipe(
+            map(userProfile => {
+              
+              return { ...userProfile, role: userRole };
+            })
+          );
         } catch (error) {
           return throwError(() => new Error("Token inválido recebido do backend."));
         }
@@ -66,7 +74,12 @@ export class AuthService {
       try {
         const decodedToken = jwtDecode<DecodedToken>(token);
         const userId = decodedToken.sub;
-        this.fetchUserProfile(userId).subscribe({
+        
+        const userRole = decodedToken.scope as 'ADMIN' | 'CLIENT';
+
+        this.fetchUserProfile(userId).pipe(
+          map(userProfile => ({ ...userProfile, role: userRole }))
+        ).subscribe({
           next: user => {
             this.currentUserSubject.next(user);
             localStorage.setItem('currentUser', JSON.stringify(user));
