@@ -10,8 +10,8 @@ import { environment } from '../../environments/environment';
 import { LoginRequest } from '../types/login-request.type';
 
 interface DecodedToken {
-  sub: string;      // 'sub' (subject) é o ID do utilizador
-  scope: string;    // 'scope' é onde a sua API coloca a role (ex: "ADMIN")
+  sub: string;
+  scope: string;
 }
 
 @Injectable({
@@ -33,13 +33,25 @@ export class AuthService {
     this.isAdmin$ = this.currentUser$.pipe(map(user => user?.role === 'ADMIN'));
   }
   
+  /**
+   * @method buildUserWithImageUrl
+   * @description Constrói o objeto User final com o URL da imagem correto e um cache-buster.
+   */
+  private buildUserWithImageUrl(user: User): User {
+    // Construímos o URL público que o frontend pode usar para buscar a imagem.
+    // O "?v=" com o tempo atual força o browser a recarregar a imagem em vez de usar o cache.
+    const imageUrl = `${this.apiUrl}/users/${user.id}/image?v=${new Date().getTime()}`;
+    
+    // Retornamos uma nova instância do utilizador com o imageUrl atualizado
+    return { ...user, imageUrl };
+  }
+
   public initUser(): Promise<any> {
     const token = localStorage.getItem('auth-token');
     if (token) {
       try {
         const decodedToken = jwtDecode<DecodedToken>(token);
         const userId = decodedToken.sub;
-        // Refatorado para usar o método refreshUserProfile
         return lastValueFrom(
           this.refreshUserProfile(userId).pipe(
             catchError(() => {
@@ -68,14 +80,9 @@ export class AuthService {
   login(credenciais: LoginRequest): Observable<User> {
     return this.getHttp().post<LoginResponse>(`${this.apiUrl}/auth`, credenciais).pipe(
       tap(response => localStorage.setItem('auth-token', response.accessToken)),
-      // Refatorado para usar o método refreshUserProfile
       switchMap(response => {
-        try {
-          const decodedToken = jwtDecode<DecodedToken>(response.accessToken);
-          return this.refreshUserProfile(decodedToken.sub);
-        } catch (error) {
-          return throwError(() => new Error("Token inválido recebido do backend."));
-        }
+        const decodedToken = jwtDecode<DecodedToken>(response.accessToken);
+        return this.refreshUserProfile(decodedToken.sub);
       })
     );
   }
@@ -90,11 +97,6 @@ export class AuthService {
     return this.getHttp().get<User>(`${this.apiUrl}/users/${id}`);
   }
 
-  /**
-   * @method refreshUserProfile
-   * @description Busca os dados mais recentes do utilizador e atualiza o estado da aplicação.
-   * @param id O ID do utilizador.
-   */
   public refreshUserProfile(id: string): Observable<User> {
     const token = localStorage.getItem('auth-token');
     if (!token) {
@@ -103,10 +105,15 @@ export class AuthService {
     const userRole = jwtDecode<DecodedToken>(token).scope as 'ADMIN' | 'CLIENT';
     
     return this.fetchUserProfile(id).pipe(
-      map(userProfile => ({ ...userProfile, role: userRole })),
-      tap(user => {
-        this.currentUserSubject.next(user);
-        localStorage.setItem('currentUser', JSON.stringify(user));
+      map(userProfile => {
+        // ✅ CORREÇÃO: Usamos o nosso novo método para construir o objeto final
+        const userWithRole = { ...userProfile, role: userRole };
+        return this.buildUserWithImageUrl(userWithRole);
+      }),
+      tap(finalUserObject => {
+        // Notifica toda a aplicação com os dados corretos e atualizados
+        this.currentUserSubject.next(finalUserObject);
+        localStorage.setItem('currentUser', JSON.stringify(finalUserObject));
       })
     );
   }

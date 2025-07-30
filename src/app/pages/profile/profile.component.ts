@@ -3,12 +3,15 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { switchMap } from 'rxjs';
+import { switchMap, tap } from 'rxjs';
 
 import { AuthService } from '../../services/auth.service';
 import { UserService } from '../../services/user-service';
 import { User } from '../../types/user.type';
+import { environment } from '../../../environments/environment';
 
+
+// ✅ CORREÇÃO: Adicionado o decorador @Component que estava em falta.
 @Component({
   selector: 'app-profile',
   standalone: true,
@@ -25,6 +28,7 @@ export class ProfileComponent implements OnInit {
   profileForm: FormGroup;
   isEditing = false;
   selectedFile: File | null = null;
+  private apiUrl = environment.apiUrl;
 
   constructor(
     private authService: AuthService,
@@ -44,13 +48,13 @@ export class ProfileComponent implements OnInit {
     this.authService.currentUser$.subscribe(user => {
       this.user = user;
       if (user) {
-        this.profileForm.patchValue({
-          name: user.name,
-          document: user.document,
-          phone: user.phone
-        });
+        this.profileForm.patchValue(user);
       }
     });
+  }
+
+  private buildImageUrl(userId: string): string {
+    return `${this.apiUrl}/users/${userId}/image`;
   }
 
   toggleEditMode(): void {
@@ -91,22 +95,10 @@ export class ProfileComponent implements OnInit {
     if (!this.selectedFile || !this.user) return;
 
     this.userService.uploadProfilePicture(this.user.id, this.selectedFile).pipe(
-      // Após o sucesso do upload, busca o perfil mais recente do utilizador
       switchMap(() => this.authService.refreshUserProfile(this.user!.id))
     ).subscribe({
-      // O 'updatedUser' é o objeto fresco que vem do refreshUserProfile
-      next: (updatedUser) => {
+      next: () => {
         this.toastr.success('Foto de perfil atualizada!');
-        
-        // ✅ CORREÇÃO: Atualiza manualmente o utilizador local do componente
-        // com um "cache buster" para forçar o browser a recarregar a imagem.
-        if (updatedUser && updatedUser.imageUrl) {
-          // Criamos uma nova referência de objeto para garantir que o Angular detete a mudança
-          this.user = { 
-            ...updatedUser, 
-            imageUrl: `${updatedUser.imageUrl}?v=${new Date().getTime()}` 
-          };
-        }
       },
       error: () => {
         this.toastr.error('Falha ao enviar a foto.');
@@ -134,4 +126,6 @@ export class ProfileComponent implements OnInit {
   navigateToChangePassword(): void {
     this.router.navigate(['/change-password']);
   }
+
+
 }

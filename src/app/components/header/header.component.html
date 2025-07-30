@@ -11,9 +11,10 @@
       <div *ngIf="currentUser$ | async as currentUser; else loggedOutMenu">
         
         <div ngbDropdown class="d-inline-block">
+          
           <button class="btn btn-outline-light rounded-circle p-0 user-icon-button" ngbDropdownToggle>
             
-            <!-- ✅ LÓGICA DA IMAGEM: Mostra a imagem do utilizador se ela existir -->
+            <!-- LÓGICA DA IMAGEM: Mostra a imagem do utilizador se ela existir -->
             <img *ngIf="currentUser.imageUrl" [src]="currentUser.imageUrl" alt="Foto de Perfil" class="profile-avatar">
             
             <!-- Se não houver imagem, mostra o ícone SVG apropriado -->
