@@ -10,4 +10,5 @@ export interface User {
   birthdate?: string;
   documentType?: string;
   documentNumber?: string;
+  imageUrl?: string;
 }

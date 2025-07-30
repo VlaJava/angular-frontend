@@ -29,43 +29,30 @@ export class AuthService {
   private http?: HttpClient;
 
   constructor(private injector: Injector) {
-    // REMOVEMOS a chamada à lógica de carregamento daqui.
     this.isLoggedIn$ = this.currentUser$.pipe(map(user => !!user));
     this.isAdmin$ = this.currentUser$.pipe(map(user => user?.role === 'ADMIN'));
   }
   
-  /**
-   * Este método será chamado pelo APP_INITIALIZER antes da aplicação arrancar.
-   * Ele verifica o token, carrega os dados do utilizador e retorna uma Promise.
-   */
   public initUser(): Promise<any> {
     const token = localStorage.getItem('auth-token');
     if (token) {
       try {
         const decodedToken = jwtDecode<DecodedToken>(token);
         const userId = decodedToken.sub;
-        const userRole = decodedToken.scope as 'ADMIN' | 'CLIENT';
-
-        // Usamos lastValueFrom para converter o Observable em Promise, que o APP_INITIALIZER espera
+        // Refatorado para usar o método refreshUserProfile
         return lastValueFrom(
-          this.fetchUserProfile(userId).pipe(
-            map(userProfile => ({ ...userProfile, role: userRole })),
-            tap(user => {
-              this.currentUserSubject.next(user);
-              localStorage.setItem('currentUser', JSON.stringify(user));
-            }),
+          this.refreshUserProfile(userId).pipe(
             catchError(() => {
               this.logout();
-              return of(null); // Em caso de erro, resolve a promise para não bloquear a app
+              return of(null);
             })
           )
         );
       } catch (error) {
         this.logout();
-        return Promise.resolve(); // Token inválido, resolve a promise
+        return Promise.resolve();
       }
     } else {
-      // Não há token, apenas garante que o estado está limpo e resolve a promise
       this.logout();
       return Promise.resolve(); 
     }
@@ -81,22 +68,14 @@ export class AuthService {
   login(credenciais: LoginRequest): Observable<User> {
     return this.getHttp().post<LoginResponse>(`${this.apiUrl}/auth`, credenciais).pipe(
       tap(response => localStorage.setItem('auth-token', response.accessToken)),
+      // Refatorado para usar o método refreshUserProfile
       switchMap(response => {
         try {
           const decodedToken = jwtDecode<DecodedToken>(response.accessToken);
-          const userId = decodedToken.sub;
-          const userRole = decodedToken.scope as 'ADMIN' | 'CLIENT';
-
-          return this.fetchUserProfile(userId).pipe(
-            map(userProfile => ({ ...userProfile, role: userRole }))
-          );
+          return this.refreshUserProfile(decodedToken.sub);
         } catch (error) {
           return throwError(() => new Error("Token inválido recebido do backend."));
         }
-      }),
-      tap(user => {
-        this.currentUserSubject.next(user);
-        localStorage.setItem('currentUser', JSON.stringify(user));
       })
     );
   }
@@ -109,6 +88,27 @@ export class AuthService {
   
   private fetchUserProfile(id: string): Observable<User> {
     return this.getHttp().get<User>(`${this.apiUrl}/users/${id}`);
+  }
+
+  /**
+   * @method refreshUserProfile
+   * @description Busca os dados mais recentes do utilizador e atualiza o estado da aplicação.
+   * @param id O ID do utilizador.
+   */
+  public refreshUserProfile(id: string): Observable<User> {
+    const token = localStorage.getItem('auth-token');
+    if (!token) {
+      return throwError(() => new Error('No auth token found'));
+    }
+    const userRole = jwtDecode<DecodedToken>(token).scope as 'ADMIN' | 'CLIENT';
+    
+    return this.fetchUserProfile(id).pipe(
+      map(userProfile => ({ ...userProfile, role: userRole })),
+      tap(user => {
+        this.currentUserSubject.next(user);
+        localStorage.setItem('currentUser', JSON.stringify(user));
+      })
+    );
   }
 
   signup(data: UserSignup): Observable<any> {
