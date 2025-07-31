@@ -33,16 +33,12 @@ export class AuthService {
     this.isAdmin$ = this.currentUser$.pipe(map(user => user?.role === 'ADMIN'));
   }
   
-  /**
-   * @method buildUserWithImageUrl
-   * @description Constrói o objeto User final com o URL da imagem correto e um cache-buster.
-   */
+  
   private buildUserWithImageUrl(user: User): User {
-    // Construímos o URL público que o frontend pode usar para buscar a imagem.
-    // O "?v=" com o tempo atual força o browser a recarregar a imagem em vez de usar o cache.
+  
     const imageUrl = `${this.apiUrl}/users/${user.id}/image?v=${new Date().getTime()}`;
     
-    // Retornamos uma nova instância do utilizador com o imageUrl atualizado
+    
     return { ...user, imageUrl };
   }
 
@@ -106,12 +102,12 @@ export class AuthService {
     
     return this.fetchUserProfile(id).pipe(
       map(userProfile => {
-        // ✅ CORREÇÃO: Usamos o nosso novo método para construir o objeto final
+        
         const userWithRole = { ...userProfile, role: userRole };
         return this.buildUserWithImageUrl(userWithRole);
       }),
       tap(finalUserObject => {
-        // Notifica toda a aplicação com os dados corretos e atualizados
+        
         this.currentUserSubject.next(finalUserObject);
         localStorage.setItem('currentUser', JSON.stringify(finalUserObject));
       })
@@ -121,16 +117,18 @@ export class AuthService {
   signup(data: UserSignup): Observable<any> {
     return this.getHttp().post<any>(`${this.apiUrl}/users`, data);
   }
-
-  forgotPassword(email: string): Observable<void> {
-    return this.getHttp().post<void>(`${this.apiUrl}/auth/forgot-password`, { email });
+forgotPassword(email: string): Observable<void> {
+  
+    return this.getHttp().post<void>(`${this.apiUrl}/auth/reset-password`, { email });
   }
 
+ 
   resetPassword(token: string, newPassword: string, confirmPassword: string): Observable<void> {
-    const resetPasswordRequest = {
-      novaSenha: newPassword,
-      confirmarSenha: confirmPassword
+    const body = {
+      password: newPassword,
+      passwordConfirmation: confirmPassword
     };
-    return this.getHttp().post<void>(`${this.apiUrl}/auth/reset-password?token=${token}`, resetPasswordRequest);
+    
+    return this.getHttp().post<void>(`${this.apiUrl}/auth/forgot-password?token=${token}`, body);
   }
 }
