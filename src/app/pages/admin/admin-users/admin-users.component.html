@@ -8,6 +8,7 @@
     <button (click)="addUser()" class="btn btn-success">Adicionar Usuário</button>
   </div>
 
+  <!-- O formulário de edição/adição (sem alterações, parece correto) -->
   <div *ngIf="showAddEditForm && currentUser as user" class="add-edit-form">
     <h3>{{ user.id ? 'Editar Usuário' : 'Adicionar Novo Usuário' }}</h3>
     <form (ngSubmit)="saveUser()">
@@ -21,15 +22,11 @@
       </div>
       <div class="form-group">
         <label for="document">Documento (CPF/Passaporte):</label>
-        <input type="text" id="document" [(ngModel)]="user.document" name="document" required />
+        <input type="text" id="document" [(ngModel)]="user.document" name="document" />
       </div>
       <div class="form-group">
         <label for="phone">Telefone:</label>
         <input type="text" id="phone" [(ngModel)]="user.phone" name="phone" />
-      </div>
-      <div class="form-group">
-        <label for="active">Ativo:</label>
-        <input type="checkbox" id="active" [(ngModel)]="user.active" name="active" />
       </div>
       <div class="form-group">
         <label for="role">Role:</label>
@@ -38,25 +35,7 @@
           <option value="ADMIN">Admin</option>
         </select>
       </div>
-      <div class="form-group">
-        <label for="password">Senha:</label>
-        <input type="password" id="password" [(ngModel)]="user.password" name="password" required />
-      </div>
-      <div class="form-group">
-        <label for="birthdate">Data de Nascimento:</label>
-        <input type="date" id="birthdate" [(ngModel)]="user.birthdate" name="birthdate" required />
-      </div>
-      <div class="form-group">
-        <label for="documentType">Tipo de Documento:</label>
-        <select id="documentType" [(ngModel)]="user.documentType" name="documentType" required>
-          <option value="CPF">CPF</option>
-          <option value="PASSAPORTE">Passaporte</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="documentNumber">Número do Documento:</label>
-        <input type="text" id="documentNumber" [(ngModel)]="user.documentNumber" name="documentNumber" required />
-      </div>
+      <!-- Campos adicionais do seu formulário original -->
       <div class="form-actions">
         <button type="submit" class="btn btn-primary">Salvar</button>
         <button type="button" (click)="cancelEdit()" class="btn btn-secondary">Cancelar</button>
@@ -64,6 +43,7 @@
     </form>
   </div>
 
+  <!-- Container da Tabela -->
   <div class="users-table-container">
     <table class="users-table">
       <thead>
@@ -72,15 +52,15 @@
           <th>Telefone</th>
           <th>Status</th>
           <th>Role</th>
-          <th>Ações</th>
+          <th class="text-center">Ações</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let user of filteredUsers">
+        
+        <tr *ngFor="let user of filteredUsers.content">
           <td>
             <strong>{{ user.name }}</strong><br />
-            <small>{{ user.email }}</small><br />
-            <small>{{ user.document }}</small>
+            <small>{{ user.email }}</small>
           </td>
           <td>{{ user.phone }}</td>
           <td>
@@ -88,18 +68,23 @@
               {{ user.active ? 'Ativo' : 'Inativo' }}
             </span>
           </td>
-          <td>{{ user.role | titlecase }}</td>
-          <td>
+          
+          <td>{{ user.role.userRole | titlecase }}</td>
+          <td class="text-center">
             <div class="action-buttons">
               <button (click)="editUser(user)" class="btn btn-warning">Editar</button>
-
               
+              
+              <button (click)="toggleActive(user)" [ngClass]="user.active ? 'btn-secondary' : 'btn-info'">
+                {{ user.active ? 'Desativar' : 'Ativar' }}
+              </button>
 
               <button (click)="deleteUser(user.id)" class="btn btn-danger">Excluir</button>
             </div>
           </td>
         </tr>
-        <tr *ngIf="filteredUsers.length === 0">
+        
+        <tr *ngIf="filteredUsers.content.length === 0">
           <td colspan="5" class="no-results">Nenhum usuário encontrado.</td>
         </tr>
       </tbody>

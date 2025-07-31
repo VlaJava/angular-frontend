@@ -1,29 +1,23 @@
-// src/app/guards/admin.guard.ts
-import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { inject } from '@angular/core';
+import { CanActivateFn, Router, UrlTree } from '@angular/router';
 import { Observable, map, take } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class AdminGuard implements CanActivate {
 
-  constructor(private authService: AuthService, private router: Router) {}
+export const adminGuard: CanActivateFn = (route, state): Observable<boolean | UrlTree> => {
+  
+  const authService = inject(AuthService);
+  const router = inject(Router);
 
-  canActivate(): Observable<boolean> {
-    
-    return this.authService.isAdmin$.pipe(
-      take(1), 
-      map(isAdmin => {
-        if (isAdmin) {
-          return true; 
-        } else {
-          
-          this.router.navigate(['/']); 
-          return false;
-        }
-      })
-    );
-  }
-}
+  return authService.isAdmin$.pipe(
+    take(1),
+    map(isAdmin => {
+      if (isAdmin) {
+        return true; 
+      } else {
+        
+        return router.parseUrl('/'); 
+      }
+    })
+  );
+};
