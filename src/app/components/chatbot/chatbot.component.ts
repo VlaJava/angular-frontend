@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ChatMessage, Sender, TravelPackage } from '../../types/travel.types';
+import { ChatMessage, Sender, TravelPackage } from '../../types/chatbot.types';
 import { MessageComponent } from '../message/message.component';
 import { GeminiService } from '../../services/gemini.service';
 

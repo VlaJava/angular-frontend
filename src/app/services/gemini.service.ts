@@ -2,9 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { ChatMessage, TravelPackage } from '../types/travel.types'; // Certifique-se que este import está correto
+import { ChatMessage, TravelPackage } from '../types/chatbot.types'; 
 
-// A interface agora reflete exatamente o que o backend envia
 export interface BotResponse {
   text: string;
   recommendedPackages: TravelPackage[];
@@ -20,16 +19,14 @@ export class GeminiService {
 
   sendMessage(message: string, history: ChatMessage[]): Observable<BotResponse> {
     
-    // ✅ A CORREÇÃO ESTÁ AQUI: Mapeamos o histórico para um formato simples
-    // que corresponde exatamente ao DTO do backend.
     const simplifiedHistory = history
-      .filter(msg => msg.text && !msg.isLoading) // 1. Filtra mensagens de loading ou sem texto
-      .map(msg => ({                          // 2. Mapeia para o formato simples
-        sender: msg.sender.toString(),        // Garante que o enum 'Sender' seja enviado como string
+      .filter(msg => msg.text && !msg.isLoading) 
+      .map(msg => ({                          
+        sender: msg.sender.toString(),        
         text: msg.text
       }));
 
-    // Agora o corpo da requisição contém o histórico no formato correto
+  
     const body = { message, history: simplifiedHistory };
 
     return this.http.post<BotResponse>(this.chatApiUrl, body).pipe(

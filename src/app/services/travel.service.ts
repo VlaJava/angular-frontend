@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, of, map } from 'rxjs';
-import { TravelPackage } from '../types/travel.types';
+import { TravelPackage } from '../types/chatbot.types';
 
 interface PaginatedResponse<T> {
   content: T[];

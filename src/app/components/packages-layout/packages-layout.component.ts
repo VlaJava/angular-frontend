@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core'; // Importar OnInit
 import { CommonModule } from '@angular/common';
-import { Observable } from 'rxjs'; // Importar Observable
-
+import { Observable } from 'rxjs'; 
+import { map } from 'rxjs/operators';
 import { PackageCardComponent } from '../package-card/package-card.component';
 import { Package } from '../../types/package.type';
 import { PackageService } from '../../services/package.service'; // Importar o serviço
@@ -25,8 +25,13 @@ export class PackageLayoutComponent implements OnInit {
   constructor(private packageService: PackageService) { }
 
   
-  ngOnInit(): void {
-    
-    this.pacotes$ = this.packageService.getPackages();
+    ngOnInit(): void {
+    this.pacotes$ = this.packageService.getPackages().pipe(
+      map((pacotes: Package[]) =>
+        pacotes
+          .filter(p => p.available)
+          .slice(0, 3)
+      )
+    );
   }
 }

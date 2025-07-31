@@ -7,7 +7,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { TravelService } from './services/travel.service';
 import { ChatbotComponent } from './components/chatbot/chatbot.component';
 import { ChatIconComponent } from './components/chat-icon/chat-icon.component';
-import { TravelPackage } from './types/travel.types';
+import { TravelPackage } from './types/chatbot.types';
 
 @Component({
   selector: 'app-root',
