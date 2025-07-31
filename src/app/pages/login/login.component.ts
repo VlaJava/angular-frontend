@@ -11,7 +11,7 @@ import { LoginRequest } from '../../types/login-request.type';
 // ✅ CORREÇÃO: Alterado de 'password' para 'senha'
 interface LoginForm {
   email: FormControl<string | null>;
-  senha: FormControl<string | null>;
+  password: FormControl<string | null>;
 }
 
 @Component({
@@ -37,7 +37,7 @@ export class LoginComponent {
     this.loginForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
       // ✅ CORREÇÃO: O nome do controlo agora é 'senha' para corresponder ao HTML
-      senha: new FormControl('', [Validators.required, Validators.minLength(6)]),
+      password: new FormControl('', [Validators.required, Validators.minLength(6)]),
     });
   }
 
@@ -50,7 +50,7 @@ export class LoginComponent {
     // ✅ CORREÇÃO: O this.loginForm.value agora já tem o formato correto { email: '...', senha: '...' }
     const credenciais: LoginRequest = {
       email: this.loginForm.value.email ?? '',
-      senha: this.loginForm.value.senha ?? ''
+      password: this.loginForm.value.password ?? ''
     };
 
     this.authService.login(credenciais).subscribe({

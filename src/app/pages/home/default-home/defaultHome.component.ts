@@ -26,7 +26,7 @@ export class DefaultHomeComponent implements OnInit {
     this.isLoading = true;
     this.packageService.getPackages().subscribe({
       next: (data) => {
-        // Agora os tipos são compatíveis e o erro desaparece
+        
         this.pacotes = data;
         this.isLoading = false;
       },
