@@ -1,0 +1,37 @@
+<div *ngIf="isOpen" class="chatbot-container">
+  <!-- Header -->
+  <div class="chatbot-header">
+    <span class="chatbot-title">Chat com Avanildo</span>
+    <button (click)="onClose.emit()" class="close-button">
+      <span class="sr-only">Fechar</span>
+      <svg class="close-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Messages -->
+  <div class="messages-container">
+    <app-message *ngFor="let message of messages" [message]="message"></app-message>
+  </div>
+
+  <!-- Input -->
+  <div class="input-container">
+    <form (ngSubmit)="sendMessage()" class="input-form">
+      <input
+        type="text"
+        [(ngModel)]="currentMessage"
+        name="message"
+        placeholder="Digite sua mensagem..."
+        class="message-input"
+      >
+      <button
+        type="submit"
+        [disabled]="!currentMessage.trim()"
+        class="send-button"
+      >
+        Enviar
+      </button>
+    </form>
+  </div>
+</div>
