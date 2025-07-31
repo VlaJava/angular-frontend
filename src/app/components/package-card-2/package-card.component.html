@@ -1,0 +1,11 @@
+<div class="package-card">
+  <img [src]="pack.imageUrl" [alt]="pack.title" class="package-image">
+  <div class="package-content">
+    <h3 class="package-title">{{ pack.title }}</h3>
+    <p class="package-description">{{ pack.description }}</p>
+    <div class="package-footer">
+      <span class="package-price">R$ {{ pack.price.toFixed(2) }}</span>
+      <span class="package-spots">{{ pack.travelerLimit }} vagas</span>
+    </div>
+  </div>
+</div>
