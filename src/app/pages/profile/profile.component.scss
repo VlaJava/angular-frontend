@@ -1,0 +1,180 @@
+// Este ficheiro usa as variáveis CSS (ex: var(--primary-orange))
+// que você definiu no seu ficheiro de estilos global.
+
+.profile-page-container {
+  display: flex;
+  gap: 40px;
+  padding: 40px;
+  max-width: 1200px;
+  margin: 40px auto;
+  background-color: var(--light-gray, #f9f9f9);
+  border-radius: 12px;
+}
+
+.profile-picture-container {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+
+  .profile-picture {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid #fff;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    object-fit: cover; 
+  }
+
+  .btn-change-picture {
+    background-color: #e9ecef;
+    color: var(--text-color, #333);
+    border: 1px solid #dee2e6;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: darken(#e9ecef, 5%);
+      border-color: darken(#dee2e6, 10%);
+    }
+  }
+}
+
+.profile-card {
+  flex-grow: 1;
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+
+  .profile-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--dark-blue, #1F2937);
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #dee2e6;
+    padding-bottom: 1rem;
+  }
+}
+
+.details-view, .edit-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin-bottom: 2rem;
+}
+
+.info-group, .form-group {
+  label {
+    display: block;
+    font-size: 0.9rem;
+    color: #6c757d;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+
+  p {
+    font-size: 1.1rem;
+    color: var(--text-color, #4a4a4a);
+    background-color: var(--light-gray, #f8f9fa);
+    padding: 12px;
+    border-radius: 8px;
+    margin: 0;
+    border: 1px solid #dee2e6;
+  }
+
+  .email-field {
+    background-color: #e9ecef;
+    color: #495057;
+    cursor: not-allowed;
+  }
+}
+
+.form-control {
+  width: 100%;
+  padding: 12px;
+  font-size: 1.1rem;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+
+  &:focus {
+    outline: none;
+    border-color: var(--primary-orange, #FF7700);
+    box-shadow: 0 0 0 3px rgba(255, 119, 0, 0.2);
+  }
+}
+
+.profile-actions {
+  margin-top: auto;
+  padding-top: 2rem;
+  border-top: 1px solid #dee2e6;
+  
+  .view-actions, .edit-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .action-link-danger {
+    color: #D32F2F;
+    font-weight: 600;
+    cursor: pointer;
+    margin-right: auto;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: darken(#D32F2F, 10%);
+    }
+  }
+
+  .btn-primary, .btn-secondary {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .btn-primary {
+    background-color: var(--primary-orange, #FF7700);
+    color: #fff;
+
+    &:hover:not(:disabled) {
+      background-color: darken(#FF7700, 10%);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(255, 119, 0, 0.3);
+    }
+
+    &:disabled {
+      background-color: lighten(#FF7700, 20%);
+      cursor: not-allowed;
+    }
+  }
+
+  .btn-secondary {
+    background-color: #6c757d;
+    color: #fff;
+
+    &:hover {
+      background-color: darken(#6c757d, 5%);
+    }
+  }
+}
+
+.loading-indicator {
+  text-align: center;
+  padding: 40px;
+  font-size: 1.2rem;
+  color: #6c757d;
+}

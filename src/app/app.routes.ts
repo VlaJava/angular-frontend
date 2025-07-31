@@ -19,8 +19,11 @@ import { AdminReportsComponent } from './pages/admin/admin-reports/admin-reports
 import { AdminDashboardComponent } from './pages/admin/admin-dashboard/admin-dashboard.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
-import { AdminGuard } from './guards/admin.guard';
-import { AuthGuard } from './guards/auth.guard';
+import { AccountConfirmedComponent } from './pages/account-confirmed/account-confirmed.component';
+import { adminGuard} from './guards/admin.guard';
+import { authGuard } from './guards/auth.guard';
+
+
 
 
 export const routes: Routes = [
@@ -46,25 +49,30 @@ export const routes: Routes = [
     path: 'reset-password', 
     component: ResetPasswordComponent
   
-
   },
-    {
+  {
+  
+    path: 'account-confirmed',
+    component: AccountConfirmedComponent
+  
+  },
+  {
         path: 'pacote/:id',
         component: PackageDetailsComponent
-    },
+  },
 
   // --- Rota Privada para Usuários Logados ---
   {
     path: 'profile', 
     component: ProfileComponent,
-    //canActivate: [AuthGuard] 
+    canActivate: [authGuard] 
   },
 
   // --- Rota Privada para Administradores ---
   {
     path: 'admin',
     component: AdminLayoutComponent, 
-    //canActivate: [AdminGuard], 
+    canActivate: [adminGuard], 
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: AdminDashboardComponent }, 
