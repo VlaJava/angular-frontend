@@ -1,58 +1,79 @@
 <div class="modal-overlay" (click)="onCancel()">
   <div class="modal-container" (click)="$event.stopPropagation()">
     <h2>Novo Pacote</h2>
-    <form [formGroup]="packageForm" (ngSubmit)="onSave()">
+    
+    <form *ngIf="packageForm" [formGroup]="packageForm" (ngSubmit)="onSave()">
+      
+    
       <div class="form-group">
-        <label for="titulo">Título *</label>
-        <input id="titulo" type="text" formControlName="titulo">
+        <label for="title">Título *</label>
+       
+        <input id="title" type="text" formControlName="title">
       </div>
+      
       
       <div class="form-row">
         <div class="form-group">
-          <label for="origem">Origem *</label>
-          <input id="origem" type="text" formControlName="origem">
+          <label for="source">Origem *</label>
+          
+          <input id="source" type="text" formControlName="source">
         </div>
         <div class="form-group">
-          <label for="destino">Destino *</label>
-          <input id="destino" type="text" formControlName="destino">
+          <label for="destination">Destino *</label>
+          <
+          <input id="destination" type="text" formControlName="destination">
         </div>
       </div>
 
+      
       <div class="form-group">
-        <label for="descricao">Descrição *</label>
-        <textarea id="descricao" rows="3" formControlName="descricao"></textarea>
+        <label for="description">Descrição *</label>
+        
+        <textarea id="description" rows="3" formControlName="description"></textarea>
       </div>
 
+      
+      <div class="form-group">
+        <label for="imageUrl">URL da Imagem</label>
+       
+        <input id="imageUrl" type="text" formControlName="imageUrl">
+      </div>
+
+      
       <div class="form-row">
         <div class="form-group">
-          <label for="valor">Valor *</label>
-          <input id="valor" type="number" formControlName="valor">
+          <label for="price">Preço *</label>
+        
+          <input id="price" type="number" formControlName="price">
         </div>
         <div class="form-group">
-          <label for="limite">Limite de Viajantes *</label>
-          <input id="limite" type="number" formControlName="limiteViajantes">
+          <label for="travelerLimit">Limite de Viajantes *</label>
+         
+          <input id="travelerLimit" type="number" formControlName="travelerLimit">
         </div>
       </div>
 
+     
       <div class="form-row">
         <div class="form-group">
-          <label for="dataInicio">Data de início *</label>
-          <input id="dataInicio" type="date" formControlName="dataInicio">
+          <label for="startDate">Data de início *</label>
+         
+          <input id="startDate" type="date" formControlName="startDate">
         </div>
         <div class="form-group">
-          <label for="dataFinal">Data final *</label>
-          <input id="dataFinal" type="date" formControlName="dataFinal">
+          <label for="endDate">Data final *</label>
+          
+          <input id="endDate" type="date" formControlName="endDate">
         </div>
       </div>
 
+    
       <div class="form-group checkbox-group">
-        <input id="disponivel" type="checkbox" formControlName="disponivel">
-        <label for="disponivel">Disponível</label>
+        <input id="available" type="checkbox" formControlName="available">
+        <label for="available">Disponível</label>
       </div>
       
-      <label for="upload-imagem" class="btn-upload">Upload Imagem</label>
-      <input id="upload-imagem" type="file" (change)="onFileSelected($event)" hidden>
-
+     
       <div class="modal-footer">
         <button type="button" class="btn-secondary" (click)="onCancel()">Cancelar</button>
         <button type="submit" class="btn-primary" [disabled]="packageForm.invalid">Salvar</button>
@@ -60,4 +81,3 @@
     </form>
   </div>
 </div>
-

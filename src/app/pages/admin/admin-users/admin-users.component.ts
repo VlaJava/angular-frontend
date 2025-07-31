@@ -59,7 +59,7 @@ export class AdminUsersComponent implements OnInit, OnDestroy {
 
   addUser(): void {
     this.currentUser = {
-      id: 0, // Um ID temporário ou nulo para indicar que é um novo usuário
+      id: '', // ✅ Correto: string vazia para novo usuário
       name: '',
       email: '',
       document: '',
@@ -128,24 +128,16 @@ export class AdminUsersComponent implements OnInit, OnDestroy {
       });
   }
 
-  deleteUser(id: number): void {
-    // Adicionar uma confirmação antes de excluir é uma boa prática
-    // if (!confirm(`Tem certeza que deseja excluir o usuário com ID: ${id}?`)) {
-    //   return;
-    // }
-
+  deleteUser(id: string): void {
     this.userService.deleteUser(id)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
           console.log('Usuário excluído com sucesso.');
-          // Remove o usuário da lista local para feedback instantâneo na UI
           this.filteredUsers = this.filteredUsers.filter(user => user.id !== id);
-          // TODO: Exibir notificação de sucesso (ex: "Usuário excluído!")
         },
         error: (error: any) => {
           console.error('Erro ao excluir usuário:', error);
-          // TODO: Exibir notificação de erro
         }
       });
   }

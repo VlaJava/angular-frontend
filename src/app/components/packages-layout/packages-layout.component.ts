@@ -1,9 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core'; // Importar OnInit
+import { CommonModule } from '@angular/common';
+import { Observable } from 'rxjs'; // Importar Observable
 
 import { PackageCardComponent } from '../package-card/package-card.component';
-import { CommonModule } from '@angular/common';
 import { Package } from '../../types/package.type';
-
+import { PackageService } from '../../services/package.service'; // Importar o serviço
 
 @Component({
   selector: 'app-packages-layout',
@@ -13,12 +14,19 @@ import { Package } from '../../types/package.type';
     PackageCardComponent
   ],
   templateUrl: './packages-layout.component.html',
-  styleUrl: './packages-layout.component.scss'
+  styleUrls: ['./packages-layout.component.scss']
 })
-export class PackageLayoutComponent {
+export class PackageLayoutComponent implements OnInit { 
 
-  @Input() pacotes: Package[] = [];
+  
+  public pacotes$!: Observable<Package[]>;
 
-  constructor() { }
+  
+  constructor(private packageService: PackageService) { }
 
+  
+  ngOnInit(): void {
+    
+    this.pacotes$ = this.packageService.getPackages();
+  }
 }

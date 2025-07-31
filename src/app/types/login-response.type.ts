@@ -1,6 +1,4 @@
-export type LoginResponse = {
-    token: string,
-    name: string
-    role: 'user' | 'admin';
-
+export interface LoginResponse {
+  accessToken: string;
+  expiresIn: number;
 }
