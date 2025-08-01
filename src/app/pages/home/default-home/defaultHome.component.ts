@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PackageLayoutComponent } from '../../../components/packages-layout/packages-layout.component';
-// ✅ 1. Importe a interface da resposta paginada juntamente com o serviço
+import { PackagesLayoutComponent } from '../../../components/packages-layout/packages-layout.component';
 import { PackageService, PaginatedPackagesResponse } from '../../../services/package.service';
 
 import { Package } from '../../../types/package.type';
@@ -11,7 +10,7 @@ import { Package } from '../../../types/package.type';
   standalone: true,
   imports: [
     CommonModule,
-    PackageLayoutComponent
+    PackagesLayoutComponent
   ],
   templateUrl: './defaultHome.component.html',
   styleUrls: ['./defaultHome.component.scss']
@@ -20,6 +19,7 @@ export class DefaultHomeComponent implements OnInit {
 
   pacotes: Package[] = [];
   isLoading = true;
+  
 
   constructor(private packageService: PackageService) {}
 
