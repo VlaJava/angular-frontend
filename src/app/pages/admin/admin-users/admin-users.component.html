@@ -1,41 +1,43 @@
 <div class="admin-users-container">
   <h2>Gestão de Usuários</h2>
 
+  <!-- Controles Superiores (Busca e Adicionar) -->
   <div class="controls">
-    <input type="text" [(ngModel)]="searchTerm" (keyup.enter)="onSearch()"
-      placeholder="Buscar por nome, documento ou email" class="search-input" />
+    <input
+      type="text"
+      class="search-input"
+      placeholder="Buscar por nome, email ou documento..."
+      [(ngModel)]="searchTerm"
+      (keyup.enter)="onSearch()"
+    />
     <button (click)="onSearch()" class="btn btn-primary">Buscar</button>
     <button (click)="addUser()" class="btn btn-success">Adicionar Usuário</button>
   </div>
 
-  <!-- O formulário de edição/adição (sem alterações, parece correto) -->
-  <div *ngIf="showAddEditForm && currentUser as user" class="add-edit-form">
-    <h3>{{ user.id ? 'Editar Usuário' : 'Adicionar Novo Usuário' }}</h3>
+  <!-- Formulário de Adicionar/Editar (condicional) -->
+  <div *ngIf="showAddEditForm && currentUser" class="add-edit-form">
+    <h3>{{ currentUser.id ? 'Editar Usuário' : 'Adicionar Novo Usuário' }}</h3>
     <form (ngSubmit)="saveUser()">
+      <!-- Campos do formulário (nome, email, etc.) -->
       <div class="form-group">
         <label for="name">Nome:</label>
-        <input type="text" id="name" [(ngModel)]="user.name" name="name" required />
+        <input type="text" id="name" [(ngModel)]="currentUser.name" name="name" required />
       </div>
       <div class="form-group">
         <label for="email">Email:</label>
-        <input type="email" id="email" [(ngModel)]="user.email" name="email" required />
+        <input type="email" id="email" [(ngModel)]="currentUser.email" name="email" required />
       </div>
-      <div class="form-group">
-        <label for="document">Documento (CPF/Passaporte):</label>
-        <input type="text" id="document" [(ngModel)]="user.document" name="document" />
-      </div>
-      <div class="form-group">
+       <div class="form-group">
         <label for="phone">Telefone:</label>
-        <input type="text" id="phone" [(ngModel)]="user.phone" name="phone" />
+        <input type="text" id="phone" [(ngModel)]="currentUser.phone" name="phone" />
       </div>
       <div class="form-group">
         <label for="role">Role:</label>
-        <select id="role" [(ngModel)]="user.role" name="role" required>
+        <select id="role" [(ngModel)]="currentUser.role" name="role" required>
           <option value="CLIENT">Cliente</option>
           <option value="ADMIN">Admin</option>
         </select>
       </div>
-      <!-- Campos adicionais do seu formulário original -->
       <div class="form-actions">
         <button type="submit" class="btn btn-primary">Salvar</button>
         <button type="button" (click)="cancelEdit()" class="btn btn-secondary">Cancelar</button>
@@ -43,7 +45,7 @@
     </form>
   </div>
 
-  <!-- Container da Tabela -->
+  <!-- Tabela de Utilizadores -->
   <div class="users-table-container">
     <table class="users-table">
       <thead>
@@ -56,7 +58,7 @@
         </tr>
       </thead>
       <tbody>
-        
+        <!-- Itera sobre a lista de utilizadores -->
         <tr *ngFor="let user of filteredUsers.content">
           <td>
             <strong>{{ user.name }}</strong><br />
@@ -68,23 +70,16 @@
               {{ user.active ? 'Ativo' : 'Inativo' }}
             </span>
           </td>
-          
           <td>{{ user.role.userRole | titlecase }}</td>
           <td class="text-center">
             <div class="action-buttons">
               <button (click)="editUser(user)" class="btn btn-warning">Editar</button>
-              
-              
-              <button (click)="toggleActive(user)" [ngClass]="user.active ? 'btn-secondary' : 'btn-info'">
-                {{ user.active ? 'Desativar' : 'Ativar' }}
-              </button>
-
               <button (click)="deleteUser(user.id)" class="btn btn-danger">Excluir</button>
             </div>
           </td>
         </tr>
-        
-        <tr *ngIf="filteredUsers.content.length === 0">
+        <!-- Mensagem para quando não há utilizadores -->
+        <tr *ngIf="!filteredUsers || filteredUsers.content.length === 0">
           <td colspan="5" class="no-results">Nenhum usuário encontrado.</td>
         </tr>
       </tbody>
