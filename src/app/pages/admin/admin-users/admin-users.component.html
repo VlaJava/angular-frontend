@@ -58,7 +58,6 @@
         </tr>
       </thead>
       <tbody>
-        
         <tr *ngFor="let user of filteredUsers.content">
           <td>
             <strong>{{ user.name }}</strong><br />
@@ -86,3 +85,32 @@
     </table>
   </div>
 </div>
+<div>
+<div *ngIf="!isLoading && filteredUsers.totalPages > 1" class="pagination-container">
+   
+    <button 
+      class="btn-pagination" 
+      (click)="changePage(filteredUsers.currentPage - 1)"
+      [disabled]="filteredUsers.currentPage === 0">
+      Anterior
+    </button>
+
+    
+   <button 
+      *ngFor="let pageNum of getPageNumbers()" 
+      class="btn-pagination"
+      [class.active]="pageNum === filteredUsers.currentPage"
+      (click)="changePage(pageNum)">
+      {{ pageNum + 1 }}
+    </button>
+
+
+    <button 
+      class="btn-pagination" 
+      (click)="changePage(filteredUsers.currentPage + 1)"
+      [disabled]="filteredUsers.currentPage >= filteredUsers.totalPages - 1">
+      Próximo
+    </button>
+  </div>
+</div>
+

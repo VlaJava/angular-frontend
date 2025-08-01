@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common'; // Adicionado CurrencyPipe
 import { PackageModalComponent } from '../../../components/package-modal/package-modal.component';
-import { PackageService } from '../../../services/package.service';
+import { PackageService, PaginatedPackagesResponse } from '../../../services/package.service';
 import { ToastrService } from 'ngx-toastr';
 import { Package } from '../../../types/package.type';
+import { PaginatedResponse, UserResponse } from '../admin-users/admin-users.component';
+
 
 @Component({
   selector: 'app-admin-packages',
@@ -24,22 +26,41 @@ export class AdminPackagesComponent implements OnInit {
   
   selectedPackageForEdit: Package | null = null;
 
+  
+   paginatedResponse: PaginatedPackagesResponse = {
+    content: [],
+    currentPage: 0,
+    totalItems: 0,
+    totalPages: 0
+  };
+    
   constructor(
     private packageService: PackageService,
     private toastr: ToastrService
   ) {}
 
+  changePage(page: number): void {
+    if (page >= 0 && page < this.paginatedResponse.totalPages) {
+      this.loadPackages(page); 
+    }
+  }
 
+  getPageNumbers(): number[] {
+    if (!this.paginatedResponse || this.paginatedResponse.totalPages === 0) {
+      return [];
+    }
+    return Array(this.paginatedResponse.totalPages).fill(0).map((x, i) => i);
+  }
   
   ngOnInit(): void {
     this.loadPackages();
   }
 
-  loadPackages(): void {
+   loadPackages(page: number = 0): void {
     this.isLoading = true;
-    this.packageService.getPackages().subscribe({
+    this.packageService.getPackages(page).subscribe({
       next: (data) => {
-        this.packages = data;
+        this.paginatedResponse = data; // Guarda a resposta de paginação completa
         this.isLoading = false;
       },
       error: () => {

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
 import { Package } from '../types/package.type';
 import { environment } from '../../environments/environment';
@@ -20,11 +20,31 @@ export class PackageService {
 
   constructor(private http: HttpClient) { }
 
-  getPackages(): Observable<Package[]> {
-    return this.http.get<PaginatedPackagesResponse>(this.apiUrl).pipe(
-      map(response =>
-        response.content.map(pkg => this.buildPackageWithImageUrl(pkg))
-      )
+  private buildPackageWithImageUrl(pkg: Package): Package {
+    if (!pkg.imageUrl || typeof pkg.imageUrl !== 'string' || pkg.imageUrl.trim() === '') {
+      return pkg;
+    }
+    try {
+      new URL(pkg.imageUrl);
+      return pkg;
+    } catch (_) {
+      
+      const newImageUrl = `${this.apiUrl}/${pkg.id}/image?v=${new Date().getTime()}`;
+      return { ...pkg, imageUrl: newImageUrl };
+    }
+  }
+
+  
+  getPackages(page: number = 0, size: number = 6): Observable<PaginatedPackagesResponse> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+      
+    return this.http.get<PaginatedPackagesResponse>(this.apiUrl, { params }).pipe(
+      map(response => {
+        const updatedContent = response.content.map(pkg => this.buildPackageWithImageUrl(pkg));
+        return { ...response, content: updatedContent };
+      })
     );
   }
 
@@ -35,26 +55,17 @@ export class PackageService {
     );
   }
 
-  createPackage(newPackage: Omit<Package, 'id'>): Observable<Package> {
-    return this.http.post<Package>(this.apiUrl, newPackage).pipe(
-      map(pkg => this.buildPackageWithImageUrl(pkg))
-    );
+  
+  createPackage(packageData: FormData): Observable<Package> {
+    return this.http.post<Package>(this.apiUrl, packageData);
   }
 
-  updatePackage(id: string, packageData: Omit<Package, 'id'>): Observable<Package> {
-    return this.http.put<Package>(`${this.apiUrl}/${id}`, packageData).pipe(
-      map(pkg => this.buildPackageWithImageUrl(pkg))
-    );
+  updatePackage(id: string, packageData: FormData): Observable<Package> {
+    return this.http.put<Package>(`${this.apiUrl}/${id}`, packageData);
   }
 
   deletePackage(packageId: string): Observable<void> {
     const url = `${this.apiUrl}/${packageId}`;
     return this.http.delete<void>(url);
-  }
-
-  //coloquei isso daqui
-  private buildPackageWithImageUrl(pkg: Package): Package {
-    const imageUrl = `${this.apiUrl}/${pkg.id}/image?v=${new Date().getTime()}`;
-    return { ...pkg, imageUrl };
   }
 }

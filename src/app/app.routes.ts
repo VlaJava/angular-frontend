@@ -30,7 +30,8 @@ export const routes: Routes = [
   // --- Rotas Públicas ---
   {
     path: "",
-    component: DefaultHomeComponent
+    component: DefaultHomeComponent,
+    pathMatch: 'full'
   },
   {
     path: "login",

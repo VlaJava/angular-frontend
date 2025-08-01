@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core'; // Importar OnInit
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs'; 
 import { map } from 'rxjs/operators';
 import { PackageCardComponent } from '../package-card/package-card.component';
 import { Package } from '../../types/package.type';
-import { PackageService } from '../../services/package.service'; // Importar o serviço
+import { PackageService, PaginatedPackagesResponse } from '../../services/package.service'; 
 
 @Component({
   selector: 'app-packages-layout',
@@ -18,17 +18,14 @@ import { PackageService } from '../../services/package.service'; // Importar o s
 })
 export class PackageLayoutComponent implements OnInit { 
 
-  
   public pacotes$!: Observable<Package[]>;
 
-  
   constructor(private packageService: PackageService) { }
 
-  
-    ngOnInit(): void {
+  ngOnInit(): void {
     this.pacotes$ = this.packageService.getPackages().pipe(
-      map((pacotes: Package[]) =>
-        pacotes
+      map((response: PaginatedPackagesResponse) =>
+        response.content
           .filter(p => p.available)
           .slice(0, 3)
       )

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PackageLayoutComponent } from '../../../components/packages-layout/packages-layout.component';
-import { PackageService } from '../../../services/package.service';
+// ✅ 1. Importe a interface da resposta paginada juntamente com o serviço
+import { PackageService, PaginatedPackagesResponse } from '../../../services/package.service';
 
 import { Package } from '../../../types/package.type';
 
@@ -24,10 +25,9 @@ export class DefaultHomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoading = true;
-    this.packageService.getPackages().subscribe({
-      next: (data) => {
-        
-        this.pacotes = data;
+    this.packageService.getPackages(0, 6).subscribe({
+      next: (data: PaginatedPackagesResponse) => {
+        this.pacotes = data.content;
         this.isLoading = false;
       },
       error: (err) => {

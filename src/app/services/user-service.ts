@@ -15,9 +15,15 @@ export class UserService {
   constructor(private http: HttpClient) { }
  
  
-  getUsers(searchTerm: string = ''): Observable<PaginatedResponse<UserResponse>> {
-    const options = searchTerm ? { params: new HttpParams().set('search', searchTerm) } : {};
-    return this.http.get<PaginatedResponse<UserResponse>>(this.apiUrl, options);
+ getUsers(searchTerm: string = '', page: number = 0, size: number = 9): Observable<PaginatedResponse<UserResponse>> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+    if (searchTerm) {
+      params = params.set('search', searchTerm); 
+  }
+    return this.http.get<PaginatedResponse<UserResponse>>
+    (this.apiUrl, { params });
   }
  
   
