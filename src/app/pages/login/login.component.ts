@@ -36,7 +36,7 @@ export class LoginComponent {
   ) {
     this.loginForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
-      // ✅ CORREÇÃO: O nome do controlo agora é 'senha' para corresponder ao HTML
+      
       password: new FormControl('', [Validators.required, Validators.minLength(6)]),
     });
   }
@@ -47,7 +47,7 @@ export class LoginComponent {
       return;
     }
 
-    // ✅ CORREÇÃO: O this.loginForm.value agora já tem o formato correto { email: '...', senha: '...' }
+    
     const credenciais: LoginRequest = {
       email: this.loginForm.value.email ?? '',
       password: this.loginForm.value.password ?? ''
@@ -56,7 +56,7 @@ export class LoginComponent {
     this.authService.login(credenciais).subscribe({
       next: (user) => {
         this.toastService.success(`Login efetuado com sucesso, ${user.name}!`);
-        // Redireciona para a página principal após o login
+       
         this.router.navigate(["/"]); 
       },
       error: (err) => {

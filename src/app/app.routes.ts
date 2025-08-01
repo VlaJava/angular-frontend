@@ -52,9 +52,16 @@ export const routes: Routes = [
     component: ResetPasswordComponent
   
   },
+  
+{
+  path: 'auth/signup/account-confirmation',
+  redirectTo: 'account-confirmation',
+  pathMatch: 'full'
+},
+
   {
   
-    path: 'account-confirmed',
+    path: 'account-confirmation',
     component: AccountConfirmedComponent
   
   },
@@ -63,17 +70,19 @@ export const routes: Routes = [
         component: PackageDetailsComponent
   },
 
-  {
-    path: 'finalize-booking', 
-    component: BookingFinalizationComponent
-  },  
+   
 
   // --- Rota Privada para Usuários Logados ---
   {
     path: 'profile', 
     component: ProfileComponent,
-    canActivate: [authGuard] 
+    
   },
+  {
+    path: 'finalize-booking', 
+    component: BookingFinalizationComponent,
+    canActivate: [authGuard] 
+  }, 
 
   // --- Rota Privada para Administradores ---
   {

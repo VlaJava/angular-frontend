@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, of, map } from 'rxjs';
 import { TravelPackage } from '../types/chatbot.types';
+import { environment } from '../../environments/environment';
 
 interface PaginatedResponse<T> {
   content: T[];
@@ -14,7 +15,7 @@ interface PaginatedResponse<T> {
   providedIn: 'root'
 })
 export class TravelService {
-  private apiUrl = 'http://localhost:8080/api/v1/packages';
+  private apiUrl = `${environment.apiUrl}/pakacges`;
 
   constructor(private http: HttpClient) {}
 
