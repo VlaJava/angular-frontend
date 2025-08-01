@@ -1,0 +1,128 @@
+$orange: #ff7700;
+$white: #ffffff;
+
+.payment-page {
+  background: $white;
+
+   .card-img-top {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 12px 12px 0 0;
+    }
+
+  h1 {
+    font-weight: bold;
+    margin-bottom: 2rem;
+  }
+
+  .card {
+    border-radius: 18px;
+    box-shadow: 0 2px 12px #0001;
+    border: none;
+    background: $white;
+  }
+
+  .mb-4 {
+    margin-bottom: 2rem !important;
+  }
+
+  .mb-3 {
+    margin-bottom: 1.2rem !important;
+  }
+
+  .text-orange {
+    color: $orange;
+    font-weight: 500;
+  }
+
+  .btn-warning {
+    background: $orange;
+    border: none;
+    font-weight: bold;
+    font-size: 1.2rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px #ff770033;
+    transition: background 0.2s;
+    color: $white;
+    &:hover, &:focus {
+      background: darken($orange, 7%);
+      color: $white;
+    }
+  }
+
+  .btn-outline-secondary {
+    border-radius: 20px;
+    padding: 0.5rem 1.5rem;
+    font-weight: 500;
+    border: 2px solid #ddd;
+    background: $white;
+    color: #333;
+    &.active, &:hover, &:focus {
+      background: lighten($orange, 40%);
+      border-color: $orange;
+      color: $orange;
+      box-shadow: 0 0 0 2px #ff770033;
+    }
+  }
+
+  .viajante-card {
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    background: $white;
+    box-shadow: 0 1px 6px #0001;
+    padding: 1.2rem 1rem 1rem 1rem;
+    margin-bottom: 1.2rem;
+    position: relative;
+    .fw-bold {
+      font-size: 1.1rem;
+      margin-bottom: 0.7rem;
+    }
+    .btn-remove-viajante {
+      position: absolute;
+      top: 1.1rem;
+      right: 1.1rem;
+      color: #ff3b3b;
+      font-size: 1.3rem;
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      transition: color 0.2s;
+      &:hover {
+        color: #b80000;
+      }
+    }
+  }
+
+  .form-control, .form-select {
+    border-radius: 10px;
+    font-size: 1rem;
+    padding: 0.7rem 1rem;
+    border: 1.5px solid #e0e0e0;
+    background: $white;
+    box-shadow: none;
+    &:focus {
+      border-color: $orange;
+      box-shadow: 0 0 0 2px #ff770033;
+    }
+  }
+
+  .btn-link.text-orange {
+    font-weight: 500;
+    font-size: 1rem;
+    text-decoration: none;
+    color: $orange;
+    &:hover {
+      text-decoration: underline;
+      color: darken($orange, 7%);
+    }
+
+    .card-img-top {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 12px 12px 0 0;
+    }
+  }
+}
