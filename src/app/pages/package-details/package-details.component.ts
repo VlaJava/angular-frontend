@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { PackageService } from '../../services/package.service';
 import { Package } from '../../types/package.type';
@@ -7,13 +7,13 @@ import { Package } from '../../types/package.type';
 @Component({
   selector: 'app-package-details',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './package-details.component.html',
   styleUrls: ['./package-details.component.css']
 })
 export class PackageDetailsComponent implements OnInit {
 
-  pacote: Package | undefined;
+  package: Package | undefined;
   isLoading = true;
 
   constructor(
@@ -33,7 +33,7 @@ export class PackageDetailsComponent implements OnInit {
       this.packageService.getPackageById(packageId).subscribe({
         next: (data) => {
           if (data) {
-            this.pacote = data;
+            this.package = data;
           } else {
             
             this.router.navigate(['/']);
