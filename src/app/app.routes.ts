@@ -57,7 +57,7 @@ export const routes: Routes = [
   
   },
   {
-        path: 'pacote/:id',
+        path: 'packages/:id',
         component: PackageDetailsComponent
   },
 

@@ -119,7 +119,7 @@ export class AuthService {
   }
 forgotPassword(email: string): Observable<void> {
   
-    return this.getHttp().post<void>(`${this.apiUrl}/auth/reset-password`, { email });
+    return this.getHttp().post<void>(`${this.apiUrl}/auth/signup/reset-password`, { email });
   }
 
  

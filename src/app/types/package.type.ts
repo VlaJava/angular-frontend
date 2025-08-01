@@ -7,7 +7,7 @@ export interface Package {
   source: string;
   destination: string;
   description: string;
-  imageUrl: string;
+  imageUrl?: string;
   price: number;
   travelerLimit: number;
   startDate: string; 
