@@ -1,7 +1,7 @@
 <div class="admin-users-container">
   <h2>Gestão de Usuários</h2>
 
-  <!-- Controles Superiores (Busca e Adicionar) -->
+ 
   <div class="controls">
     <input
       type="text"
@@ -14,11 +14,11 @@
     <button (click)="addUser()" class="btn btn-success">Adicionar Usuário</button>
   </div>
 
-  <!-- Formulário de Adicionar/Editar (condicional) -->
+
   <div *ngIf="showAddEditForm && currentUser" class="add-edit-form">
     <h3>{{ currentUser.id ? 'Editar Usuário' : 'Adicionar Novo Usuário' }}</h3>
     <form (ngSubmit)="saveUser()">
-      <!-- Campos do formulário (nome, email, etc.) -->
+      
       <div class="form-group">
         <label for="name">Nome:</label>
         <input type="text" id="name" [(ngModel)]="currentUser.name" name="name" required />
@@ -45,7 +45,7 @@
     </form>
   </div>
 
-  <!-- Tabela de Utilizadores -->
+  
   <div class="users-table-container">
     <table class="users-table">
       <thead>
@@ -54,11 +54,11 @@
           <th>Telefone</th>
           <th>Status</th>
           <th>Role</th>
-          <th class="text-center">Ações</th>
+          <th>Ações</th>
         </tr>
       </thead>
       <tbody>
-        <!-- Itera sobre a lista de utilizadores -->
+        
         <tr *ngFor="let user of filteredUsers.content">
           <td>
             <strong>{{ user.name }}</strong><br />
@@ -73,12 +73,12 @@
           <td>{{ user.role.userRole | titlecase }}</td>
           <td class="text-center">
             <div class="action-buttons">
-              <button (click)="editUser(user)" class="btn btn-warning">Editar</button>
-              <button (click)="deleteUser(user.id)" class="btn btn-danger">Excluir</button>
+              <button (click)="editUser(user)"><i class="bi bi-pencil-square"></i></button>
+              <button (click)="deleteUser(user.id)"><i class="bi bi-trash"></i></button>
             </div>
           </td>
         </tr>
-        <!-- Mensagem para quando não há utilizadores -->
+      
         <tr *ngIf="!filteredUsers || filteredUsers.content.length === 0">
           <td colspan="5" class="no-results">Nenhum usuário encontrado.</td>
         </tr>

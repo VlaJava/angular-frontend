@@ -7,23 +7,23 @@
 </div>
 
 <!-- Conteúdo do Pacote -->
-<div class="container my-5" *ngIf="!isLoading && pacote">
+<div class="container my-5" *ngIf="!isLoading && Package">
   <div class="row g-5">
 
     <div class="col-lg-7">
       <!-- ✅ Usa 'pacote.imagem' e 'pacote.titulo' -->
-      <img [src]="pacote.imageUrl" class="img-fluid rounded-3 shadow-lg w-100" [alt]="pacote.title">
+      <img [src]="Package.imageUrl" class="img-fluid rounded-3 shadow-lg w-100" [alt]="Package.title">
     </div>
 
     <div class="col-lg-5">
       <!-- ✅ Usa 'pacote.titulo' e 'pacote.destino' -->
-      <h2 class="fw-bold mb-1">{{ pacote.title }}</h2>
-      <p class="text-muted mb-2">{{ pacote.destination }}</p>
+      <h2 class="fw-bold mb-1">{{ Package.title }}</h2>
+      <p class="text-muted mb-2">{{ Package.destination }}</p>
       <div class="mb-3">
         <span class="text-warning fs-5">★★★★☆</span>
       </div>
       <!-- ✅ Usa 'pacote.descricao' -->
-      <p class="mb-4">{{ pacote.description }}</p>
+      <p class="mb-4">{{ Package.description }}</p>
 
       <ul class="list-unstyled">
         <li class="mb-2 d-flex align-items-center">
@@ -33,7 +33,7 @@
         <li class="mb-2 d-flex align-items-center">
           <strong class="me-2">💲 Preço por pessoa:</strong>
           <!-- ✅ Usa 'pacote.valor' e o pipe currency -->
-          <span class="fw-bold fs-5 ms-1">{{ pacote.price | currency:'BRL' }}</span>
+          <span class="fw-bold fs-5 ms-1">{{ Package.price | currency:'BRL' }}</span>
         </li>
       </ul>
 

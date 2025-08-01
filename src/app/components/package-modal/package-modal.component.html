@@ -34,9 +34,18 @@
 
       
       <div class="form-group">
-        <label for="imageUrl">URL da Imagem</label>
-       
-        <input id="imageUrl" type="text" formControlName="imageUrl">
+        <label>Imagem do Pacote</label>
+        <div class="image-upload-container">
+          <!-- Input de ficheiro escondido -->
+          <input type="file" #fileInput hidden (change)="onFileSelected($event)" accept="image/png, image/jpeg">
+          
+          <!-- Botão que o utilizador vê -->
+          <button type="button" class="btn-upload" (click)="fileInput.click()">Escolher Ficheiro</button>
+          
+          <!-- Mostra o nome do ficheiro selecionado -->
+          <span class="file-name" *ngIf="selectedFile">{{ selectedFile.name }}</span>
+          <span class="file-name" *ngIf="!selectedFile && packageToEdit?.imageUrl">Imagem atual</span>
+        </div>
       </div>
 
       

@@ -13,7 +13,7 @@ import { Package } from '../../types/package.type';
 })
 export class PackageDetailsComponent implements OnInit {
 
-  pacote: Package | undefined;
+  Package: Package | undefined;
   isLoading = true;
 
   constructor(
@@ -33,7 +33,7 @@ export class PackageDetailsComponent implements OnInit {
       this.packageService.getPackageById(packageId).subscribe({
         next: (data) => {
           if (data) {
-            this.pacote = data;
+            this.Package = data;
           } else {
             
             this.router.navigate(['/']);

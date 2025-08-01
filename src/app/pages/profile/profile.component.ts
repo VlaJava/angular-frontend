@@ -39,7 +39,7 @@ export class ProfileComponent implements OnInit {
   ) {
     this.profileForm = this.fb.group({
       name: ['', Validators.required],
-      document: ['', Validators.required],
+      birthdate: ['', Validators.required],
       phone: ['', Validators.required]
     });
   }

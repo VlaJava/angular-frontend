@@ -13,7 +13,7 @@
   }
 }
 
-// --- Controles Superiores (Busca e Adicionar) ---
+
 .controls {
   display: flex;
   justify-content: space-between;
@@ -29,64 +29,20 @@
     border-radius: 6px;
     &:focus {
       outline: none;
-      border-color: var(--primary-orange); // Foco com sua cor primária
+      border-color: var(--primary-orange); 
       box-shadow: 0 0 0 2px rgba(255, 119, 0, 0.25);
     }
   }
 }
 
-// --- Sistema de Botões ---
-.btn {
-  padding: 12px 24px;
-  font-size: 1rem;
-  font-weight: 500;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  white-space: nowrap;
-
-  &:hover {
-    filter: brightness(1.1);
-    transform: translateY(-1px);
-  }
-}
-
-// Mapeando para as cores do seu tema
-.btn-primary {
-  background-color: var(--primary-orange); // Cor primária
-  color: white;
-}
-.btn-success {
-  background-color: #28a745; // Mantendo verde para sucesso
-  color: white;
-}
-.btn-warning {
-  background-color: #ffc107; // Mantendo amarelo para alerta
-  color: var(--dark-blue);
-}
-.btn-danger {
-  background-color: #dc3545; // Mantendo vermelho para perigo
-  color: white;
-}
-.btn-info {
-  background-color: #17a2b8; // Mantendo azul claro para informação
-  color: white;
-}
-.btn-secondary {
-  background-color: #6c757d; // Cinza padrão do Bootstrap para secundário
-  color: white;
-}
-
-// --- Container da Tabela (o card principal) ---
 .users-table-container {
-  background-color: white; // Fundo branco para o card
+  background-color: white; 
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   overflow-x: auto;
 }
 
-// --- Tabela de Usuários ---
+
 .users-table {
   width: 100%;
   border-collapse: collapse;
@@ -124,9 +80,7 @@
   }
 }
 
-// --- Conteúdo Específico da Tabela ---
 
-// "Pílulas" de Status
 .status-active,
 .status-inactive {
   padding: 4px 12px;
@@ -143,25 +97,13 @@
   color: #6c757d;
 }
 
-// Botões de Ações na tabela
+
 .action-buttons {
   display: flex;
   gap: 8px;
 
-  .btn {
-    padding: 6px 12px;
-    font-size: 0.9rem;
-  }
+  
 }
-
-// Mensagem de "Nenhum resultado"
-.no-results {
-  text-align: center;
-  padding: 32px;
-  color: #6c757d;
-}
-
-// --- Formulário de Adicionar/Editar ---
 .add-edit-form {
   background-color: white;
   padding: 24px;
