@@ -4,7 +4,9 @@ import { CommonModule } from '@angular/common';
 import { Package } from '../../types/package.type';
 import { PackageService } from '../../services/package.service';
 import { ToastrService } from 'ngx-toastr';
-import { Observable } from 'rxjs';
+import { of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-package-modal',
@@ -15,57 +17,46 @@ import { Observable } from 'rxjs';
 })
 export class PackageModalComponent implements OnInit, OnChanges {
 
-  // 1. Recebe o pacote para editar (pode ser null se for para adicionar)
   @Input() packageToEdit: Package | null = null;
-  
-  // 2. Notifica o pai se a operação foi salva (true) ou cancelada (false)
   @Output() close = new EventEmitter<boolean>();
 
   packageForm: FormGroup;
   isEditMode = false;
-  selectedFile: File | null = null;
+  selectedFile: File | null = null; 
 
   constructor(
     private fb: FormBuilder,
     private packageService: PackageService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private router: Router
   ) {
     this.packageForm = this.fb.group({
-      title: ['', [Validators.required, Validators.minLength(5)]],
+      title: ['', Validators.required],
       source: ['', Validators.required],
       destination: ['', Validators.required],
-      description: ['', [Validators.required, Validators.minLength(20)]],
-      imageUrl: [''],
-      price: [null, [Validators.required, Validators.min(1)]],
-      travelerLimit: [null, [Validators.required, Validators.min(1)]],
+      description: ['', Validators.required],
+      price: [0, [Validators.required, Validators.min(1)]],
+      travelerLimit: [1, [Validators.required, Validators.min(1)]],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
-      available: [true, Validators.required]
+      available: [true]
     });
   }
 
-  ngOnInit(): void {
-    
-  }
-  
+  ngOnInit(): void { }
   
   ngOnChanges(changes: SimpleChanges): void {
-    
     if (changes['packageToEdit'] && this.packageToEdit) {
       this.isEditMode = true;
-      
+      this.selectedFile = null;
       const formattedStartDate = new Date(this.packageToEdit.startDate).toISOString().split('T')[0];
       const formattedEndDate = new Date(this.packageToEdit.endDate).toISOString().split('T')[0];
       
-      this.packageForm.patchValue({
-        ...this.packageToEdit,
-        startDate: formattedStartDate,
-        endDate: formattedEndDate
-      });
+      this.packageForm.patchValue({ ...this.packageToEdit, startDate: formattedStartDate, endDate: formattedEndDate });
     } else {
-      
       this.isEditMode = false;
-      this.packageForm.reset({ available: true }); 
+      this.selectedFile = null;
+      this.packageForm.reset({ available: true });
     }
   }
 
@@ -76,38 +67,52 @@ export class PackageModalComponent implements OnInit, OnChanges {
     }
   }
 
-  onSave(): void {
-    if (this.packageForm.invalid) {
-      this.toastr.error('Por favor, preencha todos os campos obrigatórios.');
-      this.packageForm.markAllAsTouched();
-      return;
-    }
+onSave(): void {
+  if (this.packageForm.invalid) {
+    this.toastr.error('Preencha todos os campos obrigatórios.');
+    return;
+  }
 
-    const packageData = this.packageForm.value;
+  if (this.isEditMode && this.packageToEdit) {
+ .
+    const formValueForUpdate = { ...this.packageForm.value };
+   
 
-    let saveObservable: Observable<Package>;
-
-    if (this.isEditMode && this.packageToEdit) {
-      
-      saveObservable = this.packageService.updatePackage(this.packageToEdit.id, packageData);
-    } else {
-    
-      saveObservable = this.packageService.createPackage(packageData);
-    }
-
-    saveObservable.subscribe({
+    this.packageService.updatePackage(this.packageToEdit.id.toString(), formValueForUpdate).pipe(
+  
+    ).subscribe({
       next: () => {
-        this.close.emit(true); 
+        this.toastr.success('Pacote atualizado com sucesso!');
+        this.close.emit(true);
       },
       error: (err) => {
-        this.toastr.error('Falha ao salvar o pacote.');
+        this.toastr.error('Erro ao atualizar o pacote.');
         console.error(err);
-        this.close.emit(false); 
+      }
+    });
+
+  } else {
+   
+    const formValueForCreate = { ...this.packageForm.value };
+
+    
+    delete formValueForCreate.available; 
+
+   
+    this.packageService.createPackage(formValueForCreate).subscribe({
+      next: (createdPackage) => { 
+        this.toastr.success('Pacote criado com sucesso! Redirecionando...');
+        this.close.emit(true); 
+        this.router.navigate([`/packages/${createdPackage.id}/admin`]); 
+      },
+      error: (err) => {
+        this.toastr.error('Erro ao criar o pacote.');
+        console.error(err);
       }
     });
   }
-
+}
   onCancel(): void {
-    this.close.emit(false); 
+    this.close.emit(false);
   }
 }

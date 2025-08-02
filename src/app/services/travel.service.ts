@@ -15,7 +15,7 @@ interface PaginatedResponse<T> {
   providedIn: 'root'
 })
 export class TravelService {
-  private apiUrl = `${environment.apiUrl}/pakacges`;
+  private apiUrl = `${environment.apiUrl}/packages`;
 
   constructor(private http: HttpClient) {}
 

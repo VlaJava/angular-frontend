@@ -28,18 +28,15 @@ export class PackageService {
       new URL(pkg.imageUrl);
       return pkg;
     } catch (_) {
-      
       const newImageUrl = `${this.apiUrl}/${pkg.id}/image?v=${new Date().getTime()}`;
       return { ...pkg, imageUrl: newImageUrl };
     }
   }
-
-  
   getPackages(page: number = 0, size: number = 6): Observable<PaginatedPackagesResponse> {
     const params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString());
-      
+
     return this.http.get<PaginatedPackagesResponse>(this.apiUrl, { params }).pipe(
       map(response => {
         const updatedContent = response.content.map(pkg => this.buildPackageWithImageUrl(pkg));
@@ -55,13 +52,20 @@ export class PackageService {
     );
   }
 
-  
-  createPackage(packageData: FormData): Observable<Package> {
+  createPackage(packageData: Omit<Package, 'id' | 'imageUrl'>): Observable<Package> {
     return this.http.post<Package>(this.apiUrl, packageData);
   }
 
-  updatePackage(id: string, packageData: FormData): Observable<Package> {
+
+  updatePackage(id: string, packageData: Partial<Package>): Observable<Package> {
     return this.http.put<Package>(`${this.apiUrl}/${id}`, packageData);
+  }
+
+  
+  uploadPackageImage(id: string, file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('image', file, file.name);
+    return this.http.post(`${this.apiUrl}/${id}/image`, formData);
   }
 
   deletePackage(packageId: string): Observable<void> {

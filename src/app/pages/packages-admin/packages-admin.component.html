@@ -1,0 +1,69 @@
+<div *ngIf="isLoading" class="loading-container">
+  <p>Carregando informações do pacote...</p>
+  </div>
+
+<div *ngIf="!isLoading && package" class="admin-container">
+
+  <header class="admin-header">
+    <h1>Gerenciar Pacote</h1>
+    <a routerLink="/" class="btn btn-secondary">Voltar para a lista</a>
+  </header>
+
+  <div class="package-content">
+    
+    <div class="image-column">
+      <h3>Imagem do Pacote</h3>
+      <img [src]="package.imageUrl" alt="Imagem do pacote {{ package.title }}" class="package-image-preview">
+
+      <div class="upload-section">
+        <h4>Atualizar Imagem</h4>
+        <p>Selecione um novo arquivo para substituir a imagem atual.</p>
+        
+        <input type="file" #fileInput hidden (change)="onFileSelected($event)" accept="image/png, image/jpeg">
+        
+        <button type="button" class="btn btn-light" (click)="fileInput.click()">
+          Escolher Ficheiro
+        </button>
+        
+        <span *ngIf="selectedFile" class="file-name">{{ selectedFile.name }}</span>
+
+        <button type="button" class="btn btn-primary" (click)="onUploadImage()" [disabled]="!selectedFile">
+          Enviar Nova Imagem
+        </button>
+      </div>
+    </div>
+
+    <div class="details-column">
+      <h2>{{ package.title }}</h2>
+      <span class="badge" [class.available]="package.available" [class.unavailable]="!package.available">
+        {{ package.available ? 'Disponível' : 'Indisponível' }}
+      </span>
+
+      <p class="description">{{ package.description }}</p>
+
+      <div class="details-grid">
+        <div><strong>Origem:</strong> {{ package.source }}</div>
+        <div><strong>Destino:</strong> {{ package.destination }}</div>
+        <div><strong>Preço:</strong> {{ package.price | currency:'BRL' }}</div>
+        <div><strong>Limite:</strong> {{ package.travelerLimit }} viajantes</div>
+        <div><strong>Início:</strong> {{ package.startDate | date:'dd/MM/yyyy' }}</div>
+        <div><strong>Fim:</strong> {{ package.endDate | date:'dd/MM/yyyy' }}</div>
+      </div>
+
+      <div class="actions-section">
+        <h3>Ações</h3>
+        <p>Gerencie as informações ou remova este pacote permanentemente.</p>
+        <div class="action-buttons">
+          <button class="btn btn-secondary" (click)="onEdit()">Editar Informações</button>
+          <button class="btn btn-danger" (click)="onDelete()">Excluir Pacote</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!isLoading && !package" class="error-container">
+  <h2>Pacote não encontrado</h2>
+  <p>O pacote que você está tentando acessar não existe ou foi removido.</p>
+  <a routerLink="/" class="btn btn-primary">Voltar para o Início</a>
+</div>
