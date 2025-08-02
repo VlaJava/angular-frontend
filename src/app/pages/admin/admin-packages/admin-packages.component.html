@@ -28,7 +28,7 @@
         <td>{{ pkg.available ? 'Sim' : 'Não' }}</td>
         <td class="actions text-center">
           
-          <a (click)="openEditModal(pkg)"><i class="bi bi-pencil-square"></i></a>
+          <a [routerLink]="['/packages', pkg.id, 'admin']"><i class="bi bi-pencil-square"></i></a>
           <a (click)="handleDeletePackage(pkg.id!)"><i class="bi bi-trash"></i></a>
         </td>
       </tr>

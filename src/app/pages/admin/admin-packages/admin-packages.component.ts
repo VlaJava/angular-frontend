@@ -5,6 +5,7 @@ import { PackageService, PaginatedPackagesResponse } from '../../../services/pac
 import { ToastrService } from 'ngx-toastr';
 import { Package } from '../../../types/package.type';
 import { PaginatedResponse, UserResponse } from '../admin-users/admin-users.component';
+import { RouterLink } from '@angular/router';
 
 
 @Component({
@@ -13,7 +14,8 @@ import { PaginatedResponse, UserResponse } from '../admin-users/admin-users.comp
   imports: [
     CommonModule,
     PackageModalComponent,
-    CurrencyPipe 
+    CurrencyPipe,
+    RouterLink
   ],
   templateUrl: './admin-packages.component.html',
   styleUrls: ['./admin-packages.component.scss']

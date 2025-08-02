@@ -93,8 +93,8 @@ export const routes: Routes = [
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: AdminDashboardComponent },
-      { path: 'pacotes', component: AdminPackagesComponent },
-      { path: 'usuarios', component: AdminUsersComponent },
+      { path: 'packages', component: AdminPackagesComponent },
+      { path: 'users', component: AdminUsersComponent },
       { path: 'avaliacoes', component: AdminReviewsComponent },
       { path: 'relatorios', component: AdminReportsComponent },
     ]
