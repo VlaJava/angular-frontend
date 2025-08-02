@@ -49,13 +49,15 @@ export class PackageAdminComponent implements OnInit {
     }
   }
 
-  onUploadImage(): void {
+
+
+onUploadImage(): void {
   if (this.package && this.selectedFile) {
-    // A única mudança é aqui, no nome do método
     this.packageService.uploadPackageImage(this.package.id.toString(), this.selectedFile).subscribe({
       next: () => {
         this.toastr.success('Imagem atualizada com sucesso!');
-        // Recarregar a página para mostrar a nova imagem é uma boa abordagem
+        
+        // Esta linha faz o que você acabou de fazer manualmente, só que de forma automática!
         window.location.reload(); 
       },
       error: (err) => {

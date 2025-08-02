@@ -61,12 +61,12 @@ export class PackageService {
     return this.http.put<Package>(`${this.apiUrl}/${id}`, packageData);
   }
 
-  
-  uploadPackageImage(id: string, file: File): Observable<any> {
-    const formData = new FormData();
-    formData.append('image', file, file.name);
-    return this.http.post(`${this.apiUrl}/${id}/image`, formData);
-  }
+uploadPackageImage(id: string, file: File): Observable<any> {
+  const formData = new FormData();
+  formData.append('file', file, file.name);
+  const url = `${this.apiUrl}/${id}/update-image`;
+  return this.http.patch(url, formData, { responseType: 'text' });
+}
 
   deletePackage(packageId: string): Observable<void> {
     const url = `${this.apiUrl}/${packageId}`;
