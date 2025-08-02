@@ -124,12 +124,10 @@ confirmAccount(token: string): Observable<void> {
 }
 
 forgotPassword(email: string): Observable<void> {
-  
     return this.getHttp().post<void>(`${this.apiUrl}/auth/signup/reset-password`, { email });
   }
 
- 
-  resetPassword(token: string, newPassword: string, confirmPassword: string): Observable<void> {
+resetPassword(token: string, newPassword: string, confirmPassword: string): Observable<void> {
     const body = {
       password: newPassword,
       passwordConfirmation: confirmPassword

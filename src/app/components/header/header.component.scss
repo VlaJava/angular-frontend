@@ -39,8 +39,8 @@
 
 /* ✅ ESTILOS CORRIGIDOS PARA O ÍCONE E IMAGEM DO UTILIZADOR */
 .user-icon-button {
-  width: 44px;
-  height: 44px;
+  width: 60px;
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -55,10 +55,10 @@
     
   }
 
-  // Estilo para o ícone SVG quando não há imagem
+  
   .header-user-icon {
-    width: 24px;
-    height: 24px;
+    width: 40px;
+    height: 40px;
   }
 }
 
