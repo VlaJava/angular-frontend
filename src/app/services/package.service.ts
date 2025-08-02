@@ -32,18 +32,30 @@ export class PackageService {
       return { ...pkg, imageUrl: newImageUrl };
     }
   }
-  getPackages(page: number = 0, size: number = 6): Observable<PaginatedPackagesResponse> {
-    const params = new HttpParams()
-      .set('page', page.toString())
-      .set('size', size.toString());
 
-    return this.http.get<PaginatedPackagesResponse>(this.apiUrl, { params }).pipe(
-      map(response => {
-        const updatedContent = response.content.map(pkg => this.buildPackageWithImageUrl(pkg));
-        return { ...response, content: updatedContent };
-      })
-    );
-  }
+getPackages(page: number = 0, size: number = 6, filters: any = {}): Observable<PaginatedPackagesResponse> {
+  let params = new HttpParams()
+    .set('page', page.toString())
+    .set('size', size.toString());
+
+  let hasFilters = false;
+
+  Object.keys(filters).forEach(key => {
+    const value = filters[key];
+    if (value !== null && value !== undefined && value !== '') {
+      params = params.append(key, value);
+      hasFilters = true; 
+    }
+  });
+
+  const targetUrl = hasFilters ? `${this.apiUrl}/filter` : this.apiUrl;
+  return this.http.get<PaginatedPackagesResponse>(targetUrl, { params }).pipe(
+    map(response => {
+      const updatedContent = response.content.map(pkg => this.buildPackageWithImageUrl(pkg));
+      return { ...response, content: updatedContent };
+    })
+  );
+}
 
   getPackageById(id: string): Observable<Package> {
     const url = `${this.apiUrl}/${id}`;
@@ -61,12 +73,12 @@ export class PackageService {
     return this.http.put<Package>(`${this.apiUrl}/${id}`, packageData);
   }
 
-uploadPackageImage(id: string, file: File): Observable<any> {
+  uploadPackageImage(id: string, file: File): Observable<any> {
   const formData = new FormData();
   formData.append('file', file, file.name);
   const url = `${this.apiUrl}/${id}/update-image`;
   return this.http.patch(url, formData, { responseType: 'text' });
-}
+  }
 
   deletePackage(packageId: string): Observable<void> {
     const url = `${this.apiUrl}/${packageId}`;

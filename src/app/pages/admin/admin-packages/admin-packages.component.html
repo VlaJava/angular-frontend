@@ -1,5 +1,19 @@
 <div class="header">
   <h1 class="text-center">Gestão de Pacotes de Viagem</h1>
+  <div class="filter-container">
+  <form [formGroup]="filterForm" class="filter-form">
+    <div class="form-group">
+      <input type="text" placeholder="Buscar por Título..." formControlName="source">
+    </div>
+    <div class="form-group">
+      <input type="text" placeholder="Buscar por Destino..." formControlName="destination">
+    </div>
+    
+    <div class="form-group">
+      <button type="button" class="btn-secondary" (click)="clearFilters()">Limpar</button>
+    </div>
+  </form>
+</div>
   
   <button class="btn-primary" (click)="openAddModal()">
     <i class="bi bi-plus-square"></i>Adicionar Pacote</button>
