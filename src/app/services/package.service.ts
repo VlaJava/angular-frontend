@@ -80,8 +80,7 @@ getPackages(page: number = 0, size: number = 6, filters: any = {}): Observable<P
   return this.http.patch(url, formData, { responseType: 'text' });
   }
 
-  deletePackage(packageId: string): Observable<void> {
-    const url = `${this.apiUrl}/${packageId}`;
-    return this.http.delete<void>(url);
-  }
-}
+ deletePackage(packageId: string): Observable<void> {
+  const url = `${this.apiUrl}/${packageId}`;
+  return this.http.delete<void>(url);
+}}

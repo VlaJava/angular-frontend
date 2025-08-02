@@ -1,69 +1,115 @@
-<div *ngIf="isLoading" class="loading-container">
-  <p>Carregando informações do pacote...</p>
-  </div>
+<div class="details-column">
+  <div class="image-column">
+  <h3>Imagem do Pacote</h3>
 
-<div *ngIf="!isLoading && package" class="admin-container">
-
-  <header class="admin-header">
-    <h1>Gerenciar Pacote</h1>
-    <a routerLink="/admin/packages" class="btn btn-secondary">Voltar para a lista</a>
-  </header>
-
-  <div class="package-content">
+  <div class="image-preview-container">
     
-    <div class="image-column">
-      <h3>Imagem do Pacote</h3>
-      <img [src]="package.imageUrl" alt="Imagem do pacote {{ package.title }}" class="package-image-preview">
-
-      <div class="upload-section">
-        <h4>Atualizar Imagem</h4>
-        <p>Selecione um novo arquivo para substituir a imagem atual.</p>
-        
-        <input type="file" #fileInput hidden (change)="onFileSelected($event)" accept="image/png, image/jpeg">
-        
-        <button type="button" class="btn btn-light" (click)="fileInput.click()">
-          Escolher Ficheiro
-        </button>
-        
-        <span *ngIf="selectedFile" class="file-name">{{ selectedFile.name }}</span>
-
-        <button type="button" class="btn btn-primary" (click)="onUploadImage()" [disabled]="!selectedFile">
-          Enviar Nova Imagem
-        </button>
-      </div>
+    <img *ngIf="imagePreview" [src]="imagePreview" alt="Preview da nova imagem">
+    
+    <img *ngIf="!imagePreview && package?.imageUrl" [src]="package?.imageUrl" alt="Imagem do pacote {{ package?.title }}">
+    
+    <div *ngIf="!imagePreview && !package?.imageUrl" class="image-placeholder">
+      <span>Sem Imagem</span>
     </div>
 
-    <div class="details-column">
-      <h2>{{ package.title }}</h2>
-      <span class="badge" [class.available]="package.available" [class.unavailable]="!package.available">
-        {{ package.available ? 'Disponível' : 'Indisponível' }}
-      </span>
+  </div>
 
-      <p class="description">{{ package.description }}</p>
+  <div class="upload-section">
+    <input type="file" #fileInput hidden (change)="onFileSelected($event)" accept="image/png, image/jpeg">
+    
+    <button type="button" class="btn btn-light" (click)="fileInput.click()">
+      {{ package?.imageUrl ? 'Trocar Imagem' : 'Adicionar Imagem' }}
+    </button>
+    
+    <button *ngIf="selectedFile" type="button" class="btn btn-primary" (click)="onUploadImage()">
+      Enviar Nova Imagem
+    </button>
+  </div>
 
-      <div class="details-grid">
-        <div><strong>Origem:</strong> {{ package.source }}</div>
-        <div><strong>Destino:</strong> {{ package.destination }}</div>
-        <div><strong>Preço:</strong> {{ package.price | currency:'BRL' }}</div>
-        <div><strong>Limite:</strong> {{ package.travelerLimit }} viajantes</div>
-        <div><strong>Início:</strong> {{ package.startDate | date:'dd/MM/yyyy' }}</div>
-        <div><strong>Fim:</strong> {{ package.endDate | date:'dd/MM/yyyy' }}</div>
+
+  <ng-container *ngIf="!isEditing">
+    <h2>{{ package?.title }}</h2>
+    <span class="badge" [class.available]="package?.available" [class.unavailable]="!package?.available">
+      {{ package?.available ? 'Disponível' : 'Indisponível' }}
+    </span>
+    <p class="description">{{ package?.description }}</p>
+    <div class="details-grid">
+      <div><strong>Origem:</strong> {{ package?.source }}</div>
+      <div><strong>Destino:</strong> {{ package?.destination }}</div>
+      <div><strong>Preço:</strong> {{ package?.price | currency:'BRL' }}</div>
+      <div><strong>Limite:</strong> {{ package?.travelerLimit }} viajantes</div>
+      <div><strong>Início:</strong> {{ package?.startDate | date:'dd/MM/yyyy' }}</div>
+      <div><strong>Fim:</strong> {{ package?.endDate | date:'dd/MM/yyyy' }}</div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="isEditing">
+    <form [formGroup]="packageForm" (ngSubmit)="onSave()">
+      <h2>Editando Pacote</h2>
+      
+      <div class="form-group">
+        <label for="title">Título</label>
+        <input id="title" type="text" formControlName="title">
       </div>
-
-      <div class="actions-section">
-        <h3>Ações</h3>
-        <p>Gerencie as informações ou remova este pacote permanentemente.</p>
-        <div class="action-buttons">
-          <button class="btn btn-secondary" (click)="onEdit()">Editar Informações</button>
-          <button class="btn btn-danger" (click)="onDelete()">Excluir Pacote</button>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="source">Origem</label>
+          <input id="source" type="text" formControlName="source">
+        </div>
+        <div class="form-group">
+          <label for="destination">Destino</label>
+          <input id="destination" type="text" formControlName="destination">
         </div>
       </div>
+      
+      <div class="form-group">
+        <label for="description">Descrição</label>
+        <textarea id="description" rows="3" formControlName="description"></textarea>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="price">Preço</label>
+          <input id="price" type="number" formControlName="price">
+        </div>
+        <div class="form-group">
+          <label for="travelerLimit">Limite de Viajantes</label>
+          <input id="travelerLimit" type="number" formControlName="travelerLimit">
+        </div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="startDate">Data de Início</label>
+          <input id="startDate" type="date" formControlName="startDate">
+        </div>
+        <div class="form-group">
+          <label for="endDate">Data Final</label>
+          <input id="endDate" type="date" formControlName="endDate">
+        </div>
+      </div>
+
+      <div class="form-group checkbox-group">
+        <input id="available" type="checkbox" formControlName="available">
+        <label for="available">Disponível</label>
+      </div>
+    </form>
+  </ng-container>
+
+  <div class="actions-section">
+    <h3>Ações</h3>
+    
+    <div *ngIf="!isEditing" class="action-buttons">
+      <button routerLink="/admin/packages">voltar</button>
+      <button class="btn btn-secondary" (click)="enterEditMode()">Editar Informações</button>
+      <button class="btn btn-danger" (click)="onDelete()">Excluir Pacote</button>
+    </div>
+
+    <div *ngIf="isEditing" class="action-buttons">
+      <button class="btn btn-light" (click)="cancelEditMode()">Cancelar</button>
+      <button class="btn btn-primary" (click)="onSave()" [disabled]="packageForm.invalid">Salvar Alterações</button>
     </div>
   </div>
 </div>
-
-<div *ngIf="!isLoading && !package" class="error-container">
-  <h2>Pacote não encontrado</h2>
-  <p>O pacote que você está tentando acessar não existe ou foi removido.</p>
-  <a routerLink="/" class="btn btn-primary">Voltar para o Início</a>
 </div>
