@@ -35,7 +35,8 @@ export interface PaginatedResponse<T> {
   styleUrls: ['./admin-users.component.scss']
 })
 export class AdminUsersComponent implements OnInit, OnDestroy {
- 
+
+  private originalUserRole: 'CLIENT' | 'ADMIN' | null = null;
   private destroy$ = new Subject<void>();
  
   users: UserResponse[] = [];
@@ -103,6 +104,7 @@ export class AdminUsersComponent implements OnInit, OnDestroy {
   }
  
   addUser(): void {
+
     this.currentUser = {
       id: '', 
       name: '',
@@ -115,39 +117,68 @@ export class AdminUsersComponent implements OnInit, OnDestroy {
     this.showAddEditForm = true;
   }
  
-  editUser(user: any): void {
-    
-    this.currentUser = { ...user };
+  editUser(user: UserResponse): void {
+    this.originalUserRole = user.role.userRole;
+    this.currentUser = JSON.parse(JSON.stringify(user));
     this.showAddEditForm = true;
   }
  
   saveUser(): void {
     if (!this.currentUser) return;
- 
-    
-    if (this.currentUser.id) {
-      this.userService.updateUser(this.currentUser.id, this.currentUser)
-        .pipe(takeUntil(this.destroy$))
-        .subscribe({
-          next: () => {
-            
-            this.loadUsers(); 
-            this.cancelEdit();
-          },
-          error: (err) => console.error('Erro ao atualizar usuário:', err)
-        });
-    } else {
-      
+
+    // Lógica para CRIAR um novo usuário (se o ID for vazio)
+    if (!this.currentUser.id) {
       const { id, active, ...newUserPayload } = this.currentUser;
       this.userService.createUser(newUserPayload)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: () => {
-            
+            this.toastr.success('Usuário criado com sucesso!');
             this.loadUsers(); 
             this.cancelEdit();
           },
-          error: (err) => console.error('Erro ao adicionar usuário:', err)
+          error: (err) => {
+            this.toastr.error('Erro ao criar usuário.');
+            console.error(err);
+          }
+        });
+      return;
+    }
+
+    // Lógica para EDITAR um usuário existente
+    const userToUpdate = this.currentUser;
+    const newRole = (userToUpdate.role as any).userRole || userToUpdate.role;
+    const isPromotion = this.originalUserRole === 'CLIENT' && newRole === 'ADMIN';
+
+    // CASO ESPECIAL: Promovendo um Cliente para Admin
+    if (isPromotion) {
+      this.userService.updateUserRole(userToUpdate.email, 'ADMIN')
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: () => {
+            this.toastr.success(`Perfil de Admin criado para ${userToUpdate.name}!`);
+            this.loadUsers(); // Recarrega a lista para mostrar os dois usuários
+            this.cancelEdit();
+          },
+          error: (err) => {
+            this.toastr.error('Erro ao promover usuário para Admin.');
+            console.error(err);
+          }
+        });
+    } else {
+      // OUTROS CASOS: Edição normal de dados (sem promoção)
+      this.userService.updateUser(userToUpdate.id, userToUpdate)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: () => {
+            this.toastr.success('Usuário atualizado com sucesso!');
+            this.loadUsers(this.filteredUsers.currentPage); 
+            this.cancelEdit();
+          },
+          error: (err) => {
+            this.toastr.error('Erro ao atualizar usuário.');
+            console.error(err);
+          }
         });
     }
   }
@@ -155,6 +186,7 @@ export class AdminUsersComponent implements OnInit, OnDestroy {
   cancelEdit(): void {
     this.showAddEditForm = false;
     this.currentUser = null;
+    this.originalUserRole = null; 
   }
  
   toggleActive(user: UserResponse): void {

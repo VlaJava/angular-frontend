@@ -11,7 +11,7 @@
       (keyup.enter)="onSearch()"
     />
     <button (click)="onSearch()" class="btn btn-primary">Buscar</button>
-    <button (click)="addUser()" class="btn btn-success">Adicionar Usuário</button>
+    
   </div>
 
 
@@ -34,9 +34,9 @@
       <div class="form-group">
         <label for="role">Role:</label>
         <select id="role" [(ngModel)]="currentUser.role" name="role" required>
-          <option value="CLIENT">Cliente</option>
-          <option value="ADMIN">Admin</option>
-        </select>
+  <option value="CLIENT">Cliente</option>
+  <option value="ADMIN">Admin</option>
+</select>
       </div>
       <div class="form-actions">
         <button type="submit" class="btn btn-primary">Salvar</button>

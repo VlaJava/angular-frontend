@@ -50,4 +50,12 @@ export class UserService {
   deleteUser(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
+
+  updateUserRole(email: string, role: 'ADMIN' | 'CLIENT'): Observable<any> {
+  const body = {
+    userRole: role,
+    email: email
+  };
+  return this.http.patch(`${this.apiUrl}/role`, body);
+  }
 }
