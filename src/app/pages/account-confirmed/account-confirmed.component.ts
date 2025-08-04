@@ -5,6 +5,7 @@ import { AuthService } from '../../services/auth.service';
 
 @Component({
     selector: 'app-account-confirmed',
+    standalone: true,
     imports: [
         CommonModule,
         RouterModule

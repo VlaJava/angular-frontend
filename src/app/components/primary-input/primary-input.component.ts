@@ -9,6 +9,7 @@ type InputTypes = "text" | "email" | "password" | "date" | "number";
 
 @Component({
     selector: 'app-primary-input',
+    standalone: true,
     imports: [ReactiveFormsModule],
     providers: [
         {

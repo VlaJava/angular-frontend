@@ -11,9 +11,10 @@ import { User } from '../../types/user.type';
 import { environment } from '../../../environments/environment';
 
 
-// ✅ CORREÇÃO: Adicionado o decorador @Component que estava em falta.
+
 @Component({
     selector: 'app-profile',
+    standalone: true,
     imports: [
         CommonModule,
         ReactiveFormsModule

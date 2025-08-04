@@ -6,6 +6,7 @@ import { Package } from '../../types/package.type';
 
 @Component({
     selector: 'app-package-details',
+    standalone: true,
     imports: [CommonModule, RouterModule],
     templateUrl: './package-details.component.html',
     styleUrls: ['./package-details.component.css']

@@ -7,6 +7,7 @@ import { Package } from '../../../types/package.type';
 
 @Component({
     selector: 'app-default-home',
+    standalone: true,
     imports: [
         CommonModule,
         PackagesLayoutComponent

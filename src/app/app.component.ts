@@ -11,6 +11,7 @@ import { TravelPackage } from './types/chatbot.types';
 
 @Component({
     selector: 'app-root',
+    standalone: true,
     imports: [
         CommonModule,
         RouterOutlet,

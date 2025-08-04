@@ -1,47 +1,46 @@
+// As importações @use, se necessárias para variáveis/mixins, ficariam aqui no topo.
+
+// O :host envolve todos os estilos do componente para aumentar a especificidade.
 :host {
-    padding: 24px;
-    display: block;
-}
+  padding: 24px;
+  display: block;
 
-
-.header {
+  .header {
     display: flex;
-    justify-content: space-between; 
+    justify-content: space-between;
     align-items: center;
     margin-bottom: 24px;
-    gap: 24px; 
-}
+    gap: 24px;
+  }
 
-
-.header-left, .header-right {
+  .header-left, .header-right {
     flex: 1 1 10%;
-}
-.header-left{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  
-  gap: 16px;
+  }
 
-}
+  .header-left {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+  }
 
-.header-center {
-    flex: 1 1 40%; 
+  .header-center {
+    flex: 1 1 40%;
     text-align: center;
 
     h1 {
-        font-size: 28px;
-        font-weight: 700;
-        margin: 0;
-}
+      font-size: 28px;
+      font-weight: 700;
+      margin: 0;
+    }
+  }
 
-.header-right {
+  .header-right {
     display: flex;
-    justify-content: flex-end; 
-}
+    justify-content: flex-end;
+  }
 
-
-.filter-container .search-input {
+  .filter-container .search-input {
     width: 100%;
     padding: 12px 16px;
     font-size: 1rem;
@@ -53,95 +52,92 @@
       border-color: var(--primary-orange);
       box-shadow: 0 0 0 3px rgba(255, 119, 0, 0.2);
     }
-}
+  }
 
-
-
-.table-container {
+  .table-container {
     width: 100%;
-    overflow-x: auto; 
+    overflow-x: auto;
 
-    thead{
-        background-color: var(--light-gray);
+    thead {
+      background-color: var(--light-gray);
     }
 
     table {
-        width: 100%;
-        border-collapse: collapse;
-        
-        th, td {
-            padding: 16px;
-            text-align: left;
-            border-bottom: 1px solid #e9ecef;
-        }
+      width: 100%;
+      border-collapse: collapse;
 
-        th {
-            font-weight: 600;
-            color: #868e96;
-            font-size: 14px;
-        }
+      th, td {
+        padding: 16px;
+        text-align: left;
+        border-bottom: 1px solid #e9ecef;
+      }
 
-        td {
-            color: var(--text-color);
-        }
+      th {
+        font-weight: 600;
+        color: #868e96;
+        font-size: 14px;
+      }
+
+      td {
+        color: var(--text-color);
+      }
     }
-}
+  }
 
-.actions a {
+  .actions a {
     text-decoration: none;
     font-weight: 500;
     margin-right: 16px;
     cursor: pointer;
 
     &:hover {
-        text-decoration: underline;
+      text-decoration: underline;
     }
-}
-
-.loading-indicator, .empty-state {
-  text-align: center;
-  padding: 40px;
-  color: #868e96;
-  font-size: 16px;
-}
-
-.pagination-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  margin-top: 24px;
-}
-
-.btn-pagination {
-  background-color: #fff;
-  border: 1px solid #dee2e6;
-  color: var(--primary-orange);
-  font-weight: 600;
-  padding: 8px 16px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-
-  &:hover:not(:disabled) {
-    background-color: #f8f9fa;
   }
 
-  &.active {
-    background-color: var(--primary-orange);
-    color: white;
-    border-color: var(--primary-orange);
+  .loading-indicator, .empty-state {
+    text-align: center;
+    padding: 40px;
+    color: #868e96;
+    font-size: 16px;
   }
 
-  &:disabled {
-    color: #6c757d;
-    cursor: not-allowed;
-    opacity: 0.6;
+  .pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-top: 24px;
   }
-}
 
+  .btn-pagination {
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    color: var(--primary-orange);
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
 
-.btn-primary {
+    &:hover:not(:disabled) {
+      background-color: #f8f9fa;
+    }
+
+    &.active {
+      background-color: var(--primary-orange);
+      color: white;
+      border-color: var(--primary-orange);
+    }
+
+    &:disabled {
+      color: #6c757d;
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+  }
+
+  .btn-primary {
     background-color: var(--primary-orange);
     color: white;
     border: none;
@@ -149,10 +145,10 @@
     border-radius: 6px;
     font-weight: 600;
     cursor: pointer;
-    white-space: nowrap; 
-}
+    white-space: nowrap;
+  }
 
-.btn-secondary {
+  .btn-secondary {
     background-color: #6c757d;
     color: white;
     border: none;
@@ -160,5 +156,5 @@
     border-radius: 6px;
     font-weight: 600;
     cursor: pointer;
-}
+  }
 }

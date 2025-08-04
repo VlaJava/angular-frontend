@@ -9,8 +9,10 @@ interface Traveler {
   birthDate: string;
 }
 
+
 @Component({
     selector: 'app-booking-finalization',
+    standalone: true,
     imports: [FormsModule, CommonModule],
     templateUrl: './booking-finalization.component.html',
     styleUrl: './booking-finalization.component.scss'

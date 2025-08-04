@@ -1,31 +1,39 @@
 import { Component, OnInit } from '@angular/core';
+
+
+import { ChartData, DashboardService } from '../../../services/dashboard.service';
 import { CommonModule } from '@angular/common';
-// Importe os módulos de gráficos que vamos usar
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-import { ChartData } from '../../../services/dashboard.service';
+import { lastValueFrom } from 'rxjs';
+
 
 
 @Component({
     selector: 'app-dashboard',
-    imports: [CommonModule, NgxChartsModule], // Adicione NgxChartsModule
-    templateUrl: './dashboard.component.html',
-    styleUrls: ['./dashboard.component.scss']
+    standalone: true,
+    imports: [
+      CommonModule,
+      NgxChartsModule
+      
+     ],
+    templateUrl: './admin-dashboard.component.html',
+    styleUrls: ['./admin-dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class AdminDashboardComponent implements OnInit {
 
-  // Propriedades para as estatísticas gerais
+  
   generalStats: { totalUsers: number; totalPackages: number; totalRevenue: number } | null = null;
 
-  // Propriedades para os dados dos gráficos
+  
   packagesByDestination: ChartData[] = [];
   usersByStatus: ChartData[] = [];
   
   isLoading = true;
 
-  // Opções de customização dos gráficos
+  
   view: [number, number] = [700, 400];
   colorScheme: any = {
-    domain: ['#FF7700', '#2b3d4f', '#f2b705', '#d94f04', '#a63c06']
+    domain: ['#0ccbceff', '#9b1010ff', '#02b326ff', '#d94f04', '#a63c06']
   };
   gradient: boolean = true;
   showLegend: boolean = true;
@@ -38,22 +46,29 @@ export class DashboardComponent implements OnInit {
     this.loadDashboardData();
   }
 
-  loadDashboardData(): void {
-    this.isLoading = true;
+ // Marque a função como async
+async loadDashboardData(): Promise<void> { 
+  this.isLoading = true;
+  try {
     // Carrega todos os dados em paralelo
-    Promise.all([
-      this.dashboardService.getGeneralStats().toPromise(),
-      this.dashboardService.getPackagesByDestination().toPromise(),
-      this.dashboardService.getUsersByStatus().toPromise()
-    ]).then(([stats, packagesData, usersData]) => {
-      this.generalStats = stats!;
-      this.packagesByDestination = packagesData!;
-      this.usersByStatus = usersData!;
-      this.isLoading = false;
-    });
-  }
+    const [stats, packagesData, usersData] = await Promise.all([
+      lastValueFrom(this.dashboardService.getGeneralStats()),
+      lastValueFrom(this.dashboardService.getPackagesByDestination()),
+      lastValueFrom(this.dashboardService.getUsersByStatus())
+    ]);
 
-  // Formata os valores de moeda para os gráficos
+    this.generalStats = stats;
+    this.packagesByDestination = packagesData;
+    this.usersByStatus = usersData;
+  } catch (error) {
+    console.error('Erro ao carregar dados do dashboard', error);
+    // Opcional: tratar o erro na UI
+  } finally {
+    this.isLoading = false;
+  }
+}
+
+  
   formatCurrency(value: number): string {
     return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
   }

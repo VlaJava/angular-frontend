@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'app-packages-layout',
+    standalone: true,
     imports: [
         CommonModule,
         PackageCardComponent
@@ -16,7 +17,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class PackagesLayoutComponent implements OnInit { 
 
-  // ✅ PROPRIEDADE PARA PAGINAÇÃO
+
   paginatedResponse: PaginatedPackagesResponse = {
     content: [],
     currentPage: 0,

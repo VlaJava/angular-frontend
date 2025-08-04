@@ -7,6 +7,7 @@ import { GeminiService } from '../../services/gemini.service';
 
 @Component({
     selector: 'app-chatbot',
+    standalone: true,
     imports: [CommonModule, FormsModule, MessageComponent],
     templateUrl: './chatbot.component.html',
     styleUrls: ['./chatbot.component.scss']

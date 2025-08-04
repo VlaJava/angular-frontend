@@ -8,6 +8,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 
 @Component({
     selector: 'app-package-admin',
+    standalone: true,
     imports: [
         CommonModule,
         RouterModule,

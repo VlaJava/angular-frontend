@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 
 @Component({
     selector: 'app-package-card',
+    standalone: true,
     imports: [CommonModule,
         RouterModule
     ],

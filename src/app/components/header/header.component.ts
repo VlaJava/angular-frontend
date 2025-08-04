@@ -9,6 +9,7 @@ import { User } from '../../types/user.type';
 
 @Component({
     selector: 'app-header',
+    standalone: true,
     imports: [
         NgbDropdownModule,
         NgIf,

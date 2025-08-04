@@ -5,6 +5,7 @@ import { PackageCardComponent } from '../package-card-chat/package-card-chat.com
 
 @Component({
     selector: 'app-message',
+    standalone: true,
     imports: [CommonModule, PackageCardComponent],
     templateUrl: './message.component.html',
     styleUrls: ['./message.component.scss']

@@ -12,6 +12,7 @@ import { Package } from '../../../types/package.type';
 
 @Component({
     selector: 'app-admin-packages',
+    standalone: true,
     imports: [
         CommonModule,
         PackageModalComponent,

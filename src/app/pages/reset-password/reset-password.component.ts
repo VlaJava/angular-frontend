@@ -24,6 +24,7 @@ function passwordMatchValidator(control: AbstractControl): ValidationErrors | nu
 
 @Component({
     selector: 'app-reset-password',
+    standalone: true,
     imports: [
         CommonModule,
         ReactiveFormsModule,
@@ -60,7 +61,6 @@ export class ResetPasswordComponent implements OnInit {
     });
   }
 
-  // ✅ MÉTODO DEFINIDO: O método de submissão agora existe.
   onSubmit(): void {
     if (this.resetPasswordForm.invalid) {
       this.toastService.warning('Por favor, preencha as senhas corretamente e certifique-se de que elas coincidem.');
@@ -87,7 +87,7 @@ export class ResetPasswordComponent implements OnInit {
     });
   }
 
-  // ✅ MÉTODO DEFINIDO: O método de navegação agora existe.
+  
   navigateToLogin(): void {
     this.router.navigate(['/login']);
   }

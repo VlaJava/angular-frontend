@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-chat-icon',
+    standalone: true,
     imports: [CommonModule],
     templateUrl: './chat-icon.component.html',
     styleUrls: ['./chat-icon.component.scss']

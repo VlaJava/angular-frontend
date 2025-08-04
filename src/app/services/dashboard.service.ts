@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 
-// Interface para os dados dos gráficos
+
 export interface ChartData {
   name: string;
   value: number;
@@ -15,17 +15,17 @@ export class DashboardService {
 
   constructor() { }
 
-  // Simula a busca de estatísticas gerais
+  
   getGeneralStats(): Observable<{ totalUsers: number; totalPackages: number; totalRevenue: number }> {
     const stats = {
       totalUsers: 19,
       totalPackages: 42,
       totalRevenue: 58340.50
     };
-    return of(stats).pipe(delay(500)); // Adiciona um pequeno delay para simular uma chamada de API
+    return of(stats).pipe(delay(500)); 
   }
 
-  // Simula a busca de dados de pacotes por destino para o gráfico de barras
+  
   getPackagesByDestination(): Observable<ChartData[]> {
     const data: ChartData[] = [
       { name: 'Salvador', value: 8 },
@@ -37,7 +37,7 @@ export class DashboardService {
     return of(data).pipe(delay(800));
   }
 
-  // Simula a busca de dados de usuários por status para o gráfico de pizza
+  
   getUsersByStatus(): Observable<ChartData[]> {
     const data: ChartData[] = [
       { name: 'Ativos', value: 15 },

@@ -5,6 +5,7 @@ import { Package } from '../../types/package.type';
 
 @Component({
     selector: 'app-package-card',
+    standalone: true,
     imports: [
         RouterModule
     ],

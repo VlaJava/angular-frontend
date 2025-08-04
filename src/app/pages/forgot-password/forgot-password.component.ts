@@ -8,6 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'app-forgot-password',
+    standalone: true,
     imports: [
         PrimaryInputsComponent,
         DefaultLoginLayoutComponent,
