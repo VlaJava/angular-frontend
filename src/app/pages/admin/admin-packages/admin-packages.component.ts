@@ -28,11 +28,8 @@ export class AdminPackagesComponent implements OnInit, OnDestroy {
   isLoading = true; 
   
   
-  filterForm!: FormGroup; 
-  
-  
+  searchForm!: FormGroup; 
   private destroy$ = new Subject<void>();
-  
   selectedPackageForEdit: Package | null = null;
 
   paginatedResponse: PaginatedPackagesResponse = {
@@ -50,33 +47,28 @@ export class AdminPackagesComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     
-    this.filterForm = this.fb.group({
-      source: [''],      
-      destination: [''] ,
-      available: [null] 
+    this.searchForm = this.fb.group({
+      search: ['']
     });
 
+    this.loadPackages(); 
     
-    this.loadPackages();
-
-    
-    this.filterForm.valueChanges.pipe(
+    this.searchForm.get('search')?.valueChanges.pipe(
       debounceTime(400), 
       distinctUntilChanged(), 
       takeUntil(this.destroy$) 
     ).subscribe(() => {
-     
       this.loadPackages(0); 
     });
   }
 
-  
   loadPackages(page: number = 0): void {
     this.isLoading = true;
-    const filters = this.filterForm.value; 
+    
+    const searchTerm = this.searchForm.get('search')?.value || '';
 
     
-    this.packageService.getPackages(page, 6, filters).subscribe({
+    this.packageService.getPackages(page, 6, searchTerm).subscribe({
       next: (data) => {
         this.paginatedResponse = data;
         this.isLoading = false;
@@ -88,15 +80,6 @@ export class AdminPackagesComponent implements OnInit, OnDestroy {
     });
   }
 
-  
-  clearFilters(): void {
-    this.filterForm.reset({
-      title: '',
-      destination: '',
-      available: null
-    });
-    
-  }
   
   changePage(page: number): void {
     if (page >= 0 && page < this.paginatedResponse.totalPages) {
@@ -138,7 +121,6 @@ export class AdminPackagesComponent implements OnInit, OnDestroy {
     }
   }
 
-  
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();

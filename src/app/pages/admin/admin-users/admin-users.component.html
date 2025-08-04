@@ -1,24 +1,20 @@
 <div class="admin-users-container">
   <h2>Gestão de Usuários</h2>
 
- 
   <div class="controls">
+  <form [formGroup]="searchForm" class="search-form">
     <input
       type="text"
       class="search-input"
       placeholder="Buscar por nome, email ou documento..."
-      [(ngModel)]="searchTerm"
-      (keyup.enter)="onSearch()"
+      formControlName="search"
     />
-    <button (click)="onSearch()" class="btn btn-primary">Buscar</button>
-    
-  </div>
-
+    </form>
+</div>
 
   <div *ngIf="showAddEditForm && currentUser" class="add-edit-form">
     <h3>{{ currentUser.id ? 'Editar Usuário' : 'Adicionar Novo Usuário' }}</h3>
     <form (ngSubmit)="saveUser()">
-      
       <div class="form-group">
         <label for="name">Nome:</label>
         <input type="text" id="name" [(ngModel)]="currentUser.name" name="name" required />
@@ -34,9 +30,9 @@
       <div class="form-group">
         <label for="role">Role:</label>
         <select id="role" [(ngModel)]="currentUser.role" name="role" required>
-  <option value="CLIENT">Cliente</option>
-  <option value="ADMIN">Admin</option>
-</select>
+          <option value="CLIENT">Cliente</option>
+          <option value="ADMIN">Admin</option>
+        </select>
       </div>
       <div class="form-actions">
         <button type="submit" class="btn btn-primary">Salvar</button>
@@ -45,7 +41,6 @@
     </form>
   </div>
 
-  
   <div class="users-table-container">
     <table class="users-table">
       <thead>
@@ -77,34 +72,27 @@
             </div>
           </td>
         </tr>
-      
-        <tr *ngIf="!filteredUsers || filteredUsers.content.length === 0">
+        <tr *ngIf="!isLoading && (!filteredUsers || filteredUsers.content.length === 0)">
           <td colspan="5" class="no-results">Nenhum usuário encontrado.</td>
         </tr>
       </tbody>
     </table>
   </div>
-</div>
-<div>
-<div *ngIf="!isLoading && filteredUsers.totalPages > 1" class="pagination-container">
-   
+  
+  <div *ngIf="!isLoading && filteredUsers.totalPages > 1" class="pagination-container">
     <button 
       class="btn-pagination" 
       (click)="changePage(filteredUsers.currentPage - 1)"
       [disabled]="filteredUsers.currentPage === 0">
       Anterior
     </button>
-
-    
-   <button 
+    <button 
       *ngFor="let pageNum of getPageNumbers()" 
       class="btn-pagination"
       [class.active]="pageNum === filteredUsers.currentPage"
       (click)="changePage(pageNum)">
       {{ pageNum + 1 }}
     </button>
-
-
     <button 
       class="btn-pagination" 
       (click)="changePage(filteredUsers.currentPage + 1)"
@@ -113,4 +101,3 @@
     </button>
   </div>
 </div>
-

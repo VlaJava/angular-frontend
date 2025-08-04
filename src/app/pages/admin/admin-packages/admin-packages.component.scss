@@ -3,21 +3,68 @@
     display: block;
 }
 
+// --- Estilo para o Cabeçalho ---
 .header {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; // Distribui o espaço entre os 3 itens
     align-items: center;
     margin-bottom: 24px;
+    gap: 24px; // Espaço entre as seções
+}
+
+// Define o tamanho e alinhamento de cada seção do cabeçalho
+.header-left, .header-right {
+    flex: 1 1 10%; // Permite que cresçam/encolham, com uma base de 30% da largura
+}
+.header-left{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
+  gap: 16px;
+
+}
+
+.header-center {
+    flex: 1 1 40%; // O título ocupa um pouco mais de espaço
+    text-align: center;
 
     h1 {
         font-size: 28px;
         font-weight: 700;
+        margin: 0; // Remove a margem padrão para um alinhamento perfeito
     }
 }
 
+.header-right {
+    display: flex;
+    justify-content: flex-end; // Alinha o botão à direita dentro de sua seção
+}
+
+// Estilo para a caixa de busca dentro do filtro
+.filter-container .search-input {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 1rem;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+
+    &:focus {
+      outline: none;
+      border-color: var(--primary-orange);
+      box-shadow: 0 0 0 3px rgba(255, 119, 0, 0.2);
+    }
+}
+
+
+// --- Estilos para a Tabela e Paginação ---
 .table-container {
     width: 100%;
-    overflow-x: auto; // Para responsividade em telas pequenas
+    overflow-x: auto; 
+
+    thead{
+        background-color: var(--light-gray);
+    }
 
     table {
         width: 100%;
@@ -42,7 +89,6 @@
 }
 
 .actions a {
-    
     text-decoration: none;
     font-weight: 500;
     margin-right: 16px;
@@ -53,46 +99,13 @@
     }
 }
 
-.footer {
-    margin-top: 24px;
-    text-align: right;
-}
-
-
-.btn-primary {
-    background-color: var(--primary-orange);
-    color: white;
-    border: none;
-    padding: 12px 24px;
-    border-radius: 6px;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-.btn-secondary {
-    background-color: #6c757d;
-    color: white;
-    border: none;
-    padding: 12px 24px;
-    border-radius: 6px;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-.delete-link {
-    color: #dc3545; 
-
-    &:hover {
-      color: #c82333; 
-    }
-  }
-
-  .loading-indicator, .empty-state {
+.loading-indicator, .empty-state {
   text-align: center;
   padding: 40px;
   color: #868e96;
   font-size: 16px;
 }
+
 .pagination-container {
   display: flex;
   justify-content: center;
@@ -126,4 +139,26 @@
     cursor: not-allowed;
     opacity: 0.6;
   }
+}
+
+// --- Estilos para Botões ---
+.btn-primary {
+    background-color: var(--primary-orange);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap; // Evita que o texto do botão quebre a linha
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
 }

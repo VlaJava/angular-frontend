@@ -33,22 +33,28 @@ export class PackageService {
     }
   }
 
-getPackages(page: number = 0, size: number = 6, filters: any = {}): Observable<PaginatedPackagesResponse> {
+
+
+getPackages(page: number = 0, size: number = 6, searchTerm: string = ''): Observable<PaginatedPackagesResponse> {
   let params = new HttpParams()
     .set('page', page.toString())
     .set('size', size.toString());
 
-  let hasFilters = false;
+ 
+  if (!searchTerm.trim()) {
+    return this.http.get<PaginatedPackagesResponse>(this.apiUrl, { params }).pipe(
+      map(response => {
+        const updatedContent = response.content.map(pkg => this.buildPackageWithImageUrl(pkg));
+        return { ...response, content: updatedContent };
+      })
+    );
+  }
 
-  Object.keys(filters).forEach(key => {
-    const value = filters[key];
-    if (value !== null && value !== undefined && value !== '') {
-      params = params.append(key, value);
-      hasFilters = true; 
-    }
-  });
-
-  const targetUrl = hasFilters ? `${this.apiUrl}/filter` : this.apiUrl;
+  
+  params = params.set('destination', searchTerm);
+  
+  const targetUrl = `${this.apiUrl}/filter`;
+  
   return this.http.get<PaginatedPackagesResponse>(targetUrl, { params }).pipe(
     map(response => {
       const updatedContent = response.content.map(pkg => this.buildPackageWithImageUrl(pkg));

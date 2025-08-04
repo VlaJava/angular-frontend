@@ -4,58 +4,75 @@ import { Observable, map } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { User } from '../types/user.type';
 import { PaginatedResponse, UserResponse } from '../pages/admin/admin-users/admin-users.component';
- 
- 
+
+
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
   private apiUrl = `${environment.apiUrl}/users`;
- 
+
   constructor(private http: HttpClient) { }
- 
- 
- getUsers(searchTerm: string = '', page: number = 0, size: number = 9): Observable<PaginatedResponse<UserResponse>> {
+
+  
+  getUsers(searchTerm: string = '', page: number = 0, size: number = 9): Observable<PaginatedResponse<UserResponse>> {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString());
-    if (searchTerm) {
-      params = params.set('search', searchTerm); 
+
+    
+    if (!searchTerm.trim()) {
+      return this.http.get<PaginatedResponse<UserResponse>>(this.apiUrl, { params });
+    }
+
+   
+    if (searchTerm.includes('@')) {
+     
+      params = params.set('email', searchTerm);
+    } else if (/^\d+$/.test(searchTerm)) {
+      
+      params = params.set('documentNumber', searchTerm);
+    } else {
+      
+      params = params.set('name', searchTerm);
+    }
+    
+    
+    const targetUrl = `${this.apiUrl}/filter`;
+    
+    return this.http.get<PaginatedResponse<UserResponse>>(targetUrl, { params });
   }
-    return this.http.get<PaginatedResponse<UserResponse>>
-    (this.apiUrl, { params });
-  }
- 
-  
+
+
   createUser(userData: Partial<User>): Observable<User> {
     return this.http.post<User>(this.apiUrl, userData);
   }
- 
+
 
   updateUser(id: string, updatedData: Partial<User>): Observable<User> {
     return this.http.put<User>(`${this.apiUrl}/${id}`, updatedData);
   }
 
- uploadProfilePicture(id: string, file: File): Observable<any> {
+  uploadProfilePicture(id: string, file: File): Observable<any> {
     const formData = new FormData();
-    formData.append('file', file, file.name); 
-  return this.http.patch(`${this.apiUrl}/${id}/update-image`, formData, { responseType: 'blob' });
- }
+    formData.append('file', file, file.name);
+    return this.http.patch(`${this.apiUrl}/${id}/update-image`, formData, { responseType: 'text' });
+  }
 
   toggleUserActiveStatus(id: string, newStatus: boolean): Observable<User> {
     return this.http.patch<User>(`${this.apiUrl}/${id}/status`, { active: newStatus });
   }
- 
+
 
   deleteUser(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 
   updateUserRole(email: string, role: 'ADMIN' | 'CLIENT'): Observable<any> {
-  const body = {
-    userRole: role,
-    email: email
-  };
-  return this.http.patch(`${this.apiUrl}/role`, body);
+    const body = {
+      userRole: role,
+      email: email
+    };
+    return this.http.patch(`${this.apiUrl}/role`, body);
   }
 }
