@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core'; // Importar OnInit
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Observable } from 'rxjs'; 
-import { map } from 'rxjs/operators';
-import { PackageCardComponent } from '../package-card/package-card.component';
+import { PackageCardComponent } from '../package-card/package-card.component'; // Verifique o caminho
 import { Package } from '../../types/package.type';
-import { PackageService } from '../../services/package.service'; // Importar o serviço
+import { PackageService, PaginatedPackagesResponse } from '../../services/package.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-packages-layout',
@@ -16,22 +15,49 @@ import { PackageService } from '../../services/package.service'; // Importar o s
   templateUrl: './packages-layout.component.html',
   styleUrls: ['./packages-layout.component.scss']
 })
-export class PackageLayoutComponent implements OnInit { 
+export class PackagesLayoutComponent implements OnInit { 
 
-  
-  public pacotes$!: Observable<Package[]>;
+  // ✅ PROPRIEDADE PARA PAGINAÇÃO
+  paginatedResponse: PaginatedPackagesResponse = {
+    content: [],
+    currentPage: 0,
+    totalItems: 0,
+    totalPages: 0
+  };
+  isLoading = true;
 
-  
-  constructor(private packageService: PackageService) { }
+  constructor(
+    private packageService: PackageService,
+    private toastr: ToastrService
+  ) { }
 
-  
-    ngOnInit(): void {
-    this.pacotes$ = this.packageService.getPackages().pipe(
-      map((pacotes: Package[]) =>
-        pacotes
-          .filter(p => p.available)
-          .slice(0, 3)
-      )
-    );
+  ngOnInit(): void {
+    this.loadPackages();
+  }
+
+  loadPackages(page: number = 0): void {
+    this.isLoading = true;
+    this.packageService.getPackages(page, 6).subscribe({ // Busca 6 pacotes por página
+      next: (data) => {
+        this.paginatedResponse = data;
+        this.isLoading = false;
+      },
+      error: (err) => {
+        this.toastr.error('Erro ao carregar os pacotes.');
+        console.error(err);
+        this.isLoading = false;
+      }
+    });
+  }
+  changePage(page: number): void {
+    if (page >= 0 && page < this.paginatedResponse.totalPages) {
+      this.loadPackages(page);
+    }
+  }
+  getPageNumbers(): number[] {
+    if (!this.paginatedResponse || this.paginatedResponse.totalPages === 0) {
+      return [];
+    }
+    return Array(this.paginatedResponse.totalPages).fill(0).map((x, i) => i);
   }
 }

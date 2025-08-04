@@ -114,16 +114,20 @@ export class AuthService {
     );
   }
 
-  signup(data: UserSignup): Observable<any> {
+signup(data: UserSignup): Observable<any> {
     return this.getHttp().post<any>(`${this.apiUrl}/users`, data);
   }
-forgotPassword(email: string): Observable<void> {
+
   
-    return this.getHttp().post<void>(`${this.apiUrl}/auth/reset-password`, { email });
+confirmAccount(token: string): Observable<void> {
+  return this.getHttp().get<void>(`${this.apiUrl}/auth/signup/account-confirmation?token=${token}`, {});
+}
+
+forgotPassword(email: string): Observable<void> {
+    return this.getHttp().post<void>(`${this.apiUrl}/auth/signup/reset-password`, { email });
   }
 
- 
-  resetPassword(token: string, newPassword: string, confirmPassword: string): Observable<void> {
+resetPassword(token: string, newPassword: string, confirmPassword: string): Observable<void> {
     const body = {
       password: newPassword,
       passwordConfirmation: confirmPassword

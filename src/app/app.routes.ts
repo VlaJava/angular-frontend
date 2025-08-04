@@ -10,7 +10,7 @@ import { DefaultHomeComponent } from './pages/home/default-home/defaultHome.comp
 
 import { AdminLayoutComponent } from './components/admin-layout/admin-layout.component';
 
-import { PackageDetailsComponent } from './pages/package-details/package-details.component'; 
+import { PackageDetailsComponent } from './pages/package-details/package-details.component';
 import { BookingFinalizationComponent } from './pages/booking-finalization/booking-finalization.component';
 
 import { AdminPackagesComponent } from './pages/admin/admin-packages/admin-packages.component';
@@ -21,8 +21,9 @@ import { AdminDashboardComponent } from './pages/admin/admin-dashboard/admin-das
 import { ProfileComponent } from './pages/profile/profile.component';
 import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
 import { AccountConfirmedComponent } from './pages/account-confirmed/account-confirmed.component';
-import { adminGuard} from './guards/admin.guard';
+import { adminGuard } from './guards/admin.guard';
 import { authGuard } from './guards/auth.guard';
+import { PackageAdminComponent } from './pages/packages-admin/packages-admin.component';
 
 
 
@@ -31,7 +32,8 @@ export const routes: Routes = [
   // --- Rotas Públicas ---
   {
     path: "",
-    component: DefaultHomeComponent
+    component: DefaultHomeComponent,
+    pathMatch: 'full'
   },
   {
     path: "login",
@@ -46,46 +48,58 @@ export const routes: Routes = [
     component: ForgotPasswordComponent
   },
   {
-      
-    path: 'reset-password', 
+
+    path: 'reset-password',
     component: ResetPasswordComponent
-  
-  },
-  {
-  
-    path: 'account-confirmed',
-    component: AccountConfirmedComponent
-  
-  },
-  {
-        path: 'pacote/:id',
-        component: PackageDetailsComponent
+
   },
 
   {
-    path: 'finalize-booking', 
-    component: BookingFinalizationComponent
-  },  
+    path: 'auth/signup/account-confirmation',
+    redirectTo: 'account-confirmation',
+    pathMatch: 'full'
+  },
+
+  {
+
+    path: 'account-confirmation',
+    component: AccountConfirmedComponent
+
+  },
+  {
+    path: 'packages/:id',
+    component: PackageDetailsComponent
+  },
+
+
 
   // --- Rota Privada para Usuários Logados ---
   {
-    path: 'profile', 
+    path: 'profile',
     component: ProfileComponent,
-    canActivate: [authGuard] 
+
+  },
+  {
+    path: 'finalize-booking',
+    component: BookingFinalizationComponent,
+    canActivate: [authGuard]
   },
 
   // --- Rota Privada para Administradores ---
   {
     path: 'admin',
-    component: AdminLayoutComponent, 
-    canActivate: [adminGuard], 
+    component: AdminLayoutComponent,
+    canActivate: [adminGuard],
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-      { path: 'dashboard', component: AdminDashboardComponent }, 
-      { path: 'pacotes', component: AdminPackagesComponent },
-      { path: 'usuarios', component: AdminUsersComponent },
+      { path: 'dashboard', component: AdminDashboardComponent },
+      { path: 'packages', component: AdminPackagesComponent },
+      { path: 'users', component: AdminUsersComponent },
       { path: 'avaliacoes', component: AdminReviewsComponent },
       { path: 'relatorios', component: AdminReportsComponent },
     ]
   },
+  { path: 'packages/:id/admin', 
+    component: PackageAdminComponent 
+  }
 ];

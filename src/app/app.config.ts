@@ -11,9 +11,8 @@ import {
 } from '@angular/common/http';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './services/auth.interceptor';
-import { AuthService } from './services/auth.service'; // Alteração 2: Importar o AuthService
+import { AuthService } from './services/auth.service';
 
-// Alteração 3: Criar a função de fábrica para o inicializador
 export function initializeApp(authService: AuthService) {
   return (): Promise<any> => {
     return authService.initUser();
@@ -31,19 +30,16 @@ export const appConfig: ApplicationConfig = {
     
     provideToastr(),
     provideAnimations(),
-
-    // Fornecedor do Interceptor (mantido como estava)
     { 
       provide: HTTP_INTERCEPTORS, 
       useClass: AuthInterceptor, 
       multi: true 
     },
-    
-    // Alteração 4: Adicionar o provedor do APP_INITIALIZER
+  
     {
       provide: APP_INITIALIZER,
       useFactory: initializeApp,
-      deps: [AuthService], // Diz ao Angular para injetar o AuthService na nossa função
+      deps: [AuthService], 
       multi: true
     }
   ]

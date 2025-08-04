@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { ChatMessage, TravelPackage } from '../types/chatbot.types'; 
+import { environment } from '../../environments/environment';
 
 export interface BotResponse {
   text: string;
@@ -13,7 +14,7 @@ export interface BotResponse {
   providedIn: 'root'
 })
 export class GeminiService {
-  private chatApiUrl = 'http://localhost:8080/api/v1/chat';
+  private chatApiUrl = `${environment.apiUrl}/chat`;
 
   constructor(private http: HttpClient) {}
 

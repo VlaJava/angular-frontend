@@ -1,8 +1,8 @@
 <section class="hero-section text-white text-center">
   <div class="hero-overlay"></div>
   <div class="container position-relative">
-    <h1 class="display-4 fw-bold">Sua Próxima Aventura com ViajAva</h1>
-    <p class="lead my-3">Explore destinos incríveis e viva experiências inesquecíveis.</p>
+    <h1 class="display-4 fw-bold">Sua Próxima Aventura com ViaJava <i class="bi bi-airplane-engines"></i></h1>
+    <p class="lead my-3">Onde cada viagem é uma nova versão da sua história.</p>
     <a href="#" class="btn btn-orange">Ver Pacotes</a>
   </div>
 </section>
@@ -52,11 +52,44 @@
 
 <section class="container my-5">
   <h2 class="fw-bold mb-4">Pacotes Imperdíveis</h2>
- 
-  <div *ngIf="pacotes$ | async as pacotes" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+  <div *ngIf="isLoading" class="text-center py-5">
+    <p>A carregar pacotes...</p>
+  </div>
+  <div *ngIf="!isLoading">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+      
+      <div class="col" *ngFor="let pacote of paginatedResponse.content">
+        <app-package-card [pacote]="pacote"></app-package-card>
+      </div>
+    </div>
     
-    <div class="col" *ngFor="let pacote of pacotes">
-      <app-package-card [pacote]="pacote"></app-package-card>
+    <div *ngIf="paginatedResponse.content.length === 0" class="text-center text-muted py-5">
+      Nenhum pacote encontrado.
     </div>
   </div>
 </section>
+
+
+<div *ngIf="!isLoading && paginatedResponse.totalPages > 1" class="pagination-container">
+  
+  <button 
+    class="btn-pagination" 
+    (click)="changePage(paginatedResponse.currentPage - 1)"
+    [disabled]="paginatedResponse.currentPage === 0">
+    Anterior
+  </button>
+
+  <button 
+    *ngFor="let pageNum of getPageNumbers()" 
+    class="btn-pagination"
+    [class.active]="pageNum === paginatedResponse.currentPage"
+    (click)="changePage(pageNum)">
+    {{ pageNum + 1 }}
+  </button>
+  <button 
+    class="btn-pagination" 
+    (click)="changePage(paginatedResponse.currentPage + 1)"
+    [disabled]="paginatedResponse.currentPage >= paginatedResponse.totalPages - 1">
+    Próximo
+  </button>
+</div>

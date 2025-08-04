@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PackageLayoutComponent } from '../../../components/packages-layout/packages-layout.component';
-import { PackageService } from '../../../services/package.service';
+import { PackagesLayoutComponent } from '../../../components/packages-layout/packages-layout.component';
+import { PackageService, PaginatedPackagesResponse } from '../../../services/package.service';
 
 import { Package } from '../../../types/package.type';
 
@@ -10,7 +10,7 @@ import { Package } from '../../../types/package.type';
   standalone: true,
   imports: [
     CommonModule,
-    PackageLayoutComponent
+    PackagesLayoutComponent
   ],
   templateUrl: './defaultHome.component.html',
   styleUrls: ['./defaultHome.component.scss']
@@ -19,15 +19,15 @@ export class DefaultHomeComponent implements OnInit {
 
   pacotes: Package[] = [];
   isLoading = true;
+  
 
   constructor(private packageService: PackageService) {}
 
   ngOnInit(): void {
     this.isLoading = true;
-    this.packageService.getPackages().subscribe({
-      next: (data) => {
-        
-        this.pacotes = data;
+    this.packageService.getPackages(0, 6).subscribe({
+      next: (data: PaginatedPackagesResponse) => {
+        this.pacotes = data.content;
         this.isLoading = false;
       },
       error: (err) => {

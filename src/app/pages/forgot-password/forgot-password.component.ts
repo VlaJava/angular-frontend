@@ -13,8 +13,6 @@ import { ToastrService } from 'ngx-toastr';
     PrimaryInputsComponent,
     DefaultLoginLayoutComponent,
     ReactiveFormsModule
-
-
   ],
   templateUrl: './forgot-password.component.html',
   styleUrl: './forgot-password.component.scss'
@@ -38,20 +36,23 @@ export class ForgotPasswordComponent {
     }
 
     const email = this.forgotPasswordForm.value.email;
+    
     this.authService.forgotPassword(email).subscribe({
       next: () => {
-        
         this.toastService.success('Se um e-mail correspondente for encontrado, um link de recuperação será enviado.', 'Verifique sua caixa de entrada!');
-        this.router.navigate(['/login']);
+        
+        this.router.navigateByUrl(this.router.parseUrl('/login')); 
       },
       error: () => {
-        this.toastService.error('Ocorreu um erro. Tente novamente mais tarde.');
+        this.toastService.success('Se um e-mail correspondente for encontrado, um link de recuperação será enviado.', 'Verifique sua caixa de entrada!');
+        
+        this.router.navigateByUrl(this.router.parseUrl('/login'));
       }
     });
   }
 
   navigate() {
-    this.router.navigate(['/login']);
+    
+    this.router.navigateByUrl(this.router.parseUrl('/login'));
   }
-
 }
