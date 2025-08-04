@@ -1,8 +1,8 @@
-/* src/app/header/header.component.scss */
+
 
 .navbar {
   background-color: var(--primary-orange);
-  padding: 8px 0; // Um padding vertical para a barra
+  padding: 8px 0; 
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
@@ -31,27 +31,27 @@
 
   &:hover {
     background-color: #E65100;
-    transform: scale(1.1); /* Zoom ao passar o mouse */
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Sombra mais forte no hover */
+    transform: scale(1.1); 
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); 
 
   }
 }
 
-/* ✅ ESTILOS CORRIGIDOS PARA O ÍCONE E IMAGEM DO UTILIZADOR */
+
 .user-icon-button {
   width: 60px;
   height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 !important; // Remove espaçamento interno que pode esticar a imagem
-  overflow: hidden; // Garante que a imagem não saia dos limites do círculo
+  padding: 0 !important; 
+  overflow: hidden; 
 
-  // Estilo para a imagem de perfil (avatar)
+  
   .profile-avatar {
     width: 100%;
     height: 100%;
-    object-fit: cover; // Faz a imagem preencher o espaço sem distorcer
+    object-fit: cover; 
     
   }
 
@@ -62,8 +62,6 @@
   }
 }
 
-
-/* === ESTILOS DO DROPDOWN (inalterados) === */
 :host ::ng-deep .dropdown-toggle::after {
   display: none;
 }
@@ -88,10 +86,10 @@
   width: 60px;
  border-radius: 50%;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  transition: all 0.3s ease; /* Transição para todas as mudanças */
+  transition: all 0.3s ease; 
 }
 
 .logo-header:hover {
-  transform: scale(1.1); /* Zoom ao passar o mouse */
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Sombra mais forte no hover */
+  transform: scale(1.1); 
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); 
 }
