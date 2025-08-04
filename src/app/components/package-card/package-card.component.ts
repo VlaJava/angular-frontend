@@ -4,13 +4,12 @@ import { RouterModule } from '@angular/router';
 import { Package } from '../../types/package.type';
 
 @Component({
-  selector: 'app-package-card',
-  standalone: true, 
-  imports: [
-    RouterModule 
-  ],
-  templateUrl: './package-card.component.html',
-  styleUrls: ['./package-card.component.css']
+    selector: 'app-package-card',
+    imports: [
+        RouterModule
+    ],
+    templateUrl: './package-card.component.html',
+    styleUrls: ['./package-card.component.css']
 })
 export class PackageCardComponent {
   @Input() pacote!: Package;

@@ -6,14 +6,13 @@ import { PackageService, PaginatedPackagesResponse } from '../../services/packag
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-packages-layout',
-  standalone: true,
-  imports: [
-    CommonModule,
-    PackageCardComponent
-  ],
-  templateUrl: './packages-layout.component.html',
-  styleUrls: ['./packages-layout.component.scss']
+    selector: 'app-packages-layout',
+    imports: [
+        CommonModule,
+        PackageCardComponent
+    ],
+    templateUrl: './packages-layout.component.html',
+    styleUrls: ['./packages-layout.component.scss']
 })
 export class PackagesLayoutComponent implements OnInit { 
 

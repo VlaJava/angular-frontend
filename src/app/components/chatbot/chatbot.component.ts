@@ -6,11 +6,10 @@ import { MessageComponent } from '../message/message.component';
 import { GeminiService } from '../../services/gemini.service';
 
 @Component({
-  selector: 'app-chatbot',
-  standalone: true,
-  imports: [CommonModule, FormsModule, MessageComponent],
-  templateUrl: './chatbot.component.html',
-  styleUrls: ['./chatbot.component.scss']
+    selector: 'app-chatbot',
+    imports: [CommonModule, FormsModule, MessageComponent],
+    templateUrl: './chatbot.component.html',
+    styleUrls: ['./chatbot.component.scss']
 })
 export class ChatbotComponent {
   @Input() isOpen = false;

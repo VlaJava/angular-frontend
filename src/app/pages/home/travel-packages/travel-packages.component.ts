@@ -5,15 +5,12 @@ import { PackageLayoutComponent } from '../../../components/packages-layout/pack
 
 
 @Component({
-  selector: 'app-travel-packages',
-  standalone: true,
-  imports: [
-    CommonModule,
-    PackageLayoutComponent // Corrigido
-  
-  
-],
-  templateUrl: './travel-packages.component.html',
-  styleUrls: ['./travel-packages.component.scss']
+    selector: 'app-travel-packages',
+    imports: [
+        CommonModule,
+        PackageLayoutComponent // Corrigido
+    ],
+    templateUrl: './travel-packages.component.html',
+    styleUrls: ['./travel-packages.component.scss']
 })
 export class TravelPackagesComponent {}

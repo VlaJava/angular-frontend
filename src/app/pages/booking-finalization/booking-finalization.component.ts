@@ -10,11 +10,10 @@ interface Traveler {
 }
 
 @Component({
-  selector: 'app-booking-finalization',
-  standalone: true,
-  imports: [FormsModule, CommonModule],
-  templateUrl: './booking-finalization.component.html',
-  styleUrl: './booking-finalization.component.scss'
+    selector: 'app-booking-finalization',
+    imports: [FormsModule, CommonModule],
+    templateUrl: './booking-finalization.component.html',
+    styleUrl: './booking-finalization.component.scss'
 })
 export class BookingFinalizationComponent {
   startDate: string = '';

@@ -30,12 +30,10 @@ export interface PaginatedResponse<T> {
 };
  
 @Component({
-  selector: 'app-admin-users',
-  standalone: true,
-
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
-  templateUrl: './admin-users.component.html',
-  styleUrls: ['./admin-users.component.scss']
+    selector: 'app-admin-users',
+    imports: [CommonModule, FormsModule, ReactiveFormsModule],
+    templateUrl: './admin-users.component.html',
+    styleUrls: ['./admin-users.component.scss']
 })
 export class AdminUsersComponent implements OnInit, OnDestroy {
 

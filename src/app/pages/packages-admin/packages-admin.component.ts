@@ -7,15 +7,14 @@ import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-package-admin',
-  standalone: true,
-  imports: [
-    CommonModule, 
-    RouterModule,
-    ReactiveFormsModule
-  ],
-  templateUrl: './packages-admin.component.html',
-  styleUrls: ['./packages-admin.component.scss']
+    selector: 'app-package-admin',
+    imports: [
+        CommonModule,
+        RouterModule,
+        ReactiveFormsModule
+    ],
+    templateUrl: './packages-admin.component.html',
+    styleUrls: ['./packages-admin.component.scss']
 })
 export class PackageAdminComponent implements OnInit {
 

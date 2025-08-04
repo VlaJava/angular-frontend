@@ -8,16 +8,15 @@ import { AuthService } from '../../services/auth.service';
 import { User } from '../../types/user.type';
 
 @Component({
-  selector: 'app-header',
-  standalone: true,
-  imports: [
-    NgbDropdownModule,
-    NgIf,
-    AsyncPipe,
-    RouterModule 
-  ],
-  templateUrl: './header.component.html',
-  styleUrl: './header.component.scss'
+    selector: 'app-header',
+    imports: [
+        NgbDropdownModule,
+        NgIf,
+        AsyncPipe,
+        RouterModule
+    ],
+    templateUrl: './header.component.html',
+    styleUrl: './header.component.scss'
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   

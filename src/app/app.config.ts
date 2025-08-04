@@ -1,4 +1,4 @@
-import { ApplicationConfig, APP_INITIALIZER } from '@angular/core'; // Alteração 1: Importar APP_INITIALIZER
+import { ApplicationConfig, inject, provideAppInitializer } from '@angular/core'; // Alteração 1: Importar APP_INITIALIZER
 import { provideRouter } from '@angular/router';
 import { provideToastr } from 'ngx-toastr';
 import { provideAnimations } from '@angular/platform-browser/animations';
@@ -32,11 +32,9 @@ export const appConfig: ApplicationConfig = {
       multi: true 
     },
   
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initializeApp,
-      deps: [AuthService], 
-      multi: true
-    }
+    provideAppInitializer(() => {
+        const initializerFn = (initializeApp)(inject(AuthService));
+        return initializerFn();
+      })
   ]
 };

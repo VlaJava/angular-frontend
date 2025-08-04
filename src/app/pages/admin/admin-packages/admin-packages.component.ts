@@ -11,17 +11,16 @@ import { ToastrService } from 'ngx-toastr';
 import { Package } from '../../../types/package.type';
 
 @Component({
-  selector: 'app-admin-packages',
-  standalone: true,
-  imports: [
-    CommonModule,
-    PackageModalComponent,
-    CurrencyPipe,
-    RouterLink,
-    ReactiveFormsModule 
-  ],
-  templateUrl: './admin-packages.component.html',
-  styleUrls: ['./admin-packages.component.scss']
+    selector: 'app-admin-packages',
+    imports: [
+        CommonModule,
+        PackageModalComponent,
+        CurrencyPipe,
+        RouterLink,
+        ReactiveFormsModule
+    ],
+    templateUrl: './admin-packages.component.html',
+    styleUrls: ['./admin-packages.component.scss']
 })
 export class AdminPackagesComponent implements OnInit, OnDestroy {
   isModalOpen = false; 

@@ -23,16 +23,15 @@ function passwordMatchValidator(control: AbstractControl): ValidationErrors | nu
 }
 
 @Component({
-  selector: 'app-reset-password',
-  standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    DefaultLoginLayoutComponent,
-    PrimaryInputsComponent
-  ],
-  templateUrl: './reset-password.component.html',
-  styleUrls: ['./reset-password.component.scss']
+    selector: 'app-reset-password',
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        DefaultLoginLayoutComponent,
+        PrimaryInputsComponent
+    ],
+    templateUrl: './reset-password.component.html',
+    styleUrls: ['./reset-password.component.scss']
 })
 export class ResetPasswordComponent implements OnInit {
   // ✅ PROPRIEDADE DEFINIDA: O formulário agora existe no componente.

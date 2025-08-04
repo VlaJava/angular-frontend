@@ -9,11 +9,10 @@ import { switchMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-package-modal',
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './package-modal.component.html',
-  styleUrls: ['./package-modal.component.scss']
+    selector: 'app-package-modal',
+    imports: [CommonModule, ReactiveFormsModule],
+    templateUrl: './package-modal.component.html',
+    styleUrls: ['./package-modal.component.scss']
 })
 export class PackageModalComponent implements OnInit, OnChanges {
 

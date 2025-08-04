@@ -6,11 +6,10 @@ import { ChartData } from '../../../services/dashboard.service';
 
 
 @Component({
-  selector: 'app-dashboard',
-  standalone: true,
-  imports: [CommonModule, NgxChartsModule], // Adicione NgxChartsModule
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+    selector: 'app-dashboard',
+    imports: [CommonModule, NgxChartsModule], // Adicione NgxChartsModule
+    templateUrl: './dashboard.component.html',
+    styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
 

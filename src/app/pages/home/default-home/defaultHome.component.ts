@@ -6,14 +6,13 @@ import { PackageService, PaginatedPackagesResponse } from '../../../services/pac
 import { Package } from '../../../types/package.type';
 
 @Component({
-  selector: 'app-default-home',
-  standalone: true,
-  imports: [
-    CommonModule,
-    PackagesLayoutComponent
-  ],
-  templateUrl: './defaultHome.component.html',
-  styleUrls: ['./defaultHome.component.scss']
+    selector: 'app-default-home',
+    imports: [
+        CommonModule,
+        PackagesLayoutComponent
+    ],
+    templateUrl: './defaultHome.component.html',
+    styleUrls: ['./defaultHome.component.scss']
 })
 export class DefaultHomeComponent implements OnInit {
 

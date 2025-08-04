@@ -15,15 +15,14 @@ interface LoginForm {
 }
 
 @Component({
-  selector: 'app-login',
-  standalone: true,
-  imports: [
-    DefaultLoginLayoutComponent,
-    ReactiveFormsModule,
-    PrimaryInputsComponent,
-  ],
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+    selector: 'app-login',
+    imports: [
+        DefaultLoginLayoutComponent,
+        ReactiveFormsModule,
+        PrimaryInputsComponent,
+    ],
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
 

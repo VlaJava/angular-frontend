@@ -4,14 +4,13 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
-  selector: 'app-account-confirmed',
-  standalone: true,
-  imports: [
-    CommonModule,
-    RouterModule
-  ],
-  templateUrl: './account-confirmed.component.html',
-  styleUrl: './account-confirmed.component.scss'
+    selector: 'app-account-confirmed',
+    imports: [
+        CommonModule,
+        RouterModule
+    ],
+    templateUrl: './account-confirmed.component.html',
+    styleUrl: './account-confirmed.component.scss'
 })
 export class AccountConfirmedComponent implements OnInit {
   confirmationStatus: 'pending' | 'success' | 'error' = 'pending';
