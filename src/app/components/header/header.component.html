@@ -10,14 +10,17 @@
     </a>
     <div class="d-flex align-items-center">
       <a class="nav-link pacotes-link" routerLink="/">PACOTES</a>
+      
       <div *ngIf="currentUser$ | async as currentUser; else loggedOutMenu">
         <div ngbDropdown class="d-inline-block">
           <button class="btn btn-outline-light rounded-circle p-0 user-icon-button" ngbDropdownToggle>
-            <img *ngIf="currentUser.imageUrl && !imageLoadError" [src]="currentUser.imageUrl" alt="Foto de Perfil" class="profile-avatar" (error)="imageLoadError = true">
-            <ng-container *ngIf="!currentUser.imageUrl || imageLoadError">
+            
+            <img *ngIf="userImage$ | async as safeImageUrl" [src]="safeImageUrl" alt="Foto de Perfil" class="profile-avatar">
+            
+            <ng-container *ngIf="!(userImage$ | async)">
               <i class="bi bi-person-check-fill header-user-icon"></i>
             </ng-container>
-          </button>
+            </button>
           <div ngbDropdownMenu class="dropdown-menu-end">
             <div class="px-3 py-2 text-muted">Bem-vindo, {{ currentUser.name }}</div>
             <div class="dropdown-divider"></div>
@@ -33,6 +36,7 @@
           </div>
         </div>
       </div>
+
       <ng-template #loggedOutMenu>
         <div ngbDropdown class="d-inline-block">
           <button class="btn btn-outline-light rounded-circle p-0 user-icon-button" ngbDropdownToggle>

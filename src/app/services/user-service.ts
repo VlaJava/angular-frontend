@@ -47,7 +47,10 @@ export class UserService {
   createUser(userData: Partial<User>): Observable<User> {
     return this.http.post<User>(this.apiUrl, userData);
   }
-
+  
+  getUserProfileImage(id: string): Observable<Blob> {
+    return this.http.get(`${this.apiUrl}/${id}/image`, { responseType: 'blob' });
+  }
 
   updateUser(id: string, updatedData: Partial<User>): Observable<User> {
     return this.http.put<User>(`${this.apiUrl}/${id}`, updatedData);

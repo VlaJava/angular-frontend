@@ -13,6 +13,7 @@ export class AuthInterceptor implements HttpInterceptor {
     
     const authService = this.injector.get(AuthService);
     const token = localStorage.getItem('auth-token');
+   
 
     let authReq = req;
     if (token) {

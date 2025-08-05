@@ -33,18 +33,13 @@ export class AuthService {
     this.isAdmin$ = this.currentUser$.pipe(map(user => user?.role === 'ADMIN'));
   }
   
-  
-  private buildUserWithImageUrl(user: User): User {
-  
-    const imageUrl = `${this.apiUrl}/users/${user.id}/image?v=${new Date().getTime()}`;
-    
-    
-    return { ...user, imageUrl };
-  }
 
   public initUser(): Promise<any> {
+    
     const token = localStorage.getItem('auth-token');
+     console.log(token);
     if (token) {
+      
       try {
         const decodedToken = jwtDecode<DecodedToken>(token);
         const userId = decodedToken.sub;
@@ -64,6 +59,14 @@ export class AuthService {
       this.logout();
       return Promise.resolve(); 
     }
+  }
+
+  private buildUserWithImageUrl(user: User): User {
+  
+    const imageUrl = `${this.apiUrl}/users/${user.id}/image`;
+    
+    
+    return { ...user, imageUrl };
   }
 
   private getHttp(): HttpClient {

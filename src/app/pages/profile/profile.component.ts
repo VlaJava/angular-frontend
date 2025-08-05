@@ -4,38 +4,42 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { switchMap, tap } from 'rxjs';
+// [INÍCIO] Importações adicionadas
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+// [FIM] Importações adicionadas
 
 import { AuthService } from '../../services/auth.service';
 import { UserService } from '../../services/user-service';
 import { User } from '../../types/user.type';
 import { environment } from '../../../environments/environment';
 
-
-
 @Component({
-    selector: 'app-profile',
-    standalone: true,
-    imports: [
-        CommonModule,
-        ReactiveFormsModule
-    ],
-    templateUrl: './profile.component.html',
-    styleUrls: ['./profile.component.scss']
+  selector: 'app-profile',
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule
+  ],
+  templateUrl: './profile.component.html',
+  styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
 
   user: User | null = null;
+  userImage: SafeUrl | null = null; // Propriedade para a URL segura da imagem
   profileForm: FormGroup;
   isEditing = false;
   selectedFile: File | null = null;
-  private apiUrl = environment.apiUrl;
+  // A propriedade 'apiUrl' não é usada, pode ser removida para limpar o código.
+  // private apiUrl = environment.apiUrl;
 
   constructor(
     private authService: AuthService,
     private userService: UserService,
     private fb: FormBuilder,
     private toastr: ToastrService,
-    private router: Router
+    private router: Router,
+    private sanitizer: DomSanitizer // [ALTERAÇÃO] Injetar DomSanitizer
   ) {
     this.profileForm = this.fb.group({
       name: ['', Validators.required],
@@ -49,12 +53,27 @@ export class ProfileComponent implements OnInit {
       this.user = user;
       if (user) {
         this.profileForm.patchValue(user);
+        this.loadProfileImage(user.id); // [ALTERAÇÃO] Chamar método para carregar a imagem
+      } else {
+        this.userImage = null; // Limpar imagem se não houver usuário
       }
     });
   }
 
-  private buildImageUrl(userId: string): string {
-    return `${this.apiUrl}/users/${userId}/image`;
+  // [NOVO] Método para carregar a imagem de forma segura
+  loadProfileImage(userId: string): void {
+    // Assumindo que você adicionou o método 'getUserProfileImage' ao seu UserService
+    this.userService.getUserProfileImage(userId).subscribe({
+      next: (imageBlob) => {
+        const objectUrl = URL.createObjectURL(imageBlob);
+        this.userImage = this.sanitizer.bypassSecurityTrustUrl(objectUrl);
+      },
+      error: () => {
+        // Opcional: Lidar com erro se a imagem não puder ser carregada
+        console.error('Não foi possível carregar a imagem do perfil.');
+        this.userImage = null; // Define como nulo ou uma imagem padrão
+      }
+    });
   }
 
   toggleEditMode(): void {
@@ -95,10 +114,14 @@ export class ProfileComponent implements OnInit {
     if (!this.selectedFile || !this.user) return;
 
     this.userService.uploadProfilePicture(this.user.id, this.selectedFile).pipe(
+      // [ALTERAÇÃO] O refreshUserProfile já atualiza o 'currentUser$'.
+      // A chamada ao 'loadProfileImage' dentro do 'ngOnInit' irá recarregar a imagem.
+      // Opcionalmente, pode chamar aqui diretamente para uma resposta visual mais rápida.
       switchMap(() => this.authService.refreshUserProfile(this.user!.id))
     ).subscribe({
       next: () => {
         this.toastr.success('Foto de perfil atualizada!');
+        // A imagem será atualizada automaticamente pela subscrição no ngOnInit.
       },
       error: () => {
         this.toastr.error('Falha ao enviar a foto.');
@@ -126,6 +149,4 @@ export class ProfileComponent implements OnInit {
   navigateToChangePassword(): void {
     this.router.navigate(['/change-password']);
   }
-
-
 }
