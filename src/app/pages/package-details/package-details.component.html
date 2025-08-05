@@ -46,7 +46,7 @@
         description: package.description,
         value: package.price,
         image: package.imageUrl,
-        days: 1
+        days: package.startDate ? package.endDate.split(' ')[0] : 1
       }"> Reservar Agora </button>      </div>
     </div>
   </div>
