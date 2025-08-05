@@ -21,26 +21,47 @@
     <div class="col-lg-4 col-md-12">
       <label class="form-label text-white fw-bold">Trajeto</label>
       <div class="input-card">
-        <input type="text" class="form-control" placeholder="Origem">
+        <input type="text" 
+               class="form-control" 
+               placeholder="Origem"
+               [(ngModel)]="filterOrigin"
+               (ngModelChange)="onSearch()">
         <div class="divider-vertical"></div>
-        <input type="text" class="form-control" placeholder="Destino">
+        <input type="text" 
+               class="form-control" 
+               placeholder="Destino"
+               [(ngModel)]="filterDestination"
+               (ngModelChange)="onSearch()">
       </div>
     </div>
 
     <div class="col-lg-4 col-md-6">
       <label class="form-label text-white fw-bold">Data</label>
       <div class="input-card">
-        <input type="text" class="form-control text-center" placeholder="Ida" onfocus="(this.type='date')">
+        <input type="date" 
+               class="form-control text-center" 
+               placeholder="Ida"
+               [(ngModel)]="filterStartDate"
+               (ngModelChange)="onSearch()">
         <div class="divider-vertical"></div>
-        <input type="text" class="form-control text-center" placeholder="Volta" onfocus="(this.type='date')">
+        <input type="date" 
+               class="form-control text-center" 
+               placeholder="Volta"
+               [(ngModel)]="filterEndDate"
+               (ngModelChange)="onSearch()">
       </div>
     </div>
 
     <div class="col-lg-4 col-md-6">
       <label class="form-label text-white fw-bold">Orçamento</label>
       <div class="input-card px-4">
-        <span class="text-nowrap me-3">Até R$ 15.000</span>
-        <input type="range" class="form-range" min="1000" max="15000">
+        <span class="text-nowrap me-3">{{ formattedBudget }}</span>
+        <input type="range" 
+               class="form-range" 
+               [min]="minBudget" 
+               [max]="maxBudget"
+               [(ngModel)]="budgetValue"
+               (ngModelChange)="onBudgetChange()">
       </div>
     </div>
 
@@ -48,7 +69,8 @@
 
   <div class="row mt-3">
     <div class="col-12 text-center">
-      <button class="btn btn-light fw-bold px-5 py-2 rounded-pill shadow-sm">
+      <button class="btn btn-light fw-bold px-5 py-2 rounded-pill shadow-sm"
+              (click)="onSearch()">
         Buscar <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.414-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/></svg>
       </button>
     </div>
@@ -59,10 +81,63 @@
 
 
 <section class="container my-5">
-  <h2 class="fw-bold mb-4">Pacotes Imperdíveis</h2>
-  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-    <div class="col" *ngFor="let pacote of pacotes">
+  <h2 class="fw-bold mb-4" [class.filtered]="hasActiveFilters()">
+    <i class="bi bi-gem me-2" *ngIf="!hasActiveFilters()"></i>
+    <i class="bi bi-search me-2" *ngIf="hasActiveFilters()"></i>
+    {{ sectionTitle }}
+  </h2>
+  
+  <div class="active-filters mb-3" *ngIf="hasActiveFilters()">
+    <small class="text-muted">Filtros aplicados:</small>
+    <div class="d-flex flex-wrap gap-2 mt-2">
+      <span class="badge bg-primary" *ngIf="filterDestination">
+        Destino: {{ filterDestination }}
+        <button type="button" class="btn-close btn-close-white ms-1" (click)="removeFilter('destination')" aria-label="Remover filtro"></button>
+      </span>
+      <span class="badge bg-primary" *ngIf="filterOrigin">
+        Origem: {{ filterOrigin }}
+        <button type="button" class="btn-close btn-close-white ms-1" (click)="removeFilter('origin')" aria-label="Remover filtro"></button>
+      </span>
+      <span class="badge bg-primary" *ngIf="budgetValue < maxBudget">
+        Orçamento: {{ formattedBudget }}
+        <button type="button" class="btn-close btn-close-white ms-1" (click)="removeFilter('budget')" aria-label="Remover filtro"></button>
+      </span>
+      <span class="badge bg-primary" *ngIf="filterStartDate">
+        Data início: {{ filterStartDate | date:'dd/MM/yyyy' }}
+        <button type="button" class="btn-close btn-close-white ms-1" (click)="removeFilter('startDate')" aria-label="Remover filtro"></button>
+      </span>
+      <span class="badge bg-primary" *ngIf="filterEndDate">
+        Data fim: {{ filterEndDate | date:'dd/MM/yyyy' }}
+        <button type="button" class="btn-close btn-close-white ms-1" (click)="removeFilter('endDate')" aria-label="Remover filtro"></button>
+      </span>
+    </div>
+  </div>
+  
+  
+  <p class="text-muted mb-4" *ngIf="hasActiveFilters()">
+    <span *ngIf="filteredPackages.length > 0">
+      Mostrando {{ filteredPackages.length }} de {{ pacotes.length }} pacotes
+    </span>
+    <span *ngIf="filteredPackages.length === 0">
+      Nenhum pacote encontrado com os filtros aplicados
+    </span>
+  </p>
+  
+  
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" *ngIf="filteredPackages.length > 0">
+    <div class="col" *ngFor="let pacote of filteredPackages">
       <app-package-card [pacote]="pacote"></app-package-card>
+    </div>
+  </div>
+  
+ 
+  <div class="text-center py-5" *ngIf="filteredPackages.length === 0">
+    <div class="empty-state">
+      <h4 class="text-muted">Nenhum pacote encontrado</h4>
+      <p class="text-muted">Tente ajustar os filtros de busca para encontrar mais opções.</p>
+      <button class="btn btn-outline-primary" (click)="clearFilters()">
+        Limpar Filtros
+      </button>
     </div>
   </div>
 </section>

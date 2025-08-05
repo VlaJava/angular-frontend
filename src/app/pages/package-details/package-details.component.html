@@ -38,7 +38,16 @@
       </ul>
 
       <div class="d-grid mt-4">
-        <button class="btn btn-orange btn-lg">Reservar Agora</button>
+        <button class="btn btn-orange btn-lg"
+        [routerLink]="['/finalize-booking']"
+        [queryParams]="{
+        title: pacote.titulo,
+        destination: pacote.destino,
+        description: pacote.descricao,
+        value: pacote.valor,
+        image: pacote.imagem,
+        days: pacote.duracao ? pacote.duracao.split(' ')[0] : 1
+      }"> Reservar Agora </button>
       </div>
     </div>
   </div>

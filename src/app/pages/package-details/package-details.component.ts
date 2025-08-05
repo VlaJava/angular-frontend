@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { PackageService } from '../../services/package.service';
 import { Package } from '../../types/package.type';
@@ -7,7 +7,7 @@ import { Package } from '../../types/package.type';
 @Component({
   selector: 'app-package-details',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './package-details.component.html',
   styleUrls: ['./package-details.component.css']
 })

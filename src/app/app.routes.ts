@@ -11,6 +11,7 @@ import { DefaultHomeComponent } from './pages/home/default-home/defaultHome.comp
 import { AdminLayoutComponent } from './components/admin-layout/admin-layout.component';
 
 import { PackageDetailsComponent } from './pages/package-details/package-details.component'; 
+import { BookingFinalizationComponent } from './pages/booking-finalization/booking-finalization.component';
 
 import { AdminPackagesComponent } from './pages/admin/admin-packages/admin-packages.component';
 import { AdminUsersComponent } from './pages/admin/admin-users/admin-users.component';
@@ -51,6 +52,11 @@ export const routes: Routes = [
         component: PackageDetailsComponent
     },
 
+    {
+    path: 'finalize-booking', 
+    component: BookingFinalizationComponent
+  },  
+
   // --- Rota Privada para Usuários Logados ---
   {
     path: 'profile', 
@@ -70,6 +76,7 @@ export const routes: Routes = [
       { path: 'usuarios', component: AdminUsersComponent },
       { path: 'avaliacoes', component: AdminReviewsComponent },
       { path: 'relatorios', component: AdminReportsComponent },
+
     ]
-  }
+  },
 ];
