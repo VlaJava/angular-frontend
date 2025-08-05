@@ -24,11 +24,10 @@ import { Package } from '../../../types/package.type';
     styleUrls: ['./admin-packages.component.scss']
 })
 export class AdminPackagesComponent implements OnInit, OnDestroy {
-  isModalOpen = false; 
-  isLoading = true; 
+  isModalOpen = false;
+  isLoading = true;
   
-  
-  searchForm!: FormGroup; 
+  searchForm!: FormGroup;
   private destroy$ = new Subject<void>();
   selectedPackageForEdit: Package | null = null;
 
@@ -42,33 +41,42 @@ export class AdminPackagesComponent implements OnInit, OnDestroy {
   constructor(
     private packageService: PackageService,
     private toastr: ToastrService,
-    private fb: FormBuilder 
+    private fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
-    
     this.searchForm = this.fb.group({
       search: ['']
     });
 
-    this.loadPackages(); 
+    this.loadPackages();
     
     this.searchForm.get('search')?.valueChanges.pipe(
-      debounceTime(400), 
-      distinctUntilChanged(), 
-      takeUntil(this.destroy$) 
+      debounceTime(400),
+      distinctUntilChanged(),
+      takeUntil(this.destroy$)
     ).subscribe(() => {
-      this.loadPackages(0); 
+      this.loadPackages(0);
     });
   }
 
+  
+  private buildFilters(): any {
+    const searchTerm = this.searchForm.get('search')?.value || '';
+    
+   
+    return {
+      destination: searchTerm
+    };
+  }
+ 
   loadPackages(page: number = 0): void {
     this.isLoading = true;
     
-    const searchTerm = this.searchForm.get('search')?.value || '';
+   
+    const filters = this.buildFilters();
 
-    
-    this.packageService.getPackages(page, 6, searchTerm).subscribe({
+    this.packageService.getPackages(page, 6, filters).subscribe({
       next: (data) => {
         this.paginatedResponse = data;
         this.isLoading = false;
@@ -80,10 +88,11 @@ export class AdminPackagesComponent implements OnInit, OnDestroy {
     });
   }
 
-  
+  // ... O resto dos seus métodos (changePage, getPageNumbers, etc.) permanecem iguais ...
+
   changePage(page: number): void {
     if (page >= 0 && page < this.paginatedResponse.totalPages) {
-      this.loadPackages(page); 
+      this.loadPackages(page);
     }
   }
 
@@ -95,13 +104,13 @@ export class AdminPackagesComponent implements OnInit, OnDestroy {
   }
   
   openAddModal(): void {
-    this.selectedPackageForEdit = null; 
+    this.selectedPackageForEdit = null;
     this.isModalOpen = true;
   }
   
   handleModalClose(wasSaved: boolean): void {
     this.isModalOpen = false;
-    this.selectedPackageForEdit = null; 
+    this.selectedPackageForEdit = null;
     if (wasSaved) {
       this.loadPackages(this.paginatedResponse.currentPage);
     }

@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit, HostListener } from '@angular/core';
-// Importe Router, NavigationEnd e filter
+
 import { Router, RouterModule, NavigationEnd } from '@angular/router'; 
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { Observable, Subject } from 'rxjs';
-// Importe o 'filter' do rxjs
+
 import { takeUntil, filter } from 'rxjs/operators'; 
 import { AuthService } from '../../services/auth.service';
 import { User } from '../../types/user.type';
@@ -28,14 +28,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
   currentUser$: Observable<User | null>;
   imageLoadError = false;
   isScrolled = false;
-  isHomePage = false; // <-- NOVO: Controla se estamos na homepage
-   isNavOpen = false; // <-- ADICIONE ESTA LINHA
+  isHomePage = false; 
+   isNavOpen = false; 
 
   private destroy$ = new Subject<void>();
 
   constructor(
     private authService: AuthService,
-    private router: Router // <-- Injeta o Router
+    private router: Router 
   ) {
     this.isLoggedIn$ = this.authService.isLoggedIn$;
     this.isAdmin$ = this.authService.isAdmin$;
@@ -48,12 +48,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // Lógica para verificar a rota atual
+    
     this.router.events.pipe(
       filter((event): event is NavigationEnd => event instanceof NavigationEnd),
       takeUntil(this.destroy$)
     ).subscribe((event: NavigationEnd) => {
-      // Verifica se a URL atual é a da homepage ('/')
+      
       this.isHomePage = event.urlAfterRedirects === '/';
     });
 

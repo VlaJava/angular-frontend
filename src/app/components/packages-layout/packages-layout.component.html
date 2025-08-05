@@ -3,75 +3,85 @@
   <div class="container position-relative">
     <h1 class="display-4 fw-bold">Sua Próxima Aventura com ViaJava <i class="bi bi-airplane-engines"></i></h1>
     <p class="lead my-3">Onde cada viagem é uma nova versão da sua história.</p>
-    <a href="#" class="btn btn-orange">Ver Pacotes</a>
+    <a href="#packages-section" class="btn btn-orange">Ver Pacotes</a>
   </div>
 </section>
 
 <section class="container text-center my-5">
   <h2 class="fw-bold">Pacotes de Viagem</h2>
-  <p class="lead text-muted">Selecione o destino dos seus sonhos. Temos opções para todos os gostos e orçamentos.</p>
+  <br>
+  <br>
 </section>
 
 
 <section class="search-section container">
-  <div class="search-wrapper p-4 rounded-3">
-    <div class="row g-3 align-items-end">
-      <div class="col-lg-4 col-md-12">
-        <label class="form-label text-white fw-bold">Trajeto</label>
-        <div class="input-card">
-          <input type="text" class="form-control" placeholder="Origem">
-          <div class="divider-vertical"></div>
-          <input type="text" class="form-control" placeholder="Destino">
+  <form [formGroup]="searchForm">
+    <div class="search-wrapper p-4 rounded-3">
+      <div class="row g-3 align-items-end">
+        <div class="col-lg-4 col-md-12">
+          <label class="form-label text-white fw-bold">Trajeto</label>
+          <div class="input-card">
+            <input type="text" class="form-control" placeholder="Origem" formControlName="source">
+            <div class="divider-vertical"></div>
+            <input type="text" class="form-control" placeholder="Destino" formControlName="destination">
+          </div>
         </div>
-      </div>
-      <div class="col-lg-4 col-md-6">
-        <label class="form-label text-white fw-bold">Data</label>
-        <div class="input-card">
-          <input type="text" class="form-control text-center" placeholder="Ida" onfocus="(this.type='date')">
-          <div class="divider-vertical"></div>
-          <input type="text" class="form-control text-center" placeholder="Volta" onfocus="(this.type='date')">
+        <div class="col-lg-4 col-md-6">
+          <label class="form-label text-white fw-bold">Data</label>
+          <div class="input-card">
+            <input type="date" class="form-control text-center" formControlName="startDate">
+            <div class="divider-vertical"></div>
+            <input type="date" class="form-control text-center" formControlName="endDate">
+          </div>
         </div>
-      </div>
-      <div class="col-lg-4 col-md-6">
-        <label class="form-label text-white fw-bold">Orçamento</label>
-        <div class="input-card px-4">
-          <span class="text-nowrap me-3">Até R$ 15.000</span>
-          <input type="range" class="form-range" min="1000" max="15000">
+        <div class="col-lg-4 col-md-6">
+          <label class="form-label text-white fw-bold">Orçamento</label>
+          <div class="input-card px-4">
+            <span class="text-nowrap me-3">Até R$ {{ searchForm.get('price')?.value | number:'1.0-0' }}</span>
+            <input type="range" class="form-range" min="1000" max="15000" step="500" formControlName="price">
+          </div>
         </div>
       </div>
     </div>
-    <div class="row mt-3">
-      <div class="col-12 text-center">
-        <button class="btn btn-light fw-bold px-5 py-2 rounded-pill shadow-sm">
-          Buscar <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.414-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/></svg>
-        </button>
-      </div>
-    </div>
-  </div>
+  </form>
 </section>
 
-<section class="container my-5">
-  <h2 class="fw-bold mb-4">Pacotes Imperdíveis</h2>
+<section class="container my-5" id="packages-section">
+  <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+    <h2 *ngIf="!areFiltersActive" class="fw-bold m-0">Pacotes Imperdíveis</h2>
+    <h2 *ngIf="areFiltersActive" class="fw-bold m-0">Pacotes Filtrados</h2>
+    
+    <button *ngIf="areFiltersActive" class="btn btn-outline-secondary btn-sm" (click)="clearFilters()" type="button">
+      Limpar Filtros
+    </button>
+  </div>
+  
+  <div *ngIf="areFiltersActive" class="active-filters-container mb-4">
+    <span class="fw-bold me-2">Filtros ativos:</span>
+    <div class="filter-pill" *ngFor="let filter of activeFilters">
+      <span>{{ filter.label }}: <strong>{{ filter.value }}</strong></span>
+      <button class="btn-close-pill" (click)="removeFilter(filter.key)" title="Remover filtro">&times;</button>
+    </div>
+  </div>
+  
   <div *ngIf="isLoading" class="text-center py-5">
     <p>A carregar pacotes...</p>
   </div>
+
   <div *ngIf="!isLoading">
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-      
       <div class="col" *ngFor="let pacote of paginatedResponse.content">
         <app-package-card [pacote]="pacote"></app-package-card>
       </div>
     </div>
     
-    <div *ngIf="paginatedResponse.content.length === 0" class="text-center text-muted py-5">
-      Nenhum pacote encontrado.
+    <div *ngIf="!isLoading && paginatedResponse.content.length === 0" class="text-center text-muted py-5">
+      Nenhum pacote encontrado para os filtros selecionados.
     </div>
   </div>
 </section>
 
-
 <div *ngIf="!isLoading && paginatedResponse.totalPages > 1" class="pagination-container">
-  
   <button 
     class="btn-pagination" 
     (click)="changePage(paginatedResponse.currentPage - 1)"
@@ -86,6 +96,7 @@
     (click)="changePage(pageNum)">
     {{ pageNum + 1 }}
   </button>
+  
   <button 
     class="btn-pagination" 
     (click)="changePage(paginatedResponse.currentPage + 1)"

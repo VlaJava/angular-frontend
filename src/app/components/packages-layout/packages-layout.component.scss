@@ -1,5 +1,4 @@
 /* ===== Seção Hero ===== */
-
 .hero-section {
   position: relative;
   padding: 12rem 0;
@@ -17,7 +16,6 @@
   background-color: rgba(0, 0, 0, 0.4); /* Overlay escurecer a imagem */
 }
 
-/* Conteúdo do Hero acima do overlay e com sombra */
 .hero-section h1, .hero-section p, .hero-section .btn {
   position: relative;
   text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
@@ -37,35 +35,57 @@
 
 .btn-orange:hover {
   background-color: #e66a00 !important;
-  color: white;
   transform: translateY(-2px);
   box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
 
+// ===================================================================
+// |||||||||||||||||| SEÇÃO DE BUSCA AJUSTADA ||||||||||||||||||
+// ===================================================================
+
 .search-section {
-  
-  margin-top: -80px;
+  margin-top: -80px; // Mantém o filtro sobre a imagem hero
   position: relative;
   z-index: 10;
 }
 
 .search-wrapper {
-  background-color: var(--primary-orange);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  background-color: var(--primary-orange); // Fundo branco suave
+  border-radius: 20px;    // Bordas mais arredondadas
+  padding: 32px;          // Mais espaçamento interno
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08); 
+  // Sombra suave para o efeito flutuante
 }
 
+// Estilo para as etiquetas (ex: "Trajeto", "Data")
+.form-label {
+  color: #333; // Cor do texto da label mais escura para contraste
+  font-weight: 600;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+}
+
+// O "cartão" que agrupa os inputs
 .input-card {
   display: flex;
   align-items: center;
-  background-color: white;
-  border-radius: 15px;
-  padding: 8px 10px;
+  background-color: #f8f9fa; // Fundo cinza claro para os inputs
+  border-radius: 12px;
+  padding: 8px;
   width: 100%;
-  height: 54px;
+  height: 58px; // Altura fixa para alinhamento
+  border: 1px solid #e9ecef;
+  transition: all 0.2s ease-in-out; // Transição suave para o foco
+
+  // Efeito de destaque ao clicar em qualquer input dentro do card
+  &:focus-within {
+    border-color: var(--primary-orange);
+    box-shadow: 0 0 0 3px rgba(var(--primary-orange-rgb), 0.2);
+  }
 }
 
-/* Estilo dos inputs de texto e data dentro do card */
+// Estilo dos inputs de texto e data dentro do card
 .input-card .form-control {
   border: none !important;
   box-shadow: none !important;
@@ -74,30 +94,73 @@
   flex-grow: 1;
 }
 
+// Linha que separa os inputs
 .divider-vertical {
   width: 1px;
   height: 25px;
-  background-color: #969696;
+  background-color: #dee2e6; // Divider mais claro
 }
 
+// Estilos para o slider de orçamento
 .input-card .form-range {
   flex-grow: 1;
 }
 
 .input-card span {
-  color: #7d6c6c;
+  color: #555;
   font-weight: 500;
 }
 
-input[type="text"][onfocus*="date"]::-webkit-input-placeholder {
-  text-align: center;
+
+// ===================================================================
+// |||||||||||||||||| FIM DA SEÇÃO DE BUSCA AJUSTADA |||||||||||||||||
+// ===================================================================
+
+
+/* ===== Secção de Filtros Ativos ===== */
+.active-filters-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
 }
+
+.filter-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #f0f0f0;
+  color: #333;
+  padding: 6px 12px;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  border: 1px solid #ddd;
+  font-weight: 500;
+}
+
+.btn-close-pill {
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #999;
+  cursor: pointer;
+  padding: 0 0 2px 0;
+  line-height: 1;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: #000;
+  }
+}
+
+/* ===== Paginação ===== */
 .pagination-container {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 8px;
-  margin-top: 24px;
+  margin: 48px 0 24px 0;
 }
 
 .btn-pagination {
