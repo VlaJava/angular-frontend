@@ -1,97 +1,178 @@
-
-
-.navbar {
-  background-color: var(--primary-orange);
-  padding: 8px 0; 
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  border-radius: 0 0px 25px 25px;
-  
+:host {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
 }
 
-.navbar > .container {
+/* Em header.component.scss */
+
+/* Em header.component.scss */
+
+.main-header {
+  padding: 8px 0;
+  transition: all 0.3s ease-in-out;
+  
+  // REGRA PADRÃO: Fundo laranja translúcido.
+  background-color: rgba(var(--primary-orange-rgb), 0.9);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  
+
+  // --- INÍCIO DO AJUSTE DE COR ---
+
+  // O logo e o ícone do usuário permanecem brancos
+  .navbar-brand strong, .user-icon-button .header-user-icon {
+    color: white;
+  }
+
+  // Regra padrão para o link PACOTES
+  .pacotes-link {
+    font-weight: 600; // Deixando um pouco mais forte
+    // Cor padrão será azul escuro para contraste com o fundo laranja
+    color: var(--dark-blue); 
+    text-shadow: none; // Garante que não tenha sombra neste estado
+    transition: color 0.3s ease-in-out; // Adiciona a transição suave de cor
+  }
+
+  // --- FIM DO AJUSTE DE COR ---
+
+
+  // EXCEÇÃO: Na homepage, antes de rolar, o header fica transparente.
+  &.homepage:not(.scrolled) {
+    background-color: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    box-shadow: none;
+    border-radius: 0;
+
+    // E o link PACOTES volta a ser branco para contraste com a imagem
+    .pacotes-link {
+      color: white;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); 
+    }
+  }
+
+  // Ao rolar, só precisamos garantir que a sombra no texto saia
+  &.scrolled {
+    .pacotes-link {
+      text-shadow: none;
+    }
+  }
+}
+// O resto do seu SCSS continua igual...
+.container {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.navbar-brand {
-  font-size: 1.5rem;
-  font-weight: 700;
-}
-
-.d-flex.align-items-center {
-  align-items: center !important;
-}
-
-.pacotes-link {
-  padding: 8px 16px;
-  border-radius: 5px;
-  transition: background-color 0.1s ease-in-out;
-  margin-right: 3rem;
+// ... cole o resto do seu SCSS aqui ...
+.logo-header {
+  height: 60px;
+  width: auto;
+  border-radius: 50%;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease;
 
   &:hover {
-    background-color: #E65100;
-    transform: scale(1.1); 
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); 
-
+    transform: scale(1.1);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
   }
 }
 
+// Substitua o seu .pacotes-link por este bloco completo
+
+.pacotes-link {
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 5px;
+  margin-right: 3rem;
+  transition: background-color 0.2s ease-in-out, transform 0.2s ease;
+
+  // --- INÍCIO DOS AJUSTES DO SUBLINHADO ---
+
+  position: relative; // Essencial para o posicionamento do sublinhado
+  text-decoration: none; // Garante que não haja o sublinhado padrão do navegador
+
+  // O pseudo-elemento que será o nosso sublinhado customizado
+  &::after {
+    content: ''; // Pseudo-elementos precisam de um 'content' vazio
+    position: absolute;
+    width: 100%; // A linha terá 100% da largura do texto
+    height: 2px; // A grossura da linha
+    background-color: white; // A cor da linha
+    
+    // Posicionamento da linha
+    bottom: -5px; // Distância da linha para o texto. Ajuste se necessário.
+    left: 0;
+    
+    // Animação: a linha começa com escala 0 (invisível)
+    transform: scaleX(0);
+    transform-origin: center; // Faz a animação começar do centro para as pontas
+    transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1); // Transição suave
+  }
+
+  // Quando o rato passa por cima do link
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px); // Mantém o seu efeito de elevação
+    
+    // O sublinhado "cresce" até à sua largura total
+    &::after {
+      transform: scaleX(1);
+    }
+  }
+}
 
 .user-icon-button {
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 !important; 
-  overflow: hidden; 
+  padding: 0 !important;
+  overflow: hidden;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 
-  
   .profile-avatar {
     width: 100%;
     height: 100%;
-    object-fit: cover; 
-    
+    object-fit: cover;
   }
 
-  
   .header-user-icon {
-    width: 40px;
-    height: 40px;
+    width: 28px;
+    height: 28px;
+    color: white;
   }
 }
 
-:host ::ng-deep .dropdown-toggle::after {
-  display: none;
-}
-:host ::ng-deep .dropdown-menu {
-  background-color: white;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  margin-top: 10px !important;
-}
-:host ::ng-deep .dropdown-item {
-  color: var(--primary-orange);
-}
-:host ::ng-deep .dropdown-item:hover,
-:host ::ng-deep .dropdown-item:focus {
-  color: var(--secondary-orange);
-  background-color: rgba(255, 255, 255, 0.1);
-}
-:host ::ng-deep .dropdown-divider {
-  border-top: 1px solid rgba(15, 2, 2, 0.15);
-}
-.logo-header {
-  height: 60px;
-  width: 60px;
- border-radius: 50%;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  transition: all 0.3s ease; 
-}
-
-.logo-header:hover {
-  transform: scale(1.1); 
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); 
+:host ::ng-deep {
+  .dropdown-toggle::after {
+    display: none;
+  }
+  .dropdown-menu {
+    background-color: white;
+    border: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    margin-top: 10px !important;
+  }
+  .dropdown-item {
+    color: #333;
+    font-weight: 500;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    &:hover,
+    &:focus {
+      color: var(--primary-orange);
+      background-color: #f8f9fa;
+    }
+  }
+  .dropdown-divider {
+    border-top: 1px solid #eee;
+  }
 }
