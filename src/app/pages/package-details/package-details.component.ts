@@ -15,6 +15,7 @@ export class PackageDetailsComponent implements OnInit {
 
   package: Package | undefined;
   isLoading = true;
+  numberOfDays: number | null = null; // <-- Propriedade adicionada
 
   constructor(
     private route: ActivatedRoute,
@@ -23,19 +24,18 @@ export class PackageDetailsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    
     const packageId = this.route.snapshot.paramMap.get('id');
     
     if (packageId) {
       this.isLoading = true;
       
-      
       this.packageService.getPackageById(packageId).subscribe({
         next: (data) => {
           if (data) {
             this.package = data;
-          } else {
             
+            this.numberOfDays = this.calculateNumberOfDays(data.startDate, data.endDate);
+          } else {
             this.router.navigate(['/']);
           }
           this.isLoading = false;
@@ -47,8 +47,23 @@ export class PackageDetailsComponent implements OnInit {
         }
       });
     } else {
-      
       this.router.navigate(['/']);
     }
+  }
+
+  
+  private calculateNumberOfDays(startDateString: string, endDateString: string): number | null {
+    if (!startDateString || !endDateString) {
+      return null;
+    }
+
+    const startDate = new Date(startDateString);
+    const endDate = new Date(endDateString);
+
+    const differenceInMs = endDate.getTime() - startDate.getTime();
+    const differenceInDays = differenceInMs / (1000 * 60 * 60 * 24);
+
+    
+    return Math.round(differenceInDays) + 1;
   }
 }

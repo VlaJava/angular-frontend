@@ -23,9 +23,13 @@
       <p class="mb-4">{{ package.description }}</p>
 
       <ul class="list-unstyled">
-        <li>
+        <li *ngIf="numberOfDays">
           <strong><i class="bi bi-clock me-2"></i>Duração:</strong>
-          <span class="fw-bold">1 dia</span>
+          <span class="fw-bold">
+            {{ numberOfDays }} 
+            <span *ngIf="numberOfDays === 1">dia</span>
+            <span *ngIf="numberOfDays > 1">dias</span>
+          </span>
         </li>
         <li>
           <strong><i class="bi bi-cash-coin me-2"></i>Preço por pessoa:</strong>
@@ -43,7 +47,7 @@
             value: package.price,
             image: package.imageUrl,
             
-            days: 1 
+            days: numberOfDays
           }">
           Reservar Agora
         </button>
