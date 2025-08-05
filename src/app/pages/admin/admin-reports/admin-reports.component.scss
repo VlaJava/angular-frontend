@@ -1,0 +1,29 @@
+@import '../../../../styles/variables.scss';
+
+.reports-title {
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.reports-subtitle {
+  color: $gray-600;
+  margin-bottom: 2rem;
+}
+
+.report-actions {
+  .btn-primary {
+    background-color: $primary-color;
+    border-color: $primary-color;
+
+    &:hover {
+      background-color: $secondary-color;
+      border-color: $secondary-color;
+    }
+  }
+}
+
+// Garante que o chatbot ocupe uma altura adequada na coluna
+.chatbot-wrapper {
+  height: 75vh; // Define uma altura para o container do chat
+  min-height: 500px; // Altura mínima
+}
