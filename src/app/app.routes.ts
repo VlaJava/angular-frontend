@@ -73,6 +73,11 @@ export const routes: Routes = [
 
 
 
+    {
+    path: 'finalize-booking', 
+    component: BookingFinalizationComponent
+  },  
+
   // --- Rota Privada para Usuários Logados ---
   {
     path: 'profile',
@@ -97,6 +102,7 @@ export const routes: Routes = [
       { path: 'users', component: AdminUsersComponent },
       { path: 'avaliacoes', component: AdminReviewsComponent },
       { path: 'relatorios', component: AdminReportsComponent },
+
     ]
   },
   { path: 'packages/:id/admin', 

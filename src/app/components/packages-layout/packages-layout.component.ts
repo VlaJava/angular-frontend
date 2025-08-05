@@ -1,155 +1,158 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CommonModule, formatNumber } from '@angular/common'; // Importe formatNumber
-import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
+import { Component, Input, OnInit, OnChanges } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { PackageCardComponent } from '../package-card/package-card.component';
-import { PackageService, PaginatedPackagesResponse } from '../../services/package.service';
-import { ToastrService } from 'ngx-toastr';
-import { Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
-
-// Interface para formatar os "pills" de filtros ativos
-interface ActiveFilter {
-  key: string;      // Ex: 'destination'
-  label: string;    // Ex: 'Destino'
-  value: string;    // Ex: 'Paris'
-}
+import { CommonModule } from '@angular/common';
+import { Package } from '../../types/package.type';
+import { PackageService } from '../../services/package.service';
 
 @Component({
-    selector: 'app-packages-layout',
-    standalone: true,
-    imports: [
-        CommonModule,
-        PackageCardComponent,
-        ReactiveFormsModule
-    ],
-    templateUrl: './packages-layout.component.html',
-    styleUrls: ['./packages-layout.component.scss']
+  selector: 'app-packages-layout',
+  standalone: true,
+  imports: [
+    CommonModule,
+    PackageCardComponent,
+    FormsModule
+  ],
+  templateUrl: './packages-layout.component.html',
+  styleUrls: ['./packages-layout.component.scss']
 })
-export class PackagesLayoutComponent implements OnInit, OnDestroy {
+export class PackageLayoutComponent implements OnInit, OnChanges {
 
-  searchForm!: FormGroup;
-  private destroy$ = new Subject<void>();
+  @Input() package: Package[] = [];
+  
 
-  // --- NOVAS PROPRIEDADES ---
-  areFiltersActive = false;
-  activeFilters: ActiveFilter[] = [];
+  filteredPackages: Package[] = [];
+  
 
-  paginatedResponse: PaginatedPackagesResponse = {
-    content: [], currentPage: 0, totalItems: 0, totalPages: 0
-  };
-  isLoading = true;
+  filterOrigin: string = '';
+  filterDestination: string = '';
+  filterStartDate: string = '';
+  filterEndDate: string = '';
+  budgetValue: number = 15000;
+  maxBudget: number = 15000;
+  minBudget: number = 1000;
 
   constructor(
-    private packageService: PackageService,
-    private toastr: ToastrService,
-    private fb: FormBuilder
+    private packageService: PackageService
   ) { }
 
-  ngOnInit(): void {
-    this.searchForm = this.fb.group({
-      source: [null],
-      destination: [null],
-      startDate: [null],
-      endDate: [null],
-      price: [15000]
-    });
-
-    this.searchForm.valueChanges.pipe(
-      debounceTime(500),
-      distinctUntilChanged(),
-      takeUntil(this.destroy$)
-    ).subscribe(values => {
-      this.updateActiveFilters(values); // Atualiza os "pills" e o título
-      this.onSearch();
-    });
-
-    this.loadPackages();
-    this.updateActiveFilters(this.searchForm.value); // Roda uma vez no início
+  ngOnInit() {
+    this.filteredPackages = [...this.package];
   }
 
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
+  ngOnChanges() {
+    this.filteredPackages = [...this.package];
+    this.applyFilters();
   }
 
-  // --- NOVOS MÉTODOS ---
-
-  /**
-   * Atualiza a lista de filtros ativos (pills) e o estado do título.
-   */
-  private updateActiveFilters(values: any): void {
-    this.activeFilters = []; // Limpa a lista atual
-
-    if (values.source) {
-      this.activeFilters.push({ key: 'source', label: 'Origem', value: values.source });
-    }
-    if (values.destination) {
-      this.activeFilters.push({ key: 'destination', label: 'Destino', value: values.destination });
-    }
-    if (values.startDate) {
-      this.activeFilters.push({ key: 'startDate', label: 'Data de Ida', value: values.startDate });
-    }
-    if (values.endDate) {
-      this.activeFilters.push({ key: 'endDate', label: 'Data de Volta', value: values.endDate });
-    }
-    if (values.price < 15000) {
-      const formattedPrice = `Até R$ ${formatNumber(values.price, 'pt-BR', '1.0-0')}`;
-      this.activeFilters.push({ key: 'price', label: 'Orçamento', value: formattedPrice });
-    }
-
-    // Define se o título deve mudar
-    this.areFiltersActive = this.activeFilters.length > 0;
-  }
-
-  /**
-   * Remove um filtro específico quando o utilizador clica no 'x' do pill.
-   */
-  removeFilter(keyToRemove: string): void {
-    const initialValue = keyToRemove === 'price' ? 15000 : null;
-    this.searchForm.get(keyToRemove)?.setValue(initialValue);
-  }
-
-  // --- MÉTODOS EXISTENTES ---
-
-  onSearch(): void {
-    this.loadPackages(0);
-  }
-
-  loadPackages(page: number = 0): void {
-    this.isLoading = true;
-    const filters = this.searchForm.value;
-
-    this.packageService.getPackages(page, 6, filters).subscribe({
-      next: (data) => {
-        this.paginatedResponse = data;
-        this.isLoading = false;
-      },
-      error: (err) => {
-        this.toastr.error('Erro ao carregar os pacotes.');
-        console.error(err);
-        this.isLoading = false;
-      }
-    });
-  }
   
-  clearFilters(): void {
-    this.searchForm.reset({
-      source: null,
-      destination: null,
-      startDate: null,
-      endDate: null,
-      price: 15000
+  applyFilters() {
+    if (!this.package || this.package.length === 0) {
+      this.filteredPackages = [];
+      return;
+    }
+
+    this.filteredPackages = this.package.filter(pkg => {
+    
+      const budgetMatch = pkg.price <= this.budgetValue;
+      
+      const destinationMatch = !this.filterDestination || 
+        pkg.destination.toLowerCase().includes(this.filterDestination.toLowerCase());
+      
+    
+      const originMatch = !this.filterOrigin || 
+        (pkg.source && pkg.source.toLowerCase().includes(this.filterOrigin.toLowerCase()));
+      
+      
+      const startDateMatch = !this.filterStartDate || 
+        !pkg.startDate || 
+        new Date(pkg.startDate) >= new Date(this.filterStartDate);
+      
+      const endDateMatch = !this.filterEndDate || 
+        !pkg.endDate || 
+        new Date(pkg.endDate) <= new Date(this.filterEndDate);
+      
+      const matches = budgetMatch && destinationMatch && originMatch && startDateMatch && endDateMatch;
+      
+      return matches;
+    });
+    
+  
+    console.log('Filtros aplicados:', {
+      totalpackages: this.package.length,
+      budgetValue: this.budgetValue,
+      filterDestination: this.filterDestination,
+      filterOrigin: this.filterOrigin,
+      filterStartDate: this.filterStartDate,
+      filterEndDate: this.filterEndDate,
+      resultados: this.filteredPackages.length
     });
   }
 
-  changePage(page: number): void {
-    if (page >= 0 && page < this.paginatedResponse.totalPages) {
-      this.loadPackages(page);
+  onSearch() {
+    this.applyFilters();
+  }
+
+
+  onBudgetChange() {
+    this.applyFilters();
+  }
+
+  get formattedBudget(): string {
+    return new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+      minimumFractionDigits: 0
+    }).format(this.budgetValue);
+  }
+
+  get todayDate(): string {
+    const today = new Date();
+    return today.toISOString().split('T')[0];
+  }
+
+ 
+  get sectionTitle(): string {
+    return this.hasActiveFilters() ? 'Pacotes Encontrados' : 'Pacotes Imperdíveis';
+  }
+
+
+  clearFilters() {
+    this.filterOrigin = '';
+    this.filterDestination = '';
+    this.filterStartDate = '';
+    this.filterEndDate = '';
+    this.budgetValue = this.maxBudget;
+    this.filteredPackages = [...this.package];
+  }
+
+  hasActiveFilters(): boolean {
+    return !!(this.filterDestination || 
+             this.filterOrigin || 
+             this.filterStartDate || 
+             this.filterEndDate || 
+             this.budgetValue < this.maxBudget);
+  }
+
+  removeFilter(filterType: string) {
+    switch(filterType) {
+      case 'destination':
+        this.filterDestination = '';
+        break;
+      case 'origin':
+        this.filterOrigin = '';
+        break;
+      case 'budget':
+        this.budgetValue = this.maxBudget;
+        break;
+      case 'startDate':
+        this.filterStartDate = '';
+        break;
+      case 'endDate':
+        this.filterEndDate = '';
+        break;
     }
+    this.applyFilters();
   }
-  
-  getPageNumbers(): number[] {
-    if (!this.paginatedResponse || this.paginatedResponse.totalPages === 0) { return []; }
-    return Array(this.paginatedResponse.totalPages).fill(0).map((x, i) => i);
-  }
+
 }

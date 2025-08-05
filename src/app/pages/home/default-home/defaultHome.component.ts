@@ -1,11 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PackagesLayoutComponent } from '../../../components/packages-layout/packages-layout.component';
+import { PackageLayoutComponent } from '../../../components/packages-layout/packages-layout.component';
 import { PackageService, PaginatedPackagesResponse } from '../../../services/package.service';
 
 import { Package } from '../../../types/package.type';
 
 @Component({
+  selector: 'app-default-home',
+  standalone: true,
+  imports: [
+    CommonModule,
+    PackageLayoutComponent
+  ],
+  templateUrl: './defaultHome.component.html',
+  styleUrls: ['./defaultHome.component.scss']
     selector: 'app-default-home',
     standalone: true,
     imports: [
