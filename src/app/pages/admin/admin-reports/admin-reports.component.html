@@ -1,1 +1,34 @@
-<p>admin-reports works!</p>
+<div class="container-fluid p-4">
+  <!-- Título e subtítulo agora ficam acima das colunas -->
+  <h1 class="reports-title">Relatórios do Sistema</h1>
+  <p class="reports-subtitle">Selecione um tipo de relatório para exportar ou converse com o Super Avanildo para obter insights em tempo real.</p>
+
+  <div class="row g-4">
+    <!-- Coluna da Esquerda: Ações de Relatório -->
+    <div class="col-lg-6">
+      <div class="card report-actions">
+        <div class="card-body">
+          <h5 class="card-title fw-bold">Exportar Dados</h5>
+          <div class="input-group">
+            <select class="form-select" [(ngModel)]="selectedReport">
+              <option value="packages">Relatório de Pacotes</option>
+              <option value="bookings">Relatório de Reservas</option>
+              <option value="users">Relatório de Usuários</option>
+              <option value="reviews">Relatório de Avaliações</option>
+            </select>
+            <button class="btn btn-primary" (click)="exportReport()">
+              <i class="fas fa-download me-2"></i>Exportar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Coluna da Direita: Super Chatbot -->
+    <div class="col-lg-6">
+      <div class="chatbot-wrapper">
+        <app-super-chatbot></app-super-chatbot>
+      </div>
+    </div>
+  </div>
+</div>
