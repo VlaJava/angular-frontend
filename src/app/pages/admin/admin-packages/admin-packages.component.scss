@@ -80,10 +80,10 @@
 }
 
 .delete-link {
-    color: #dc3545; // Um tom de vermelho para perigo
+    color: #dc3545; 
 
     &:hover {
-      color: #c82333; // Vermelho um pouco mais escuro no hover
+      color: #c82333; 
     }
   }
 
@@ -92,4 +92,38 @@
   padding: 40px;
   color: #868e96;
   font-size: 16px;
+}
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.btn-pagination {
+  background-color: #fff;
+  border: 1px solid #dee2e6;
+  color: var(--primary-orange);
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover:not(:disabled) {
+    background-color: #f8f9fa;
+  }
+
+  &.active {
+    background-color: var(--primary-orange);
+    color: white;
+    border-color: var(--primary-orange);
+  }
+
+  &:disabled {
+    color: #6c757d;
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
 }

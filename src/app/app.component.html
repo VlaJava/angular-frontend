@@ -1,8 +1,17 @@
 <app-header></app-header>
 
-<main style="flex: 1;">
+<main>
   <router-outlet></router-outlet>
   
 </main>
 
 <app-footer></app-footer>
+
+<app-chat-icon *ngIf="!isChatOpen" (onClick)="toggleChat()"></app-chat-icon>
+
+<app-chatbot
+  *ngIf="isChatOpen"
+  [isOpen]="isChatOpen"
+  [packages]="availablePackages"
+  (onClose)="toggleChat()">
+</app-chatbot>

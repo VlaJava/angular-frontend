@@ -32,6 +32,9 @@ body {
   font-family: 'Poppins', sans-serif;
   background-color: var(--light-gray);
   color: var(--text-color);
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 @import 'bootstrap/scss/bootstrap';

@@ -1,8 +1,8 @@
 <section class="hero-section text-white text-center">
   <div class="hero-overlay"></div>
   <div class="container position-relative">
-    <h1 class="display-4 fw-bold">Sua Próxima Aventura com ViajAva</h1>
-    <p class="lead my-3">Explore destinos incríveis e viva experiências inesquecíveis.</p>
+    <h1 class="display-4 fw-bold">Sua Próxima Aventura com ViaJava <i class="bi bi-airplane-engines"></i></h1>
+    <p class="lead my-3">Onde cada viagem é uma nova versão da sua história.</p>
     <a href="#" class="btn btn-orange">Ver Pacotes</a>
   </div>
 </section>
@@ -12,11 +12,10 @@
   <p class="lead text-muted">Selecione o destino dos seus sonhos. Temos opções para todos os gostos e orçamentos.</p>
 </section>
 
-<section class="search-section container">
-  </section>
 
 <section class="search-section container">
-  <div class="search-wrapper p-4 rounded-3"> <div class="row g-3 align-items-end">
+  <div class="search-wrapper p-4 rounded-3">
+    <div class="row g-3 align-items-end">
 
     <div class="col-lg-4 col-md-12">
       <label class="form-label text-white fw-bold">Trajeto</label>
@@ -41,12 +40,14 @@
         <input type="date" 
                class="form-control text-center" 
                placeholder="Ida"
+               [min]="todayDate"
                [(ngModel)]="filterStartDate"
                (ngModelChange)="onSearch()">
         <div class="divider-vertical"></div>
         <input type="date" 
                class="form-control text-center" 
                placeholder="Volta"
+               [min]="filterStartDate || todayDate"
                [(ngModel)]="filterEndDate"
                (ngModelChange)="onSearch()">
       </div>
@@ -75,10 +76,8 @@
       </button>
     </div>
   </div>
-
-</div>
+  </div>
 </section>
-
 
 <section class="container my-5">
   <h2 class="fw-bold mb-4" [class.filtered]="hasActiveFilters()">
@@ -116,7 +115,7 @@
   
   <p class="text-muted mb-4" *ngIf="hasActiveFilters()">
     <span *ngIf="filteredPackages.length > 0">
-      Mostrando {{ filteredPackages.length }} de {{ pacotes.length }} pacotes
+      Mostrando {{ filteredPackages.length }} de {{ package.length }} pacotes
     </span>
     <span *ngIf="filteredPackages.length === 0">
       Nenhum pacote encontrado com os filtros aplicados
@@ -125,8 +124,8 @@
   
   
   <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" *ngIf="filteredPackages.length > 0">
-    <div class="col" *ngFor="let pacote of filteredPackages">
-      <app-package-card [pacote]="pacote"></app-package-card>
+    <div class="col" *ngFor="let pkg of filteredPackages">
+      <app-package-card [pacote]="pkg"></app-package-card>
     </div>
   </div>
   

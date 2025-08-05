@@ -1,11 +1,14 @@
 export interface User {
-
-  id: number;
+  id: string;
   name: string;
   email: string;
-  document: string; 
+  document: string;
   phone: string;
   active: boolean;
-  role: 'ADMIN' | 'CLIENT'; 
-  
+  role: 'ADMIN' | 'CLIENT';
+  password?: string;
+  birthdate?: string;
+  documentType?: string;
+  documentNumber?: string;
+  imageUrl?: string;
 }

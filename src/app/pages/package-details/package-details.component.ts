@@ -13,7 +13,7 @@ import { Package } from '../../types/package.type';
 })
 export class PackageDetailsComponent implements OnInit {
 
-  pacote: Package | undefined;
+  package: Package | undefined;
   isLoading = true;
 
   constructor(
@@ -23,18 +23,19 @@ export class PackageDetailsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    const idParam = this.route.snapshot.paramMap.get('id');
     
-    if (idParam) {
-      // ✅ CORREÇÃO: Converte o ID da URL (string) para um número
-      const packageId = +idParam; 
+    const packageId = this.route.snapshot.paramMap.get('id');
+    
+    if (packageId) {
       this.isLoading = true;
+      
       
       this.packageService.getPackageById(packageId).subscribe({
         next: (data) => {
           if (data) {
-            this.pacote = data;
+            this.package = data;
           } else {
+            
             this.router.navigate(['/']);
           }
           this.isLoading = false;
@@ -46,6 +47,7 @@ export class PackageDetailsComponent implements OnInit {
         }
       });
     } else {
+      
       this.router.navigate(['/']);
     }
   }

@@ -7,7 +7,8 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { LoginRequest } from '../../types/login-request.type';
 
-// Interface para o formulário
+// Interface para o formulário (opcional, mas boa prática)
+// ✅ CORREÇÃO: Alterado de 'password' para 'senha'
 interface LoginForm {
   email: FormControl<string | null>;
   password: FormControl<string | null>;
@@ -35,6 +36,7 @@ export class LoginComponent {
   ) {
     this.loginForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
+      
       password: new FormControl('', [Validators.required, Validators.minLength(6)]),
     });
   }
@@ -45,20 +47,20 @@ export class LoginComponent {
       return;
     }
 
+    
     const credenciais: LoginRequest = {
       email: this.loginForm.value.email ?? '',
-      senha: this.loginForm.value.password ?? ''
+      password: this.loginForm.value.password ?? ''
     };
 
-    // ✅ CORREÇÃO AQUI: Chamando o método a partir do authService, e não do loginForm
     this.authService.login(credenciais).subscribe({
-      next: (response) => {
-        // A lógica de salvar o token e o usuário pode ser adicionada aqui
-        this.toastService.success("Login efetuado com sucesso!");
-        this.router.navigate(["/dashboard"]);
+      next: (user) => {
+        this.toastService.success(`Login efetuado com sucesso, ${user.name}!`);
+       
+        this.router.navigate(["/"]); 
       },
       error: (err) => {
-        console.error(err); // É bom logar o erro para depuração
+        console.error("Falha no login:", err); 
         this.toastService.error("E-mail ou senha inválidos. Tente novamente.");
       }
     });

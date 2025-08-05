@@ -1,43 +1,84 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { PackageModalComponent } from '../../../components/package-modal/package-modal.component';
-import { PackageService } from '../../../services/package.service';
-import { ToastrService } from 'ngx-toastr';
-// ✅ 1. Caminho da interface corrigido para o ficheiro de tipos centralizado
-import { Package } from '../../../types/package.type';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { CommonModule, CurrencyPipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
+import { PackageModalComponent } from '../../../components/package-modal/package-modal.component';
+import { PackageService, PaginatedPackagesResponse } from '../../../services/package.service';
+import { ToastrService } from 'ngx-toastr';
+import { Package } from '../../../types/package.type';
 
 @Component({
   selector: 'app-admin-packages',
   standalone: true,
   imports: [
     CommonModule,
-    PackageModalComponent
+    PackageModalComponent,
+    CurrencyPipe,
+    RouterLink,
+    ReactiveFormsModule 
   ],
   templateUrl: './admin-packages.component.html',
   styleUrls: ['./admin-packages.component.scss']
 })
-export class AdminPackagesComponent implements OnInit {
-  isModalVisible = false;
+export class AdminPackagesComponent implements OnInit, OnDestroy {
+  isModalOpen = false; 
   isLoading = true; 
-  packages: Package[] = [];
-
   
+  
+  filterForm!: FormGroup; 
+  
+  
+  private destroy$ = new Subject<void>();
+  
+  selectedPackageForEdit: Package | null = null;
+
+  paginatedResponse: PaginatedPackagesResponse = {
+    content: [],
+    currentPage: 0,
+    totalItems: 0,
+    totalPages: 0
+  };
+    
   constructor(
     private packageService: PackageService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private fb: FormBuilder 
   ) {}
 
-  
   ngOnInit(): void {
+    
+    this.filterForm = this.fb.group({
+      source: [''],      
+      destination: [''] ,
+      available: [null] 
+    });
+
+    
     this.loadPackages();
+
+    
+    this.filterForm.valueChanges.pipe(
+      debounceTime(400), 
+      distinctUntilChanged(), 
+      takeUntil(this.destroy$) 
+    ).subscribe(() => {
+     
+      this.loadPackages(0); 
+    });
   }
 
-  loadPackages(): void {
+  
+  loadPackages(page: number = 0): void {
     this.isLoading = true;
-    this.packageService.getPackages().subscribe({
+    const filters = this.filterForm.value; 
+
+    
+    this.packageService.getPackages(page, 6, filters).subscribe({
       next: (data) => {
-        this.packages = data;
+        this.paginatedResponse = data;
         this.isLoading = false;
       },
       error: () => {
@@ -47,39 +88,59 @@ export class AdminPackagesComponent implements OnInit {
     });
   }
 
-  openModal() {
-    this.isModalVisible = true;
-  }
-
-  closeModal() {
-    this.isModalVisible = false;
-  }
-
-  handleSavePackage(packageData: Package) {
-    this.packageService.createPackage(packageData).subscribe({
-      next: () => {
-        this.toastr.success('Pacote criado com sucesso!');
-        this.loadPackages();
-        this.closeModal();
-      },
-      error: () => {
-        this.toastr.error('Erro ao criar o pacote.');
-      }
+  
+  clearFilters(): void {
+    this.filterForm.reset({
+      title: '',
+      destination: '',
+      available: null
     });
+    
+  }
+  
+  changePage(page: number): void {
+    if (page >= 0 && page < this.paginatedResponse.totalPages) {
+      this.loadPackages(page); 
+    }
   }
 
-  // ✅ 2. Tipo do parâmetro 'packageId' corrigido de 'string' para 'number'
-  handleDeletePackage(packageId: number): void {
-    if (confirm('Tem certeza que deseja excluir este pacote?')) {
+  getPageNumbers(): number[] {
+    if (!this.paginatedResponse || this.paginatedResponse.totalPages === 0) {
+      return [];
+    }
+    return Array(this.paginatedResponse.totalPages).fill(0).map((x, i) => i);
+  }
+  
+  openAddModal(): void {
+    this.selectedPackageForEdit = null; 
+    this.isModalOpen = true;
+  }
+  
+  handleModalClose(wasSaved: boolean): void {
+    this.isModalOpen = false;
+    this.selectedPackageForEdit = null; 
+    if (wasSaved) {
+      this.loadPackages(this.paginatedResponse.currentPage);
+    }
+  }
+ 
+  handleDeletePackage(packageId: string): void {
+    if (confirm('Tem a certeza de que deseja apagar este pacote?')) {
       this.packageService.deletePackage(packageId).subscribe({
         next: () => {
-          this.toastr.success('Pacote excluído com sucesso!');
-          this.loadPackages();
+          this.toastr.success('Pacote apagado com sucesso!');
+          this.loadPackages(this.paginatedResponse.currentPage);
         },
         error: () => {
-          this.toastr.error('Erro ao excluir o pacote.');
+          this.toastr.error('Erro ao apagar o pacote.');
         }
       });
     }
+  }
+
+  
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
