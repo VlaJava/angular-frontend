@@ -1,4 +1,3 @@
-<!-- Indicador de Carregamento -->
 <div class="container my-5 text-center" *ngIf="isLoading">
   <div class="spinner-border text-primary" role="status">
     <span class="visually-hidden">Loading...</span>
@@ -6,50 +5,49 @@
   <p class="mt-2">Carregando detalhes do pacote...</p>
 </div>
 
-<!-- Conteúdo do Pacote -->
 <div class="container my-5" *ngIf="!isLoading && package">
   <div class="row g-5">
 
     <div class="col-lg-7">
-      <!-- ✅ Usa 'package.imageUrl' e 'package.title' -->
       <img [src]="package.imageUrl" class="img-fluid rounded-3 shadow-lg w-100" [alt]="package.title">
     </div>
 
     <div class="col-lg-5">
-      <!-- ✅ Usa 'package.title' e 'package.destination' -->
       <h2 class="fw-bold mb-1">{{ package.title }}</h2>
       <p class="text-muted mb-2">{{ package.destination }}</p>
+
       <div class="mb-3">
         <span class="text-warning fs-5">★★★★☆</span>
       </div>
-      <!-- ✅ Usa 'package.description' -->
+
       <p class="mb-4">{{ package.description }}</p>
 
       <ul class="list-unstyled">
-        <li class="mb-2 d-flex align-items-center">
-          
+        <li>
+          <strong><i class="bi bi-clock me-2"></i>Duração:</strong>
+          <span class="fw-bold">1 dia</span>
         </li>
-        <!-- Outros detalhes podem ser adicionados aqui -->
-        <li class="mb-2 d-flex align-items-center">
-          <strong class="me-2">💲 Preço por pessoa:</strong>
-          <!-- ✅ Usa 'package.price' e o pipe currency -->
-          <span class="fw-bold fs-5 ms-1">{{ package.price | currency:'BRL' }}</span>
+        <li>
+          <strong><i class="bi bi-cash-coin me-2"></i>Preço por pessoa:</strong>
+          <span class="price-value">{{ package.price | currency:'BRL' }}</span>
         </li>
       </ul>
 
       <div class="d-grid mt-4">
-      <button class="btn btn-orange btn-lg"
-        [routerLink]="['/finalize-booking']"
-        [queryParams]="{
-        title: package.title,
-        destination: package.destination,
-        description: package.description,
-        value: package.price,
-        image: package.imageUrl,
-        days: 1
-      }"> Reservar Agora </button>      </div>
+        <button class="btn btn-orange btn-lg"
+          [routerLink]="['/finalize-booking']"
+          [queryParams]="{
+            title: package.title,
+            destination: package.destination,
+            description: package.description,
+            value: package.price,
+            image: package.imageUrl,
+            
+            days: 1 
+          }">
+          Reservar Agora
+        </button>
+      </div>
     </div>
   </div>
-
-  <!-- Seções de 'O pacote oferece' e 'Avaliações' (sem alterações) -->
 </div>
