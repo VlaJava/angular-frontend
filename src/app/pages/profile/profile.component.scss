@@ -1,6 +1,8 @@
 // Este ficheiro usa as variáveis CSS (ex: var(--primary-orange))
 // que você definiu no seu ficheiro de estilos global.
 
+@use 'sass:color'; // Adicionado para usar as novas funções de cor
+
 .profile-page-container {
   display: flex;
   gap: 40px;
@@ -25,7 +27,7 @@
     object-fit: cover;
     border: 5px solid #fff;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    object-fit: cover; 
+    object-fit: cover;
   }
 
   .btn-change-picture {
@@ -39,8 +41,8 @@
     transition: all 0.3s ease;
 
     &:hover {
-      background-color: darken(#e9ecef, 5%);
-      border-color: darken(#dee2e6, 10%);
+      background-color: color.adjust(#e9ecef, $lightness: -5%);
+      border-color: color.adjust(#dee2e6, $lightness: -10%);
     }
   }
 }
@@ -64,14 +66,16 @@
   }
 }
 
-.details-view, .edit-form {
+.details-view,
+.edit-form {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 30px;
   margin-bottom: 2rem;
 }
 
-.info-group, .form-group {
+.info-group,
+.form-group {
   label {
     display: block;
     font-size: 0.9rem;
@@ -116,8 +120,9 @@
   margin-top: auto;
   padding-top: 2rem;
   border-top: 1px solid #dee2e6;
-  
-  .view-actions, .edit-actions {
+
+  .view-actions,
+  .edit-actions {
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -132,11 +137,12 @@
     transition: color 0.3s ease;
 
     &:hover {
-      color: darken(#D32F2F, 10%);
+      color: color.adjust(#D32F2F, $lightness: -10%);
     }
   }
 
-  .btn-primary, .btn-secondary {
+  .btn-primary,
+  .btn-secondary {
     padding: 12px 25px;
     border: none;
     border-radius: 25px;
@@ -151,13 +157,13 @@
     color: #fff;
 
     &:hover:not(:disabled) {
-      background-color: darken(#FF7700, 10%);
+      background-color: color.adjust(#FF7700, $lightness: -10%);
       transform: translateY(-2px);
       box-shadow: 0 4px 10px rgba(255, 119, 0, 0.3);
     }
 
     &:disabled {
-      background-color: lighten(#FF7700, 20%);
+      background-color: color.adjust(#FF7700, $lightness: 20%);
       cursor: not-allowed;
     }
   }
@@ -167,7 +173,7 @@
     color: #fff;
 
     &:hover {
-      background-color: darken(#6c757d, 5%);
+      background-color: color.adjust(#6c757d, $lightness: -5%);
     }
   }
 }
