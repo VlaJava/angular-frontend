@@ -1,0 +1,56 @@
+<nav class="main-header" 
+     [class.scrolled]="isScrolled" 
+     [class.homepage]="isHomePage">
+
+  <div class="container">
+    <a class="navbar-brand" routerLink="/">
+      <strong class="text-white">
+        <img src="assets/homepage/logo_b.png" alt="Logo ViaJava" class="logo-header">
+      </strong>
+    </a>
+    <div class="d-flex align-items-center">
+      <a class="nav-link pacotes-link" routerLink="/">PACOTES</a>
+      
+      <div *ngIf="currentUser$ | async as currentUser; else loggedOutMenu">
+        <div ngbDropdown class="d-inline-block">
+          <button class="btn btn-outline-light rounded-circle p-0 user-icon-button" ngbDropdownToggle>
+            
+            <img *ngIf="userImage$ | async as safeImageUrl" [src]="safeImageUrl" alt="Foto de Perfil" class="profile-avatar">
+            
+            <ng-container *ngIf="!(userImage$ | async)">
+              <i class="bi bi-person-check-fill header-user-icon"></i>
+            </ng-container>
+            </button>
+          <div ngbDropdownMenu class="dropdown-menu-end">
+            <div class="px-3 py-2 text-muted">Bem-vindo, {{ currentUser.name }}</div>
+            <div class="dropdown-divider"></div>
+            <a ngbDropdownItem routerLink="/profile">Meu perfil</a>
+            <ng-container *ngIf="currentUser.role === 'ADMIN'">
+              <a ngbDropdownItem routerLink="/admin">Painel Administrativo</a>
+            </ng-container>
+            <ng-container *ngIf="currentUser.role !== 'ADMIN'">
+              <a ngbDropdownItem routerLink="/my-reservations">Minhas reservas</a>
+            </ng-container>
+            <div class="dropdown-divider"></div>
+            <button ngbDropdownItem (click)="onLogout()">Sair</button>
+          </div>
+        </div>
+      </div>
+
+      <ng-template #loggedOutMenu>
+        <div ngbDropdown class="d-inline-block">
+          <button class="btn btn-outline-light rounded-circle p-0 user-icon-button" ngbDropdownToggle>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-person header-user-icon" viewBox="0 0 16 16">
+              <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+            </svg>
+          </button>
+          <div ngbDropdownMenu class="dropdown-menu-end">
+            <div class="px-3 py-2 text-muted">Bem-vindo!</div>
+            <div class="dropdown-divider"></div>
+            <a ngbDropdownItem routerLink="/login">Fazer Login</a>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</nav>

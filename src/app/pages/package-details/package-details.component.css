@@ -1,0 +1,140 @@
+/* --- Estilos Gerais --- */
+.container {
+  max-width: 1140px;
+}
+
+/* --- Imagem do Pacote --- */
+.img-fluid {
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  height: 100%;
+  object-fit: cover;
+}
+
+.img-fluid:hover {
+  transform: scale(1.03);
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.25) !important;
+}
+
+/* --- Detalhes do Pacote (Coluna da Direita) --- */
+.col-lg-5 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+h2.fw-bold {
+  font-size: 2.8rem;
+  color: #2c3e50;
+  line-height: 1.2;
+}
+
+.text-muted {
+  font-size: 1.2rem;
+  color: #7f8c8d !important;
+}
+
+.col-lg-5 p.mb-4 {
+  font-size: 1.1rem;
+  color: #34495e;
+  line-height: 1.6;
+}
+
+/* --- Avaliações (Estrelas) --- */
+.text-warning.fs-5 {
+  font-size: 1.5rem !important;
+  letter-spacing: 2px;
+}
+
+/* --- Lista de Detalhes (Preço, Duração) --- */
+.list-unstyled li {
+  font-size: 1.1rem;
+  color: #34495e;
+  padding: 12px 5px;
+  border-bottom: 1px solid #ecf0f1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.list-unstyled li:first-child {
+    border-top: 1px solid #ecf0f1;
+}
+
+.list-unstyled li strong {
+  color: #2c3e50;
+}
+
+.list-unstyled .price-value {
+  color: #27ae60;
+  font-size: 1.8rem !important;
+  font-weight: bold;
+}
+
+/* --- Botão de Reservar (Customizado) --- */
+.btn-orange {
+  background-color: #e67e22;
+  border-color: #d35400;
+  color: #fff;
+  font-weight: bold;
+  padding: 15px 0;
+  font-size: 1.2rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(230, 126, 34, 0.4);
+}
+
+.btn-orange:hover {
+  background-color: #d35400;
+  border-color: #a04000;
+  color: #fff;
+  transform: translateY(-3px);
+  box-shadow: 0 7px 20px rgba(230, 126, 34, 0.6);
+}
+/* --- Estilos de Responsividade --- */
+
+/* Para tablets e telas menores (quando as colunas começam a empilhar) 
+   Aplica de 991.98px para baixo */
+@media (max-width: 991.98px) {
+  .col-lg-5 {
+    /* Adiciona um espaço acima do bloco de texto quando ele fica abaixo da imagem */
+    margin-top: 2rem;
+  }
+
+  h2.fw-bold,
+  p.text-muted {
+    /* Centraliza o título e o destino para um melhor visual em telas médias */
+    text-align: center;
+  }
+}
+
+/* Para celulares (telas pequenas) 
+   Aplica de 576px para baixo */
+@media (max-width: 576px) {
+  h2.fw-bold {
+    /* Reduz o tamanho da fonte do título para caber melhor na tela */
+    font-size: 2.1rem;
+  }
+
+  p.text-muted {
+    font-size: 1.1rem;
+  }
+
+  /* Ajusta o tamanho da fonte da descrição e da lista */
+  .col-lg-5 p.mb-4,
+  .list-unstyled li {
+    font-size: 1rem;
+  }
+
+  /* Reduz o tamanho do preço para não ficar desproporcional */
+  .list-unstyled .price-value {
+    font-size: 1.6rem !important;
+  }
+
+  /* Ajusta o botão de reserva para telas pequenas */
+  .btn-orange {
+    padding: 12px 0;
+    font-size: 1.1rem;
+  }
+}

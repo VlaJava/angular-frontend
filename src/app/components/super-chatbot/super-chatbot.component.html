@@ -1,0 +1,29 @@
+<div class="chatbot-container">
+  <div class="chatbot-header">
+    <h3 class="chatbot-title">
+      <i class="fas fa-brain me-2"></i>Super Avanildo
+    </h3>
+  </div>
+
+  <div class="messages-container" #scrollMe>
+    <div *ngFor="let msg of messages" class="message-wrapper">
+      <app-message [message]="msg"></app-message>
+    </div>
+  </div>
+
+  <div class="input-container">
+    <form (ngSubmit)="sendMessage()" class="input-form">
+      <input
+        type="text"
+        [(ngModel)]="currentMessage"
+        name="message"
+        class="message-input"
+        placeholder="Ex: Qual o pacote mais vendido?"
+        [disabled]="messages[messages.length - 1].isLoading ?? false"
+      />
+      <button type="submit" class="send-button" [disabled]="(messages[messages.length - 1].isLoading ?? false) || !currentMessage.trim()">
+        <i class="fas fa-paper-plane"></i>
+      </button>
+    </form>
+  </div>
+</div>

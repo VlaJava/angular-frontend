@@ -1,0 +1,141 @@
+.footer-custom {
+  background-color: var(--dark-blue);
+  color: white;
+  padding: 20px;
+  margin-top: auto;
+  
+  @media (max-width: 768px) {
+    padding: 15px;
+  }
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+}
+
+.footer-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex: 1;
+}
+
+.footer-left {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  
+  @media (max-width: 768px) {
+    justify-content: center;
+  }
+}
+
+.footer-right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  
+  @media (max-width: 768px) {
+    justify-content: center;
+  }
+}
+
+.footer-left a {
+  text-decoration: none;
+  display: inline-block;
+}
+
+.footer-logo {
+  height: 60px;
+  width: auto;
+  margin: 0;
+  display: block;
+  transition: opacity 0.3s ease, transform 0.2s ease;
+  cursor: pointer;
+  
+  &:hover {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+  
+  @media (max-width: 768px) {
+    height: 35px;
+  }
+}
+
+.company-name {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  opacity: 0.9;
+  text-align: center;
+}
+
+.rights-text {
+  margin: 2px 0 0 0;
+  font-size: 12px;
+  opacity: 0.7;
+  text-align: center;
+}
+
+.social-icons {
+  margin: 0;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  
+  @media (max-width: 768px) {
+    justify-content: center;
+  }
+}
+
+.social-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 35px;
+  height: 35px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  color: #fff;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  
+  &:hover {
+    background-color: var(--primary-orange);
+    border-color: var(--primary-orange);
+    color: #fff;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(255, 119, 0, 0.3);
+  }
+}
+
+.footer-link {
+  color: #fff;
+  text-decoration: none;
+  font-size: 13px;
+  opacity: 0.8;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    color: var(--primary-orange);
+    opacity: 1;
+    text-decoration: underline;
+  }
+}

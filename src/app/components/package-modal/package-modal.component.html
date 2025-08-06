@@ -1,0 +1,75 @@
+<div class="modal-overlay" (click)="onCancel()">
+  <div class="modal-container" (click)="$event.stopPropagation()">
+    <h2>Novo Pacote</h2>
+    
+    <form *ngIf="packageForm" [formGroup]="packageForm" (ngSubmit)="onSave()">
+      
+    
+      <div class="form-group">
+        <label for="title">Título *</label>
+       
+        <input id="title" type="text" formControlName="title">
+      </div>
+      
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="source">Origem *</label>
+          
+          <input id="source" type="text" formControlName="source">
+        </div>
+        <div class="form-group">
+          <label for="destination">Destino *</label>
+          
+          <input id="destination" type="text" formControlName="destination">
+        </div>
+      </div>
+
+      
+      <div class="form-group">
+        <label for="description">Descrição *</label>
+        
+        <textarea id="description" rows="3" formControlName="description"></textarea>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="price">Preço *</label>
+        
+          <input id="price" type="number" formControlName="price">
+        </div>
+        <div class="form-group">
+          <label for="travelerLimit">Limite de Viajantes *</label>
+         
+          <input id="travelerLimit" type="number" formControlName="travelerLimit">
+        </div>
+      </div>
+
+     
+      <div class="form-row">
+        <div class="form-group">
+          <label for="startDate">Data de início *</label>
+         
+          <input id="startDate" type="date" formControlName="startDate">
+        </div>
+        <div class="form-group">
+          <label for="endDate">Data final *</label>
+          
+          <input id="endDate" type="date" formControlName="endDate">
+        </div>
+      </div>
+
+    
+      <div class="form-group checkbox-group">
+        <input id="available" type="checkbox" formControlName="available">
+        <label for="available">Disponível</label>
+      </div>
+      
+     
+      <div class="modal-footer">
+        <button type="button" class="btn-secondary" (click)="onCancel()">Cancelar</button>
+        <button type="submit" class="btn-primary" [disabled]="packageForm.invalid">Salvar</button>
+      </div>
+    </form>
+  </div>
+</div>

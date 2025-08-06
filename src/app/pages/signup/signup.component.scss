@@ -1,0 +1,54 @@
+@use '../../../styles/variables' as *;
+
+
+form{
+   width: 100%; 
+   display: flex;
+   flex-direction: column;
+   gap: 10px;
+   margin-bottom: 30px;
+
+
+   span{
+      font-size: 14px;
+      text-decoration: underline;
+      color: #ffffff;
+      text-align: end;
+   }
+}
+
+div{
+display: flex;
+flex-direction: column;
+justify-content: center;
+
+
+}
+
+.div_tipo_documento {
+   font-size: 16px;
+   color: #555555;
+   margin-bottom: 5px;
+   margin-right: 45px;
+   align-items: center;
+   display: flex;
+   justify-content: center;
+   
+}
+
+
+
+.div_list {
+  border: 0;
+  background-color: #f1f3f6;
+  color: #555555;
+  border-radius: 5px;
+  padding: 5px 20px;
+  
+  width: 50%;
+  margin: 0 auto; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+

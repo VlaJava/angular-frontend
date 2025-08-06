@@ -1,0 +1,58 @@
+<div class="dashboard-container">
+  <h1>Dashboard</h1>
+
+  <div *ngIf="isLoading" class="loading-indicator">
+    Carregando dados do dashboard...
+  </div>
+
+  <div *ngIf="!isLoading">
+    <!-- Cards de Estatísticas Gerais -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <h2>Total de Usuários</h2>
+        <p>{{ generalStats?.totalUsers }}</p>
+      </div>
+      <div class="stat-card">
+        <h2>Total de Pacotes</h2>
+        <p>{{ generalStats?.totalPackages }}</p>
+      </div>
+      <div class="stat-card">
+        <h2>Receita Estimada</h2>
+        <p>{{ formatCurrency(generalStats?.totalRevenue || 0) }}</p>
+      </div>
+    </div>
+
+    <!-- Container dos Gráficos -->
+    <div class="charts-grid">
+      <div class="chart-card">
+        <h3>Pacotes por Destino</h3>
+        <ngx-charts-bar-vertical
+          [view]="view"
+          [scheme]="colorScheme"
+          [results]="packagesByDestination"
+          [gradient]="gradient"
+          [xAxis]="true"
+          [yAxis]="true"
+          [legend]="false"
+          [showXAxisLabel]="true"
+          [showYAxisLabel]="true"
+          xAxisLabel="Destino"
+          yAxisLabel="Nº de Pacotes">
+        </ngx-charts-bar-vertical>
+      </div>
+
+      <div class="chart-card">
+        <h3>Usuários por Status</h3>
+        <ngx-charts-pie-chart
+          [view]="[500, 400]"
+          [scheme]="colorScheme"
+          [results]="usersByStatus"
+          [gradient]="gradient"
+          [legend]="showLegend"
+          [labels]="showLabels"
+          [doughnut]="isDoughnut">
+        </ngx-charts-pie-chart>
+      </div>
+    </div>
+  </div>
+</div>

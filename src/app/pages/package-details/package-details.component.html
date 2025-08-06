@@ -1,0 +1,57 @@
+<div class="container my-5 text-center" *ngIf="isLoading">
+  <div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+  <p class="mt-2">Carregando detalhes do pacote...</p>
+</div>
+
+<div class="container my-5" *ngIf="!isLoading && package">
+  <div class="row g-5">
+
+    <div class="col-lg-7">
+      <img [src]="package.imageUrl" class="img-fluid rounded-3 shadow-lg w-100" [alt]="package.title">
+    </div>
+
+    <div class="col-lg-5">
+      <h2 class="fw-bold mb-1">{{ package.title }}</h2>
+      <p class="text-muted mb-2">{{ package.destination }}</p>
+
+      <div class="mb-3">
+        <span class="text-warning fs-5">★★★★☆</span>
+      </div>
+
+      <p class="mb-4">{{ package.description }}</p>
+
+      <ul class="list-unstyled">
+        <li *ngIf="numberOfDays">
+          <strong><i class="bi bi-clock me-2"></i>Duração:</strong>
+          <span class="fw-bold">
+            {{ numberOfDays }} 
+            <span *ngIf="numberOfDays === 1">dia</span>
+            <span *ngIf="numberOfDays > 1">dias</span>
+          </span>
+        </li>
+        <li>
+          <strong><i class="bi bi-cash-coin me-2"></i>Preço por pessoa:</strong>
+          <span class="price-value">{{ package.price | currency:'BRL' }}</span>
+        </li>
+      </ul>
+
+      <div class="d-grid mt-4">
+        <button class="btn btn-orange btn-lg"
+          [routerLink]="['/finalize-booking']"
+          [queryParams]="{
+            title: package.title,
+            destination: package.destination,
+            description: package.description,
+            value: package.price,
+            image: package.imageUrl,
+            
+            days: numberOfDays
+          }">
+          Reservar Agora
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

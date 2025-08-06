@@ -1,0 +1,91 @@
+
+  <div class="header-center mb-3" >
+    <h1>Gestão de Pacotes de Viagem</h1>
+  </div>
+<div class="header">
+  
+  <div class="header-left">
+    <div class="filter-container">
+      <form [formGroup]="searchForm" class="filter-form">
+        <input 
+          type="text" 
+          placeholder="Buscar por destino..." 
+          formControlName="search"
+          class="search-input">
+      </form>
+    </div>
+  </div>
+
+  
+
+
+  
+  <div class="header-right">
+    <button class="btn-primary" (click)="openAddModal()">
+      <i class="bi bi-plus-square"></i>Adicionar Pacote
+    </button>
+  </div>
+</div>
+
+<div class="table-container">
+  <div *ngIf="isLoading" class="loading-indicator">
+    Carregando pacotes...
+  </div>
+
+  <table *ngIf="!isLoading">
+    <thead>
+      <tr>
+        <th>Título</th>
+        <th>Destino</th>
+        <th>Valor</th>
+        <th>Disponível</th>
+        <th class="text-center">Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let pkg of paginatedResponse.content">
+        <td>{{ pkg.title }}</td>
+        <td>{{ pkg.destination }}</td>
+        <td>{{ pkg.price | currency:'BRL' }}</td>
+        <td>{{ pkg.available ? 'Sim' : 'Não' }}</td>
+        <td class="actions text-center">
+          <a [routerLink]="['/packages', pkg.id, 'admin']"><i class="bi bi-pencil-square"></i></a>
+          <a (click)="handleDeletePackage(pkg.id!)"><i class="bi bi-trash"></i></a>
+        </td>
+      </tr>
+      <tr *ngIf="!isLoading && paginatedResponse.content.length === 0">
+          <td colspan="5" class="text-center text-muted py-4">Nenhum pacote encontrado.</td>
+        </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Paginação (sem alterações) -->
+<div *ngIf="!isLoading && paginatedResponse.totalPages > 1" class="pagination-container">
+  <button 
+    class="btn-pagination" 
+    (click)="changePage(paginatedResponse.currentPage - 1)"
+    [disabled]="paginatedResponse.currentPage === 0">
+    Anterior
+  </button>
+  <button 
+    *ngFor="let pageNum of getPageNumbers()" 
+    class="btn-pagination"
+    [class.active]="pageNum === paginatedResponse.currentPage"
+    (click)="changePage(pageNum)">
+    {{ pageNum + 1 }}
+  </button>
+  <button 
+    class="btn-pagination" 
+    (click)="changePage(paginatedResponse.currentPage + 1)"
+    [disabled]="paginatedResponse.currentPage >= paginatedResponse.totalPages - 1">
+    Próximo
+  </button>
+</div>
+
+<!-- Modal (sem alterações) -->
+<app-package-modal 
+  *ngIf="isModalOpen" 
+  [packageToEdit]="selectedPackageForEdit"
+  (close)="handleModalClose($event)">
+</app-package-modal>
