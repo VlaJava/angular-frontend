@@ -14,7 +14,7 @@ import { DefaultLoginLayoutComponent } from '../../components/default-login-layo
 import { AuthService } from '../../services/auth.service';
 import { UserSignup } from '../../types/user-signup.type';
 
-// Interface do formulário (sem alterações)
+
 interface SignupForm {
   name: FormControl<string | null>;
   email: FormControl<string | null>;
@@ -34,16 +34,15 @@ function passwordMatchValidator(control: AbstractControl): ValidationErrors | nu
 }
 
 @Component({
-  selector: 'app-signup',
-  standalone: true,
-  imports: [
-    DefaultLoginLayoutComponent,
-    ReactiveFormsModule,
-    PrimaryInputsComponent
-  ],
-
-  templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.scss']
+    selector: 'app-signup',
+    standalone: true,
+    imports: [
+        DefaultLoginLayoutComponent,
+        ReactiveFormsModule,
+        PrimaryInputsComponent
+    ],
+    templateUrl: './signup.component.html',
+    styleUrls: ['./signup.component.scss']
 })
 export class SignupComponent {
   signupForm: FormGroup<SignupForm>;
@@ -64,13 +63,13 @@ export class SignupComponent {
       documentNumber: new FormControl('', [Validators.required])
     }, { validators: passwordMatchValidator });
 
-    // >>>>> CORREÇÕES APLICADAS AQUI <<<<<
+  
     this.signupForm.get('documentType')?.valueChanges.subscribe(type => {
       const control = this.signupForm.get('documentNumber');
-      if (type === 'CPF') { // AGORA É 'CPF' EM MAIÚSCULAS
+      if (type === 'CPF') { 
         control?.setValidators([Validators.required, Validators.pattern(/^\d{11}$/)]);
-      } else if (type === 'PASSAPORTE') { // AGORA É 'PASSAPORTE' EM MAIÚSCULAS
-        control?.setValidators([Validators.required, Validators.pattern(/^\d{8}$/)]); // AGORA É EXATAMENTE 8 DÍGITOS
+      } else if (type === 'PASSAPORTE') {
+        control?.setValidators([Validators.required, Validators.pattern(/^\d{8}$/)]); 
       } else {
         control?.setValidators([Validators.required]);
       }
@@ -85,7 +84,7 @@ export class SignupComponent {
       return;
     }
 
-    // Mapeando os nomes do formulário para os nomes esperados pelo backend
+    
     const userData: UserSignup = {
       name: this.signupForm.value.name!,
       email: this.signupForm.value.email!,
@@ -99,10 +98,10 @@ export class SignupComponent {
     this.authService.signup(userData).subscribe({
       next: () => {
         this.toastService.success("Cadastro efetuado com sucesso! Verifique seu e-mail para confirmar a conta.");
-        this.router.navigate(['/login']); // Redireciona para o login após o sucesso
+        this.router.navigate(['/login']); 
       },
       error: (err) => {
-        // Pega a mensagem de erro específica do backend, se houver
+        
         const errorMessage = err.error?.message || "Ops! Erro inesperado! Tente novamente.";
         this.toastService.error(errorMessage);
       }

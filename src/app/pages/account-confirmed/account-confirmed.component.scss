@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 .confirmation-container {
   display: flex;
   align-items: center;
@@ -47,7 +49,7 @@
     transition: all 0.3s ease;
 
     &:hover {
-      background-color: darken(#FF7700, 10%);
+      background-color: color.adjust(#FF7700, $lightness: -10%);
       transform: translateY(-2px);
       box-shadow: 0 4px 10px rgba(255, 119, 0, 0.3);
     }

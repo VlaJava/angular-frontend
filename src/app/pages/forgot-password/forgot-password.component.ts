@@ -7,15 +7,15 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-forgot-password',
-  standalone: true,
-  imports: [
-    PrimaryInputsComponent,
-    DefaultLoginLayoutComponent,
-    ReactiveFormsModule
-  ],
-  templateUrl: './forgot-password.component.html',
-  styleUrl: './forgot-password.component.scss'
+    selector: 'app-forgot-password',
+    standalone: true,
+    imports: [
+        PrimaryInputsComponent,
+        DefaultLoginLayoutComponent,
+        ReactiveFormsModule
+    ],
+    templateUrl: './forgot-password.component.html',
+    styleUrl: './forgot-password.component.scss'
 })
 export class ForgotPasswordComponent {
   forgotPasswordForm: FormGroup;

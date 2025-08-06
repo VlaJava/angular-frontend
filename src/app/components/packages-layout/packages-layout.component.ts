@@ -16,7 +16,7 @@ import { PackageService } from '../../services/package.service';
   templateUrl: './packages-layout.component.html',
   styleUrls: ['./packages-layout.component.scss']
 })
-export class PackageLayoutComponent implements OnInit, OnChanges {
+export class PackagesLayoutComponent implements OnInit, OnChanges {
 
   @Input() package: Package[] = [];
   

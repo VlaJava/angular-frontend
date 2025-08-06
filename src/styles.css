@@ -4,6 +4,7 @@
 :root {
   --primary-orange: #FF5615;
   --secondary-orange: #E02200;
+  --primary-orange-rgb: 255, 119, 0; 
   --dark-blue: #1F2937;
   --light-gray: #f8f9fa;
   --text-color: #4a4a4a;

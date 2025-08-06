@@ -11,28 +11,24 @@ import { ToastrService } from 'ngx-toastr';
 import { Package } from '../../../types/package.type';
 
 @Component({
-  selector: 'app-admin-packages',
-  standalone: true,
-  imports: [
-    CommonModule,
-    PackageModalComponent,
-    CurrencyPipe,
-    RouterLink,
-    ReactiveFormsModule 
-  ],
-  templateUrl: './admin-packages.component.html',
-  styleUrls: ['./admin-packages.component.scss']
+    selector: 'app-admin-packages',
+    standalone: true,
+    imports: [
+        CommonModule,
+        PackageModalComponent,
+        CurrencyPipe,
+        RouterLink,
+        ReactiveFormsModule
+    ],
+    templateUrl: './admin-packages.component.html',
+    styleUrls: ['./admin-packages.component.scss']
 })
 export class AdminPackagesComponent implements OnInit, OnDestroy {
-  isModalOpen = false; 
-  isLoading = true; 
+  isModalOpen = false;
+  isLoading = true;
   
-  
-  filterForm!: FormGroup; 
-  
-  
+  searchForm!: FormGroup;
   private destroy$ = new Subject<void>();
-  
   selectedPackageForEdit: Package | null = null;
 
   paginatedResponse: PaginatedPackagesResponse = {
@@ -45,37 +41,41 @@ export class AdminPackagesComponent implements OnInit, OnDestroy {
   constructor(
     private packageService: PackageService,
     private toastr: ToastrService,
-    private fb: FormBuilder 
+    private fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
-    
-    this.filterForm = this.fb.group({
-      source: [''],      
-      destination: [''] ,
-      available: [null] 
+    this.searchForm = this.fb.group({
+      search: ['']
     });
 
-    
     this.loadPackages();
-
     
-    this.filterForm.valueChanges.pipe(
-      debounceTime(400), 
-      distinctUntilChanged(), 
-      takeUntil(this.destroy$) 
+    this.searchForm.get('search')?.valueChanges.pipe(
+      debounceTime(400),
+      distinctUntilChanged(),
+      takeUntil(this.destroy$)
     ).subscribe(() => {
-     
-      this.loadPackages(0); 
+      this.loadPackages(0);
     });
   }
 
   
+  private buildFilters(): any {
+    const searchTerm = this.searchForm.get('search')?.value || '';
+    
+   
+    return {
+      destination: searchTerm
+    };
+  }
+ 
   loadPackages(page: number = 0): void {
     this.isLoading = true;
-    const filters = this.filterForm.value; 
-
     
+   
+    const filters = this.buildFilters();
+
     this.packageService.getPackages(page, 6, filters).subscribe({
       next: (data) => {
         this.paginatedResponse = data;
@@ -88,19 +88,11 @@ export class AdminPackagesComponent implements OnInit, OnDestroy {
     });
   }
 
-  
-  clearFilters(): void {
-    this.filterForm.reset({
-      title: '',
-      destination: '',
-      available: null
-    });
-    
-  }
-  
+  // ... O resto dos seus métodos (changePage, getPageNumbers, etc.) permanecem iguais ...
+
   changePage(page: number): void {
     if (page >= 0 && page < this.paginatedResponse.totalPages) {
-      this.loadPackages(page); 
+      this.loadPackages(page);
     }
   }
 
@@ -112,13 +104,13 @@ export class AdminPackagesComponent implements OnInit, OnDestroy {
   }
   
   openAddModal(): void {
-    this.selectedPackageForEdit = null; 
+    this.selectedPackageForEdit = null;
     this.isModalOpen = true;
   }
   
   handleModalClose(wasSaved: boolean): void {
     this.isModalOpen = false;
-    this.selectedPackageForEdit = null; 
+    this.selectedPackageForEdit = null;
     if (wasSaved) {
       this.loadPackages(this.paginatedResponse.currentPage);
     }
@@ -138,7 +130,6 @@ export class AdminPackagesComponent implements OnInit, OnDestroy {
     }
   }
 
-  
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();

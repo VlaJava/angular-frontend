@@ -1,6 +1,6 @@
 
-
-@import 'ngx-toastr/toastr';
+@use 'bootstrap/scss/bootstrap';
+@use 'ngx-toastr/toastr';
 
 
 *{
@@ -37,8 +37,5 @@ body {
   padding: 0;
 }
 
-@import 'bootstrap/scss/bootstrap';
 
 
-/* Importing Bootstrap SCSS file. */
-@import 'bootstrap/scss/bootstrap';

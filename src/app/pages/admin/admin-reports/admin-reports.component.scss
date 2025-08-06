@@ -1,29 +1,57 @@
-@import '../../../../styles/variables.scss';
+@use 'sass:color';
 
-.reports-title {
-  font-weight: 700;
-  margin-bottom: 0.5rem;
+.confirmation-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+  padding: 2rem;
+  background-color: var(--light-gray, #f8f9fa);
 }
 
-.reports-subtitle {
-  color: $gray-600;
-  margin-bottom: 2rem;
-}
+.confirmation-card {
+  background-color: white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  max-width: 500px;
+  width: 100%;
 
-.report-actions {
+  .icon-success {
+    color: #28a745; // Cor de sucesso (verde)
+    margin-bottom: 1.5rem;
+  }
+
+  h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--dark-blue, #1F2937);
+    margin-bottom: 1rem;
+  }
+
+  p {
+    font-size: 1.1rem;
+    color: #6c757d;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+  }
+
   .btn-primary {
-    background-color: $primary-color;
-    border-color: $primary-color;
+    background-color: var(--primary-orange, #FF7700);
+    color: white;
+    padding: 12px 30px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
 
     &:hover {
-      background-color: $secondary-color;
-      border-color: $secondary-color;
+      background-color: color.adjust(#FF7700, $lightness: -10%);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(255, 119, 0, 0.3);
     }
   }
-}
-
-// Garante que o chatbot ocupe uma altura adequada na coluna
-.chatbot-wrapper {
-  height: 75vh; // Define uma altura para o container do chat
-  min-height: 500px; // Altura mínima
 }

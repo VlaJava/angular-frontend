@@ -7,23 +7,22 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { LoginRequest } from '../../types/login-request.type';
 
-// Interface para o formulário (opcional, mas boa prática)
-// ✅ CORREÇÃO: Alterado de 'password' para 'senha'
+
 interface LoginForm {
   email: FormControl<string | null>;
   password: FormControl<string | null>;
 }
 
 @Component({
-  selector: 'app-login',
-  standalone: true,
-  imports: [
-    DefaultLoginLayoutComponent,
-    ReactiveFormsModule,
-    PrimaryInputsComponent,
-  ],
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+    selector: 'app-login',
+    standalone: true,
+    imports: [
+        DefaultLoginLayoutComponent,
+        ReactiveFormsModule,
+        PrimaryInputsComponent,
+    ],
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
 
