@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnChanges } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, OnDestroy } from '@angular/core'; // Adicionado OnDestroy
 import { FormsModule } from '@angular/forms';
 import { PackageCardComponent } from '../package-card/package-card.component';
 import { CommonModule } from '@angular/common';
@@ -18,13 +18,41 @@ import { RouterLink } from '@angular/router';
   templateUrl: './packages-layout.component.html',
   styleUrls: ['./packages-layout.component.scss']
 })
-export class PackagesLayoutComponent implements OnInit, OnChanges {
+export class PackagesLayoutComponent implements OnInit, OnChanges, OnDestroy { // Implementado OnDestroy
+
+
+  carouselSlides: any[] = [
+
+     {
+      imageUrl: '/assets/carrossel/coroo4.jpg', 
+      
+    },
+    {
+      imageUrl: '/assets/homepage/paris.jpg',
+    
+    },
+    {
+      imageUrl: '/assets/carrossel/Carro5.jpg', 
+      
+    },
+    {
+      imageUrl: '/assets/carrossel/carro3.webp', 
+      
+    },
+    {
+      imageUrl: '/assets/carrossel/carro6.jpg', 
+      
+    }
+    
+  ];
+  currentSlideIndex: number = 0;
+  private slideInterval: any;
+  // --- Fim das Propriedades do Carrossel ---
 
   @Input() package: Package[] = [];
   
   filteredPackages: Package[] = [];
 
-  
   filterOrigin: string = '';
   filterDestination: string = '';
   filterStartDate: string = '';
@@ -33,7 +61,6 @@ export class PackagesLayoutComponent implements OnInit, OnChanges {
   maxBudget: number = 15000;
   minBudget: number = 1000;
 
- 
   currentPage: number = 0;
   totalPages: number = 0;
   totalItems: number = 0;
@@ -45,12 +72,38 @@ export class PackagesLayoutComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.loadPackages();
+    this.startCarousel(); // Inicia o carrossel automático
   }
 
   ngOnChanges() {
-   
+    // Lógica de OnChanges, se necessária
   }
   
+  ngOnDestroy() {
+    clearInterval(this.slideInterval); // Limpa o intervalo para evitar memory leaks
+  }
+
+  // --- Métodos do Carrossel ---
+  startCarousel() {
+    this.slideInterval = setInterval(() => {
+      this.nextSlide();
+    }, 5000); // Muda de slide a cada 5 segundos
+  }
+
+  selectSlide(index: number) {
+    this.currentSlideIndex = index;
+    clearInterval(this.slideInterval);
+    this.startCarousel();
+  }
+
+  nextSlide() {
+    this.currentSlideIndex = (this.currentSlideIndex + 1) % this.carouselSlides.length;
+  }
+
+  prevSlide() {
+    this.currentSlideIndex = (this.currentSlideIndex - 1 + this.carouselSlides.length) % this.carouselSlides.length;
+  }
+  // --- Fim dos Métodos do Carrossel ---
   
   loadPackages() {
     const filters = {
@@ -70,7 +123,6 @@ export class PackagesLayoutComponent implements OnInit, OnChanges {
         this.currentPage = response.currentPage;
       });
   }
-
   
   onSearch() {
     this.currentPage = 0;
@@ -81,7 +133,6 @@ export class PackagesLayoutComponent implements OnInit, OnChanges {
     this.currentPage = 0;
     this.loadPackages();
   }
-
   
   onPageChange(page: number): void {
     if (page >= 0 && page < this.totalPages) {
@@ -128,7 +179,6 @@ export class PackagesLayoutComponent implements OnInit, OnChanges {
     }
     this.onSearch(); 
   }
-
   
   get formattedBudget(): string {
     return new Intl.NumberFormat('pt-BR', {
@@ -146,7 +196,6 @@ export class PackagesLayoutComponent implements OnInit, OnChanges {
   get sectionTitle(): string {
     return this.hasActiveFilters() ? 'Pacotes Encontrados' : 'Pacotes Imperdíveis';
   }
-
   
   get pages(): number[] {
     return Array(this.totalPages).fill(0).map((x, i) => i);
