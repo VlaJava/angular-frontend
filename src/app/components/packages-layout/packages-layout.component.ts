@@ -4,6 +4,7 @@ import { PackageCardComponent } from '../package-card/package-card.component';
 import { CommonModule } from '@angular/common';
 import { Package } from '../../types/package.type';
 import { PackageService, PaginatedPackagesResponse } from '../../services/package.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-packages-layout',
@@ -11,7 +12,8 @@ import { PackageService, PaginatedPackagesResponse } from '../../services/packag
   imports: [
     CommonModule,
     PackageCardComponent,
-    FormsModule
+    FormsModule, 
+    RouterLink
   ],
   templateUrl: './packages-layout.component.html',
   styleUrls: ['./packages-layout.component.scss']

@@ -25,6 +25,7 @@ import { adminGuard } from './guards/admin.guard';
 import { authGuard } from './guards/auth.guard';
 import { PackageAdminComponent } from './pages/packages-admin/packages-admin.component';
 import { UserReservationsComponent } from './pages/user-reservations/user-reservations.component';
+import { PackagesListComponent } from './pages/packages-list/packages-list.component';
 
 
 
@@ -34,7 +35,8 @@ export const routes: Routes = [
   {
     path: "",
     component: DefaultHomeComponent,
-    pathMatch: 'full'
+    pathMatch: 'full',
+    title: 'ViaJava|HOME'
   },
   {
     path: "login",
@@ -49,10 +51,8 @@ export const routes: Routes = [
     component: ForgotPasswordComponent
   },
   {
-
     path: 'reset-password',
     component: ResetPasswordComponent
-
   },
 
   {
@@ -71,13 +71,11 @@ export const routes: Routes = [
     path: 'packages/:id',
     component: PackageDetailsComponent
   },
-
-
-
-    {
-    path: 'finalize-booking', 
-    component: BookingFinalizationComponent
-  },  
+  {
+    path: 'packages',
+        component: PackagesListComponent,
+        title: 'Pacotes'
+  },
 
   // --- Rota Privada para Usuários Logados ---
   {
