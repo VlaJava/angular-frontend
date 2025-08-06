@@ -15,10 +15,6 @@
       </form>
     </div>
   </div>
-
-  
-
-
   
   <div class="header-right">
     <button class="btn-primary" (click)="openAddModal()">
@@ -60,7 +56,7 @@
   </table>
 </div>
 
-<!-- Paginação (sem alterações) -->
+
 <div *ngIf="!isLoading && paginatedResponse.totalPages > 1" class="pagination-container">
   <button 
     class="btn-pagination" 
@@ -83,7 +79,7 @@
   </button>
 </div>
 
-<!-- Modal (sem alterações) -->
+
 <app-package-modal 
   *ngIf="isModalOpen" 
   [packageToEdit]="selectedPackageForEdit"
