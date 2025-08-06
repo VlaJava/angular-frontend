@@ -6,13 +6,17 @@
 </div>
 
 <div class="container my-5" *ngIf="!isLoading && package">
-  <div class="row g-5">
-
-    <div class="col-lg-7">
-      <img [src]="package.imageUrl" class="img-fluid rounded-3 shadow-lg w-100" [alt]="package.title">
+  <!-- A estrutura de 'row' foi removida para empilhar os elementos -->
+  <div>
+    <!-- Container da imagem ajustado para ocupar a largura e ser centralizado -->
+    <div class="col-12 col-md-10 col-lg-8 mx-auto">
+      <div class="image-container shadow-lg">
+        <img [src]="package.imageUrl" class="img-fluid" [alt]="package.title">
+      </div>
     </div>
 
-    <div class="col-lg-5">
+    <!-- Container dos detalhes ajustado para ficar abaixo da imagem -->
+    <div class="col-12 col-md-10 col-lg-8 mx-auto mt-4 text-center">
       <h2 class="fw-bold mb-1">{{ package.title }}</h2>
       <p class="text-muted mb-2">{{ package.destination }}</p>
 
@@ -20,13 +24,13 @@
         <span class="text-warning fs-5">★★★★☆</span>
       </div>
 
-      <p class="mb-4">{{ package.description }}</p>
+      <p class="mb-4 text-start">{{ package.description }}</p>
 
-      <ul class="list-unstyled">
+      <ul class="list-unstyled text-start">
         <li *ngIf="numberOfDays">
           <strong><i class="bi bi-clock me-2"></i>Duração:</strong>
           <span class="fw-bold">
-            {{ numberOfDays }} 
+            {{ numberOfDays }}
             <span *ngIf="numberOfDays === 1">dia</span>
             <span *ngIf="numberOfDays > 1">dias</span>
           </span>
@@ -46,7 +50,6 @@
             description: package.description,
             value: package.price,
             image: package.imageUrl,
-            
             days: numberOfDays
           }">
           Reservar Agora

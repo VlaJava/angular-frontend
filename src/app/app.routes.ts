@@ -24,6 +24,7 @@ import { AccountConfirmedComponent } from './pages/account-confirmed/account-con
 import { adminGuard } from './guards/admin.guard';
 import { authGuard } from './guards/auth.guard';
 import { PackageAdminComponent } from './pages/packages-admin/packages-admin.component';
+import { UserReservationsComponent } from './pages/user-reservations/user-reservations.component';
 
 
 
@@ -82,12 +83,17 @@ export const routes: Routes = [
   {
     path: 'profile',
     component: ProfileComponent,
+    canActivate: [authGuard]
 
   },
   {
     path: 'finalize-booking',
     component: BookingFinalizationComponent,
     canActivate: [authGuard]
+  },
+  {
+    path: 'reservations',
+    component: UserReservationsComponent
   },
 
   // --- Rota Privada para Administradores ---

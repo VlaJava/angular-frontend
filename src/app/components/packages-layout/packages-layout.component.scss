@@ -209,3 +209,53 @@ input[type="text"][onfocus*="date"]::-webkit-input-placeholder {
     }
   }
 }
+// Adicione este código ao final do seu arquivo packages-layout.component.scss
+// Certifique-se de que a variável --primary-orange está definida no seu tema ou no arquivo styles.scss
+
+.pagination {
+  .page-item {
+    &.active {
+      .page-link {
+        background-color: var(--primary-orange);
+        border-color: var(--primary-orange);
+        color: white;
+        font-weight: 600;
+      }
+    }
+
+    &.disabled {
+      .page-link {
+        color: #6c757d; // Cor de texto desabilitada
+        pointer-events: none;
+        cursor: not-allowed;
+        background-color: #e9ecef;
+        border-color: #dee2e6;
+      }
+    }
+
+    .page-link {
+      color: var(--primary-orange);
+      border-radius: 50px;
+      margin: 0 4px;
+      transition: all 0.2s ease-in-out;
+      border: 1px solid #dee2e6;
+
+      &:hover {
+        background-color: var(--primary-orange);
+        color: white;
+        border-color: var(--primary-orange);
+        box-shadow: 0 2px 10px rgba(var(--primary-orange-rgb), 0.2);
+        transform: translateY(-1px);
+      }
+      
+      &:focus {
+        box-shadow: 0 0 0 0.25rem rgba(var(--primary-orange-rgb), 0.25);
+      }
+    }
+  }
+}
+
+.page-item:first-child .page-link,
+.page-item:last-child .page-link {
+  border-radius: 50px;
+}

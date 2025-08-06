@@ -88,8 +88,6 @@ export class AdminPackagesComponent implements OnInit, OnDestroy {
     });
   }
 
-  // ... O resto dos seus métodos (changePage, getPageNumbers, etc.) permanecem iguais ...
-
   changePage(page: number): void {
     if (page >= 0 && page < this.paginatedResponse.totalPages) {
       this.loadPackages(page);
