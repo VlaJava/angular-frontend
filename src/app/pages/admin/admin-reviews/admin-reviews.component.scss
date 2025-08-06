@@ -1,0 +1,19 @@
+
+// Aumenta o tamanho do interruptor para ser mais fácil de clicar
+.form-check.form-switch .form-check-input {
+  width: 3em;
+  height: 1.5em;
+  cursor: pointer;
+
+  &:checked {
+    background-color: #e96711;
+    border-color:#e96711;
+  }
+}
+
+// Garante alinhamento vertical no meio das células da tabela
+.table {
+  th, td {
+    vertical-align: middle;
+  }
+}

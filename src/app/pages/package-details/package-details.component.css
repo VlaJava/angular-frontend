@@ -9,7 +9,6 @@
   height: 100%;
   object-fit: cover;
 }
-
 .img-fluid:hover {
   transform: scale(1.03);
   box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.25) !important;
@@ -21,18 +20,15 @@
   flex-direction: column;
   justify-content: center;
 }
-
 h2.fw-bold {
   font-size: 2.8rem;
   color: #2c3e50;
   line-height: 1.2;
 }
-
 .text-muted {
   font-size: 1.2rem;
   color: #7f8c8d !important;
 }
-
 .col-lg-5 p.mb-4 {
   font-size: 1.1rem;
   color: #34495e;
@@ -55,15 +51,9 @@ h2.fw-bold {
   justify-content: space-between;
   align-items: center;
 }
-
 .list-unstyled li:first-child {
     border-top: 1px solid #ecf0f1;
 }
-
-.list-unstyled li strong {
-  color: #2c3e50;
-}
-
 .list-unstyled .price-value {
   color: #27ae60;
   font-size: 1.8rem !important;
@@ -84,7 +74,6 @@ h2.fw-bold {
   transition: all 0.3s ease;
   box-shadow: 0 4px 15px rgba(230, 126, 34, 0.4);
 }
-
 .btn-orange:hover {
   background-color: #d35400;
   border-color: #a04000;
@@ -92,47 +81,119 @@ h2.fw-bold {
   transform: translateY(-3px);
   box-shadow: 0 7px 20px rgba(230, 126, 34, 0.6);
 }
-/* --- Estilos de Responsividade --- */
 
-/* Para tablets e telas menores (quando as colunas começam a empilhar) 
-   Aplica de 991.98px para baixo */
+/* --- SEÇÃO DE COMODIDADES --- */
+.amenities-section h4 {
+  color: #34495e;
+}
+.amenity-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  color: #7f8c8d;
+  min-width: 120px;
+}
+.amenity-item i {
+  color: #e67e22; /* Laranja primário */
+}
+.amenity-item span {
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+/* --- SEÇÃO DE AVALIAÇÕES --- */
+.reviews-section h3 {
+  color: #2c3e50;
+}
+.review-card {
+  border: 1px solid #ecf0f1;
+  background-color: #fff;
+  transition: box-shadow 0.3s ease;
+}
+.review-card:hover {
+  box-shadow: 0 0.5rem 1rem rgba(0,0,0,.15)!important;
+}
+.review-card .card-body {
+  padding: 1.5rem;
+}
+.review-card .card-title {
+  font-weight: 600;
+  color: #34495e;
+}
+.review-card .star-rating {
+  font-size: 1.1rem;
+}
+.review-card .card-text {
+  color: #7f8c8d;
+  font-style: italic;
+}
+.review-card .text-muted {
+  font-size: 0.9rem;
+}
+
+/* --- ESTILOS PARA AS ESTATÍSTICAS DE AVALIAÇÃO --- */
+.stats-container {
+  background-color: #f8f9fa;
+  padding: 2rem;
+  border-radius: 0.5rem;
+}
+.average-rating-box .average-score {
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: #2c3e50;
+}
+.average-rating-box .star-rating .fa-star,
+.average-rating-box .star-rating .fa-star-half-alt {
+  color: #ffc107;
+}
+.average-rating-box .total-reviews {
+  font-size: 1rem;
+  color: #7f8c8d;
+}
+.rating-bars .rating-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+.rating-bars .progress {
+  height: 8px;
+  flex-grow: 1;
+}
+.rating-bars .progress-bar {
+  background-color: #ffc107;
+}
+.rating-bars .rating-count {
+  min-width: 25px;
+  text-align: right;
+  color: #7f8c8d;
+}
+
+/* --- Estilos de Responsividade --- */
 @media (max-width: 991.98px) {
   .col-lg-5 {
-    /* Adiciona um espaço acima do bloco de texto quando ele fica abaixo da imagem */
     margin-top: 2rem;
   }
-
   h2.fw-bold,
   p.text-muted {
-    /* Centraliza o título e o destino para um melhor visual em telas médias */
     text-align: center;
   }
 }
-
-/* Para celulares (telas pequenas) 
-   Aplica de 576px para baixo */
 @media (max-width: 576px) {
   h2.fw-bold {
-    /* Reduz o tamanho da fonte do título para caber melhor na tela */
     font-size: 2.1rem;
   }
-
   p.text-muted {
     font-size: 1.1rem;
   }
-
-  /* Ajusta o tamanho da fonte da descrição e da lista */
   .col-lg-5 p.mb-4,
   .list-unstyled li {
     font-size: 1rem;
   }
-
-  /* Reduz o tamanho do preço para não ficar desproporcional */
   .list-unstyled .price-value {
     font-size: 1.6rem !important;
   }
-
-  /* Ajusta o botão de reserva para telas pequenas */
   .btn-orange {
     padding: 12px 0;
     font-size: 1.1rem;
