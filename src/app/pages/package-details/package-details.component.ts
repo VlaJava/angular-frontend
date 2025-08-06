@@ -3,8 +3,8 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { PackageService } from '../../services/package.service';
 import { Package } from '../../types/package.type';
-import { BookingService } from '../../services/booking.service'; 
-import { forkJoin } from 'rxjs'; 
+import { BookingService } from '../../services/booking.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
     selector: 'app-package-details',
@@ -18,7 +18,7 @@ export class PackageDetailsComponent implements OnInit {
   package: Package | undefined;
   isLoading = true;
   numberOfDays: number | null = null;
-  hasExistingBooking = false; 
+  hasExistingBooking = false;
 
   
   mockReviews = [
@@ -58,7 +58,6 @@ export class PackageDetailsComponent implements OnInit {
     if (packageId) {
       this.isLoading = true;
       
-   
       forkJoin({
         packageDetails: this.packageService.getPackageById(packageId),
         bookingExists: this.bookingService.checkIfBookingExists(packageId)
@@ -67,7 +66,7 @@ export class PackageDetailsComponent implements OnInit {
           if (packageDetails) {
             this.package = packageDetails;
             this.numberOfDays = this.calculateNumberOfDays(packageDetails.startDate, packageDetails.endDate);
-            this.hasExistingBooking = bookingExists; 
+            this.hasExistingBooking = bookingExists;
           } else {
             this.router.navigate(['/']);
           }
@@ -80,11 +79,10 @@ export class PackageDetailsComponent implements OnInit {
         }
       });
     } else {
-      this.router.navigate(['/']); 
+      this.router.navigate(['/']);
     }
   }
 
- 
   getStars(rating: number): number[] {
     return Array(rating).fill(0);
   }

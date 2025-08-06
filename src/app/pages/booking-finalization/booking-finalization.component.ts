@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 // 1. Imports atualizados para o encadeamento
 import { catchError, switchMap, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 interface Traveler {
   name: string;
@@ -101,34 +102,33 @@ export class BookingFinalizationComponent {
       travelers: this.travelers.map(t => ({ name: t.name, document: t.document, birthdate: t.birthDate }))
     };
 
-    // Define a URL base da sua API para facilitar a manutenção
-    const apiBaseUrl = 'http://localhost:8080/api/v1';
+    
+    const apiBaseUrl = `${environment.apiUrl}`;
 
-    // Inicia a cadeia de requisições
+    
     this.http.post<BookingResponse>(`${apiBaseUrl}/bookings`, bookingPayload).pipe(
-      // O switchMap recebe a resposta da primeira chamada (bookingResponse)
-      // e a utiliza para disparar a segunda chamada.
+      
       switchMap(bookingResponse => {
         console.log('Etapa 1: Reserva criada com sucesso!', bookingResponse);
-        const bookingId = bookingResponse.id; // Extrai o ID da reserva
-        const paymentPayload = { bookingId: bookingId };
+        const bookingId = bookingResponse.id; 
+        const paymentPayload = { booking_id: bookingId };
 
         console.log('Etapa 2: Enviando ID para iniciar pagamento...', paymentPayload);
-        // Retorna o Observable da segunda chamada
+        
         return this.http.post(`${apiBaseUrl}/payments/preference`, paymentPayload);
       }),
-      // O tap é executado após a conclusão bem-sucedida de TODA a cadeia
+      
       tap(paymentResponse => {
         console.log('Etapa 2: Resposta do pagamento recebida!', paymentResponse);
         this.isSubmitting = false;
-        this.bookingSuccess = true; // Ativa a tela de sucesso no HTML
+        this.bookingSuccess = true; 
       }),
-      // O catchError captura erros de qualquer uma das requisições na cadeia
+      
       catchError(error => {
         console.error('Ocorreu um erro no processo de reserva:', error);
         this.errorMessage = `Falha ao processar a reserva. Por favor, tente novamente mais tarde.`;
         this.isSubmitting = false;
-        return of(null); // Finaliza o fluxo de forma segura
+        return of(null); 
       })
     ).subscribe();
   }
