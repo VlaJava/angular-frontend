@@ -15,7 +15,7 @@
     <ng-container *ngIf="!message.isLoading">
       <p *ngIf="message.text" class="message-text">{{ message.text }}</p>
       <div *ngIf="message.packages?.length" class="packages-grid">
-        <app-package-card *ngFor="let pack of message.packages" [pack]="pack"></app-package-card>
+        <app-package-card *ngFor="let pack of message.packages" [pacote]="pack"></app-package-card>
       </div>
     </ng-container>
 
