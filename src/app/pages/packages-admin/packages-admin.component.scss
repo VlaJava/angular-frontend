@@ -124,8 +124,8 @@
     border: 2px solid #ddd;
     border-radius: 8px;
     font-size: 14px;
-    background-color: var(--primary-orange);
-    color: white;
+    background-color: white;
+    color: black;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 
     &::placeholder {
@@ -196,5 +196,10 @@ textarea {
 
     cursor: pointer;
   }
+}
+
+.btn-warning{
+  background-color: var(--primary-orange);
+  color: white;
 }
 

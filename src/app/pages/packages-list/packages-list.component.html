@@ -1,44 +1,59 @@
-<div class="filter-section-wrapper">
-  <div class="container">
-    <div class="search-wrapper py-3">
-    
-      <div class="row g-3 align-items-end">
+<section class="search-section container">
+  <div class="search-wrapper p-4 rounded-3">
+    <div class="row g-3 align-items-end">
 
-       
-        <div class="col-lg-5 col-md-6 col-12">
-          <label class="form-label">Trajeto</label>
-          <div class="input-card">
-            <i class="bi bi-pin-map-fill input-icon"></i>
-            <input type="text" class="form-control" placeholder="Origem" [(ngModel)]="filterOrigin" (ngModelChange)="onFilterChange()">
-            <div class="divider-vertical"></div>
-            <input type="text" class="form-control" placeholder="Destino" [(ngModel)]="filterDestination" (ngModelChange)="onFilterChange()">
-          </div>
+      <div class="col-lg-4 col-md-12">
+        <label class="form-label text-white fw-bold">Trajeto</label>
+        <div class="input-card">
+          <input type="text"
+                 class="form-control"
+                 placeholder="Origem"
+                 [(ngModel)]="filterOrigin"
+                 (ngModelChange)="onSearch()">
+          <div class="divider-vertical"></div>
+          <input type="text"
+                 class="form-control"
+                 placeholder="Destino"
+                 [(ngModel)]="filterDestination"
+                 (ngModelChange)="onSearch()">
         </div>
-
-        
-        <div class="col-lg-4 col-md-6 col-12">
-          <label class="form-label">Data</label>
-          <div class="input-card">
-            <i class="bi bi-calendar-range input-icon"></i>
-            <input type="text" onfocus="(this.type='date')" onblur="(this.type='text')" class="form-control text-center" placeholder="Ida" [min]="todayDate" [(ngModel)]="filterStartDate" (ngModelChange)="onFilterChange()">
-            <div class="divider-vertical"></div>
-            <input type="text" onfocus="(this.type='date')" onblur="(this.type='text')" class="form-control text-center" placeholder="Volta" [min]="filterStartDate || todayDate" [(ngModel)]="filterEndDate" (ngModelChange)="onFilterChange()">
-          </div>
-        </div>
-
-        <!-- Coluna Orçamento -->
-        <div class="col-lg-3 col-md-12 col-12">
-          <label class="form-label">Orçamento</label>
-          <div class="input-card budget-card">
-            <span class="text-nowrap">{{ formattedBudget }}</span>
-            <input type="range" class="form-range" [min]="minBudget" [max]="maxBudget" [(ngModel)]="budgetValue" (ngModelChange)="onFilterChange()">
-          </div>
-        </div>
-
       </div>
+
+      <div class="col-lg-4 col-md-6">
+        <label class="form-label text-white fw-bold">Data</label>
+        <div class="input-card">
+          <input type="date"
+                 class="form-control text-center"
+                 placeholder="Ida"
+                 [min]="todayDate"
+                 [(ngModel)]="filterStartDate"
+                 (ngModelChange)="onSearch()">
+          <div class="divider-vertical"></div>
+          <input type="date"
+                 class="form-control text-center"
+                 placeholder="Volta"
+                 [min]="filterStartDate || todayDate"
+                 [(ngModel)]="filterEndDate"
+                 (ngModelChange)="onSearch()">
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-6">
+        <label class="form-label text-white fw-bold">Orçamento</label>
+        <div class="input-card px-4">
+          <span class="text-nowrap me-3">{{ formattedBudget }}</span>
+          <input type="range"
+                 class="form-range"
+                 [min]="minBudget"
+                 [max]="maxBudget"
+                 [(ngModel)]="budgetValue"
+                 (ngModelChange)="onBudgetChange()">
+        </div>
+      </div>
+
     </div>
   </div>
-</div>
+</section>
 
 
 

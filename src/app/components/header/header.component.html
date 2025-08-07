@@ -9,7 +9,7 @@
       </strong>
     </a>
     <div class="d-flex align-items-center">
-      <a class="nav-link pacotes-link" routerLink="/">PACOTES</a>
+      <a class="nav-link pacotes-link" [routerLink]="['/packages']">PACOTES</a>
       
       <div *ngIf="currentUser$ | async as currentUser; else loggedOutMenu">
         <div ngbDropdown class="d-inline-block">

@@ -37,7 +37,7 @@
           <div *ngFor="let traveler of travelers; let i = index" class="mb-3">
             <div class="viajante-card border rounded-3 p-3 position-relative shadow-sm bg-white">
               <div class="fw-bold mb-2">Viajante {{ i + 1 }}</div>
-              <div class="row g-3 align-items-end">
+              <div class="row g-3 align-items-center">
                 <div class="col">
                   <input type="text" class="form-control" [(ngModel)]="traveler.name" name="name{{i}}" placeholder="Nome completo *">
                 </div>
@@ -47,8 +47,8 @@
                 <div class="col">
                   <input type="date" class="form-control" [(ngModel)]="traveler.birthDate" name="birthDate{{i}}" placeholder="Data de nascimento *">
                 </div>
-                <div class="col-auto" *ngIf="i > 0">
-                  <button type="button" class="btn btn-link text-danger p-0" (click)="removeTraveler(i)" title="Remover viajante">
+                <div class="col-auto d-flex align-items-center" *ngIf="i > 0">
+                  <button type="button" class="btn btn-danger p-2" (click)="removeTraveler(i)" title="Remover viajante">
                     <i class="bi bi-trash"></i>
                   </button>
                 </div>
