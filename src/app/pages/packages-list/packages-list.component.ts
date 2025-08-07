@@ -78,6 +78,16 @@ export class PackagesListComponent implements OnInit, OnDestroy {
     this.loadPackages();
   }
 
+  onSearch() {
+    this.currentPage = 0;
+    this.loadPackages();
+  }
+
+  onBudgetChange() {
+    this.currentPage = 0;
+    this.loadPackages();
+  }
+
   loadPackages(): void {
     this.isLoading = true;
     const filters = {

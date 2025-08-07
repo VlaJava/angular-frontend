@@ -10,15 +10,12 @@
   --filter-label-total-height: calc(var(--filter-label-font-size) * var(--filter-label-line-height) + var(--filter-label-margin-bottom));
 }
 
-.filter-section-wrapper {
-  background-color: var(--primary-orange);
-  padding: 0.5rem 0;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
-
 .search-wrapper {
-  background-color: transparent;
-  border: none;
+  background-color: var(--primary-orange); // Fundo branco suave
+  border-radius: 20px;    // Bordas mais arredondadas
+  padding: 32px;          // Mais espaçamento interno
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08); 
+  // Sombra suave para o efeito flutuante
 }
 
 .form-label {

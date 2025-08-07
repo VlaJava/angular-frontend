@@ -12,12 +12,16 @@
     </div>
     <div class="col-lg-5">
       <h2 class="fw-bold mb-1">{{ package.title }}</h2>
-      <p class="text-muted mb-2">{{ package.destination }}</p>
+      <p class="text-muted mb-2"><i class="bi bi-geo-alt me-2"></i>{{ package.destination }}</p>
       <div class="mb-3">
         <span class="text-warning fs-5">★★★★☆</span>
       </div>
       <p class="mb-4">{{ package.description }}</p>
       <ul class="list-unstyled">
+        <li>
+          <strong><i class="bi bi-airplane-engines me-2"></i>Origem:</strong>
+          <span class="fw-bold">{{ package.source }}</span>
+        </li>
         <li *ngIf="numberOfDays">
           <strong><i class="bi bi-clock me-2"></i>Duração:</strong>
           <span class="fw-bold">
@@ -25,6 +29,10 @@
             <span *ngIf="numberOfDays === 1">dia</span>
             <span *ngIf="numberOfDays > 1">dias</span>
           </span>
+        </li>
+        <li>
+          <strong><i class="bi bi-calendar3 me-2"></i>Período de Viagem:</strong>
+          <span class="fw-bold">{{ package.startDate | date:'dd/MM/yyyy' }} - {{ package.endDate | date:'dd/MM/yyyy' }}</span>
         </li>
         <li>
           <strong><i class="bi bi-cash-coin me-2"></i>Preço por pessoa:</strong>

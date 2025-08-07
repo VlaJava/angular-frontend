@@ -83,8 +83,9 @@
 .carousel-indicators {
   position: absolute;
   bottom: 20px;
-  left: 50%;
+  left: 35%;
   transform: translateX(-50%);
+  justify-content: center;
   display: flex;
   gap: 10px;
 

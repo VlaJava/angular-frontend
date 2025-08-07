@@ -3,13 +3,15 @@ import { PacoteViagem } from '../../models/pacote-viagem';
 import { RouterModule } from '@angular/router';
 import { Package } from '../../types/package.type';
 import { TruncatePipe } from '../../shared/pipes/truncate.pipe';
+import { DatePipe } from '@angular/common';
 
 @Component({
     selector: 'app-package-card',
     standalone: true,
     imports: [
         RouterModule,
-        TruncatePipe
+        TruncatePipe,
+        DatePipe
          
     ],
     templateUrl: './package-card.component.html',

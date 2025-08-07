@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
@@ -17,7 +17,6 @@ import { Package } from '../../../types/package.type';
         CommonModule,
         PackageModalComponent,
         CurrencyPipe,
-        RouterLink,
         ReactiveFormsModule
     ],
     templateUrl: './admin-packages.component.html',
@@ -41,7 +40,8 @@ export class AdminPackagesComponent implements OnInit, OnDestroy {
   constructor(
     private packageService: PackageService,
     private toastr: ToastrService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -126,6 +126,10 @@ export class AdminPackagesComponent implements OnInit, OnDestroy {
         }
       });
     }
+  }
+
+  navigateToEditPackage(packageId: string): void {
+    this.router.navigate(['/packages', packageId, 'admin']);
   }
 
   ngOnDestroy(): void {
