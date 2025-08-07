@@ -16,7 +16,6 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
 import { AccountConfirmedComponent } from './pages/account-confirmed/account-confirmed.component';
 import { PackageAdminComponent } from './pages/packages-admin/packages-admin.component';
-import { UserReservationsComponent } from './pages/user-reservations/user-reservations.component';
 import { PackagesListComponent } from './pages/packages-list/packages-list.component';
 
 
@@ -81,13 +80,7 @@ export const routes: Routes = [
     canActivate: [authGuard],
     title: 'FINALIZAR RESERVA'
   },
-  {
-    path: 'reservations',
-    component: UserReservationsComponent,
-    canActivate: [authGuard], 
-    title: 'MINHAS VIAGENS'
-  },
-
+ 
   // --- Rotas Privadas (Administradores) ---
   {
     path: 'admin',
