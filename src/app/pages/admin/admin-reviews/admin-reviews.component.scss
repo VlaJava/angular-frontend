@@ -1,4 +1,6 @@
-
+.text-orange{
+  color: var(--primary-orange);
+}
 // Aumenta o tamanho do interruptor para ser mais fácil de clicar
 .form-check.form-switch .form-check-input {
   width: 3em;
@@ -9,6 +11,10 @@
     background-color: #e96711;
     border-color:#e96711;
   }
+}
+
+.text-orange{
+  color: var(--primary-orange);
 }
 
 // Garante alinhamento vertical no meio das células da tabela
