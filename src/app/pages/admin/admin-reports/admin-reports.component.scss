@@ -1,5 +1,10 @@
 @use 'sass:color';
 
+.btn-orange{
+  background-color: var(--primary-orange);
+  color: white;
+}
+
 .reports-title {
   font-weight: 700;
   margin-bottom: 0.5rem;
