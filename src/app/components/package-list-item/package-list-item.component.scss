@@ -36,3 +36,25 @@
     }
   }
 }
+
+.btn-outline-orange {
+  color: var(--primary-orange);
+  border-color: var(--primary-orange);
+  background-color: transparent;
+  
+  &:hover {
+    color: #fff;
+    background-color: var(--primary-orange);
+    border-color: var(--primary-orange);
+  }
+  
+  &:focus {
+    box-shadow: 0 0 0 0.25rem rgba(255, 119, 0, 0.25);
+  }
+  
+  &:active {
+    color: #fff;
+    background-color: #cc5200;
+    border-color: #cc5200;
+  }
+}
