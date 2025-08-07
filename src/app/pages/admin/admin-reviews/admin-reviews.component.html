@@ -1,0 +1,71 @@
+<div class="container-fluid p-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Moderação de Avaliações</h1>
+  </div>
+
+  <div class="card shadow mb-4">
+    <div class="card-header py-3">
+      <h6 class="m-0 font-weight-bold text-primary">Selecione um Pacote para Moderar</h6>
+    </div>
+    <div class="card-body">
+      <div class="form-group">
+        <label for="packageSelect" class="form-label">Pacotes de Viagem</label>
+        <select id="packageSelect" class="form-select" [(ngModel)]="selectedPackageId" (change)="onPackageSelect()">
+          <option [ngValue]="null" disabled>-- Escolha um pacote --</option>
+          <option *ngFor="let pkg of packages" [value]="pkg.id">{{ pkg.title }}</option>
+        </select>
+        <div *ngIf="isLoadingPackages" class="spinner-border spinner-border-sm ms-2" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card shadow mb-4" *ngIf="selectedPackageId">
+    <div class="card-header py-3">
+      <h6 class="m-0 font-weight-bold text-primary">Avaliações do Pacote Selecionado</h6>
+    </div>
+    <div class="card-body">
+      <div *ngIf="isLoadingReviews" class="text-center py-5">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+
+      <div *ngIf="!isLoadingReviews && reviews.length === 0" class="text-center text-muted py-4">
+        <p>Nenhuma avaliação encontrada para este pacote.</p>
+      </div>
+
+      <div class="table-responsive" *ngIf="!isLoadingReviews && reviews.length > 0">
+        <table class="table table-bordered" width="100%" cellspacing="0">
+          <thead>
+            <tr>
+              <th>Cliente</th>
+              <th>Nota</th>
+              <th style="width: 50%;">Comentário</th>
+              <th>Data</th>
+              <th>Status (Ativo)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let review of reviews" [class.table-secondary]="review.removed">
+              <td>{{ review.userName }}</td>
+              <td>
+                <span class="text-warning">
+                  <i *ngFor="let i of [1,2,3,4,5]" class="fa-star" [class.fas]="i <= review.rating" [class.far]="i > review.rating"></i>
+                </span>
+              </td>
+              <td>{{ review.comment }}</td>
+              <td>{{ review.reviewDate | date:'dd/MM/yyyy' }}</td>
+              <td>
+                <div class="form-check form-switch d-flex justify-content-center align-items-center h-100">
+                  <input class="form-check-input" type="checkbox" role="switch" [checked]="!review.removed" (change)="toggleReviewStatus(review)">
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

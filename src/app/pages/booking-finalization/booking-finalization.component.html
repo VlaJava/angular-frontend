@@ -1,0 +1,78 @@
+<div class="container payment-page">
+  <h1 class="mb-4">Finalizar Reserva</h1>
+  <div class="row">
+    <div class="col-lg-7">
+      <div class="card p-4 mb-4">
+        <div class="fw-bold mb-2">1. Escolha a data de viagem</div>
+        <div class="row g-3 align-items-center">
+          <div class="col-md-6">
+            <label class="form-label mb-1">Data de início</label>
+            <input type="date"
+                   class="form-control"
+                   [(ngModel)]="startDate"
+                   name="startDate"
+                   required
+                   [min]="today"
+                   style="border-color: #ff7700;"
+                   (ngModelChange)="onStartDateChange()">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label mb-1">Data Final</label>
+            <input type="date"
+                   class="form-control"
+                   [value]="endDate"
+                   name="endDate"
+                   readonly
+                   style="border-color: #ff7700;">
+          </div>
+          <!-- Texto único com o período -->
+          <div class="col-12 mt-2 text-muted" *ngIf="startDate && endDate">
+            O pacote é válido de {{ startDate | date:'dd/MM/yyyy' }} a {{ endDate | date:'dd/MM/yyyy' }}
+          </div>
+        </div>
+      </div>
+      <div class="card p-4 mb-4">
+        <h2 class="mb-3">Informações do Viajante</h2>
+        <form>
+          <div *ngFor="let traveler of travelers; let i = index" class="mb-3">
+            <div class="viajante-card border rounded-3 p-3 position-relative shadow-sm bg-white">
+              <div class="fw-bold mb-2">Viajante {{ i + 1 }}</div>
+              <div class="row g-3 align-items-end">
+                <div class="col">
+                  <input type="text" class="form-control" [(ngModel)]="traveler.name" name="name{{i}}" placeholder="Nome completo *">
+                </div>
+                <div class="col">
+                  <input type="text" class="form-control" [(ngModel)]="traveler.document" name="document{{i}}" placeholder="CPF ou Passaporte *">
+                </div>
+                <div class="col">
+                  <input type="date" class="form-control" [(ngModel)]="traveler.birthDate" name="birthDate{{i}}" placeholder="Data de nascimento *">
+                </div>
+                <div class="col-auto" *ngIf="i > 0">
+                  <button type="button" class="btn btn-link text-danger p-0" (click)="removeTraveler(i)" title="Remover viajante">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button type="button" class="btn btn-link text-orange ps-0" (click)="addTraveler()">+ Adicione outro viajante</button>
+        </form>
+      </div>
+    </div>
+    <div class="col-lg-5">
+      <div class="card mb-4">
+        <img [src]="packageImage" class="card-img-top" [alt]="packageTitle">
+        <div class="card-body">
+          <h5 class="card-title">{{ packageTitle }}</h5>
+          <p class="card-text">{{ packageDestination }}</p>
+          <p class="card-text">{{ packageDescription }}</p>
+          <p class="card-text">1 x {{ packageValue | currency:'BRL' }}</p>
+          <p class="card-text fw-bold">Total: {{ packageValue | currency:'BRL' }}</p>
+        </div>
+      </div>
+      <div class="text-end">
+        <button class="btn btn-warning btn-lg w-100" (click)="finalizeReservation()">Finalizar Reserva</button>
+      </div>
+    </div>
+  </div>
+</div>

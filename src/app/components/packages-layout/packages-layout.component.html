@@ -1,0 +1,173 @@
+<section class="hero-section text-white text-center">
+  
+  <div class="carousel-background-slides">
+    <div 
+      *ngFor="let slide of carouselSlides; let i = index" 
+      class="slide-background" 
+      [class.active]="i === currentSlideIndex"
+      [style.backgroundImage]="'url(' + slide.imageUrl + ')'">
+    </div>
+  </div>
+
+  <div class="hero-overlay"></div>
+
+  <div class="container position-relative">
+    <h1 class="display-4 fw-bold">Sua Próxima Aventura com ViaJava <i class="bi bi-airplane-engines"></i></h1>
+    <p class="lead my-3">Onde cada viagem é uma nova versão da sua história.</p>
+    <a [routerLink]="['/packages']" class="btn btn-orange">Ver Pacotes</a>
+  </div>
+
+  <button class="carousel-control prev" (click)="prevSlide()">
+    <i class="bi bi-chevron-left"></i>
+  </button>
+  <button class="carousel-control next" (click)="nextSlide()">
+    <i class="bi bi-chevron-right"></i>
+  </button>
+  <div class="carousel-indicators">
+    <button *ngFor="let slide of carouselSlides; let i = index"
+            [class.active]="i === currentSlideIndex"
+            (click)="selectSlide(i)">
+    </button>
+  </div>
+</section>
+
+<section>
+
+<section class="container text-center my-5" id="packages-section">
+  <h2 class="fw-bold">Pacotes de Viagem <i class="bi bi-luggage"></i></h2>
+</section>
+
+<section class="search-section container">
+  <div class="search-wrapper p-4 rounded-3">
+    <div class="row g-3 align-items-end">
+
+      <div class="col-lg-4 col-md-12">
+        <label class="form-label text-white fw-bold">Trajeto</label>
+        <div class="input-card">
+          <input type="text"
+                 class="form-control"
+                 placeholder="Origem"
+                 [(ngModel)]="filterOrigin"
+                 (ngModelChange)="onSearch()">
+          <div class="divider-vertical"></div>
+          <input type="text"
+                 class="form-control"
+                 placeholder="Destino"
+                 [(ngModel)]="filterDestination"
+                 (ngModelChange)="onSearch()">
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-6">
+        <label class="form-label text-white fw-bold">Data</label>
+        <div class="input-card">
+          <input type="date"
+                 class="form-control text-center"
+                 placeholder="Ida"
+                 [min]="todayDate"
+                 [(ngModel)]="filterStartDate"
+                 (ngModelChange)="onSearch()">
+          <div class="divider-vertical"></div>
+          <input type="date"
+                 class="form-control text-center"
+                 placeholder="Volta"
+                 [min]="filterStartDate || todayDate"
+                 [(ngModel)]="filterEndDate"
+                 (ngModelChange)="onSearch()">
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-6">
+        <label class="form-label text-white fw-bold">Orçamento</label>
+        <div class="input-card px-4">
+          <span class="text-nowrap me-3">{{ formattedBudget }}</span>
+          <input type="range"
+                 class="form-range"
+                 [min]="minBudget"
+                 [max]="maxBudget"
+                 [(ngModel)]="budgetValue"
+                 (ngModelChange)="onBudgetChange()">
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="container my-5">
+  <h2 class="fw-bold mb-4" [class.filtered]="hasActiveFilters()">
+    <i class="bi bi-gem me-2" *ngIf="!hasActiveFilters()"></i>
+    <i class="bi bi-search me-2" *ngIf="hasActiveFilters()"></i>
+    {{ sectionTitle }}
+  </h2>
+
+  <div class="active-filters mb-3" *ngIf="hasActiveFilters()">
+    <small class="text-muted">Filtros aplicados:</small>
+    <div class="d-flex flex-wrap gap-2 mt-2">
+      <span class="badge bg-primary" *ngIf="filterDestination">
+        Destino: {{ filterDestination }}
+        <button type="button" class="btn-close btn-close-white ms-1" (click)="removeFilter('destination')" aria-label="Remover filtro"></button>
+      </span>
+      <span class="badge bg-primary" *ngIf="filterOrigin">
+        Origem: {{ filterOrigin }}
+        <button type="button" class="btn-close btn-close-white ms-1" (click)="removeFilter('origin')" aria-label="Remover filtro"></button>
+      </span>
+      <span class="badge bg-primary" *ngIf="budgetValue < maxBudget">
+        Orçamento: {{ formattedBudget }}
+        <button type="button" class="btn-close btn-close-white ms-1" (click)="removeFilter('budget')" aria-label="Remover filtro"></button>
+      </span>
+      <span class="badge bg-primary" *ngIf="filterStartDate">
+        Data início: {{ filterStartDate | date:'dd/MM/yyyy' }}
+        <button type="button" class="btn-close btn-close-white ms-1" (click)="removeFilter('startDate')" aria-label="Remover filtro"></button>
+      </span>
+      <span class="badge bg-primary" *ngIf="filterEndDate">
+        Data fim: {{ filterEndDate | date:'dd/MM/yyyy' }}
+        <button type="button" class="btn-close btn-close-white ms-1" (click)="removeFilter('endDate')" aria-label="Remover filtro"></button>
+      </span>
+    </div>
+  </div>
+
+  <p class="text-muted mb-4" *ngIf="hasActiveFilters() && totalItems > 0">
+    Exibindo {{ filteredPackages.length }} de {{ totalItems }} pacotes encontrados.
+  </p>
+
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" *ngIf="filteredPackages.length > 0">
+    <div class="col" *ngFor="let pkg of filteredPackages">
+      <app-package-card [pacote]="pkg"></app-package-card>
+    </div>
+  </div>
+
+  <!-- Seção de Paginação -->
+  <div class="d-flex justify-content-center mt-5" *ngIf="totalPages > 1">
+    <nav aria-label="Navegação de página">
+      <ul class="pagination">
+        <li class="page-item" [class.disabled]="currentPage === 0">
+          <a class="page-link" href="javascript:void(0)" (click)="onPageChange(currentPage - 1)" aria-label="Anterior">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+        <li class="page-item"
+            *ngFor="let page of pages"
+            [class.active]="currentPage === page">
+          <a class="page-link" href="javascript:void(0)" (click)="onPageChange(page)">{{ page + 1 }}</a>
+        </li>
+        <li class="page-item" [class.disabled]="currentPage >= totalPages - 1">
+          <a class="page-link" href="javascript:void(0)" (click)="onPageChange(currentPage + 1)" aria-label="Próximo">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+  <!-- Fim da Seção de Paginação -->
+
+  <div class="text-center py-5" *ngIf="filteredPackages.length === 0">
+    <div class="empty-state">
+      <h4 class="text-muted">Nenhum pacote encontrado</h4>
+      <p class="text-muted">Tente ajustar os filtros de busca para encontrar mais opções.</p>
+      <button class="btn btn-outline-primary" (click)="clearFilters()">
+        Limpar Filtros
+      </button>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,103 @@
+<div class="admin-users-container">
+  <h2>Gestão de Usuários</h2>
+
+  <div class="controls">
+  <form [formGroup]="searchForm" class="search-form">
+    <input
+      type="text"
+      class="search-input"
+      placeholder="Buscar por nome, email ou documento..."
+      formControlName="search"
+    />
+    </form>
+</div>
+
+  <div *ngIf="showAddEditForm && currentUser" class="add-edit-form">
+    <h3>{{ currentUser.id ? 'Editar Usuário' : 'Adicionar Novo Usuário' }}</h3>
+    <form (ngSubmit)="saveUser()">
+      <div class="form-group">
+        <label for="name">Nome:</label>
+        <input type="text" id="name" [(ngModel)]="currentUser.name" name="name" required />
+      </div>
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" [(ngModel)]="currentUser.email" name="email" required />
+      </div>
+       <div class="form-group">
+        <label for="phone">Telefone:</label>
+        <input type="text" id="phone" [(ngModel)]="currentUser.phone" name="phone" />
+      </div>
+      <div class="form-group">
+        <label for="role">Role:</label>
+        <select id="role" [(ngModel)]="currentUser.role" name="role" required>
+          <option value="CLIENT">Cliente</option>
+          <option value="ADMIN">Admin</option>
+        </select>
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Salvar</button>
+        <button type="button" (click)="cancelEdit()" class="btn btn-secondary">Cancelar</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="users-table-container">
+    <table class="users-table">
+      <thead>
+        <tr>
+          <th>DADOS PESSOAIS</th>
+          <th>Telefone</th>
+          <th>Status</th>
+          <th>Role</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of filteredUsers.content">
+          <td>
+            <strong>{{ user.name }}</strong><br />
+            <small>{{ user.email }}</small>
+          </td>
+          <td>{{ user.phone }}</td>
+          <td>
+            <span [class.status-active]="user.active" [class.status-inactive]="!user.active">
+              {{ user.active ? 'Ativo' : 'Inativo' }}
+            </span>
+          </td>
+          <td>{{ user.role.userRole | titlecase }}</td>
+          <td class="text-center">
+            <div class="action-buttons">
+              <button class="btn btn-warning" (click)="editUser(user)"><i class="bi bi-pencil-square"></i></button>
+              <button class="btn btn-danger" (click)="deleteUser(user.id)"><i class="bi bi-trash"></i></button>
+            </div>
+          </td>
+        </tr>
+        <tr *ngIf="!isLoading && (!filteredUsers || filteredUsers.content.length === 0)">
+          <td colspan="5" class="no-results">Nenhum usuário encontrado.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <div *ngIf="!isLoading && filteredUsers.totalPages > 1" class="pagination-container">
+    <button 
+      class="btn-pagination" 
+      (click)="changePage(filteredUsers.currentPage - 1)"
+      [disabled]="filteredUsers.currentPage === 0">
+      Anterior
+    </button>
+    <button 
+      *ngFor="let pageNum of getPageNumbers()" 
+      class="btn-pagination"
+      [class.active]="pageNum === filteredUsers.currentPage"
+      (click)="changePage(pageNum)">
+      {{ pageNum + 1 }}
+    </button>
+    <button 
+      class="btn-pagination" 
+      (click)="changePage(filteredUsers.currentPage + 1)"
+      [disabled]="filteredUsers.currentPage >= filteredUsers.totalPages - 1">
+      Próximo
+    </button>
+  </div>
+</div>

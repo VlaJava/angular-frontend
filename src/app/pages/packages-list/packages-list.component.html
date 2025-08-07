@@ -1,0 +1,89 @@
+<div class="filter-section-wrapper">
+  <div class="container">
+    <div class="search-wrapper py-3">
+    
+      <div class="row g-3 align-items-end">
+
+       
+        <div class="col-lg-5 col-md-6 col-12">
+          <label class="form-label">Trajeto</label>
+          <div class="input-card">
+            <i class="bi bi-pin-map-fill input-icon"></i>
+            <input type="text" class="form-control" placeholder="Origem" [(ngModel)]="filterOrigin" (ngModelChange)="onFilterChange()">
+            <div class="divider-vertical"></div>
+            <input type="text" class="form-control" placeholder="Destino" [(ngModel)]="filterDestination" (ngModelChange)="onFilterChange()">
+          </div>
+        </div>
+
+        
+        <div class="col-lg-4 col-md-6 col-12">
+          <label class="form-label">Data</label>
+          <div class="input-card">
+            <i class="bi bi-calendar-range input-icon"></i>
+            <input type="text" onfocus="(this.type='date')" onblur="(this.type='text')" class="form-control text-center" placeholder="Ida" [min]="todayDate" [(ngModel)]="filterStartDate" (ngModelChange)="onFilterChange()">
+            <div class="divider-vertical"></div>
+            <input type="text" onfocus="(this.type='date')" onblur="(this.type='text')" class="form-control text-center" placeholder="Volta" [min]="filterStartDate || todayDate" [(ngModel)]="filterEndDate" (ngModelChange)="onFilterChange()">
+          </div>
+        </div>
+
+        <!-- Coluna Orçamento -->
+        <div class="col-lg-3 col-md-12 col-12">
+          <label class="form-label">Orçamento</label>
+          <div class="input-card budget-card">
+            <span class="text-nowrap">{{ formattedBudget }}</span>
+            <input type="range" class="form-range" [min]="minBudget" [max]="maxBudget" [(ngModel)]="budgetValue" (ngModelChange)="onFilterChange()">
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="container my-5">
+  
+  <div class="text-center py-5" *ngIf="isLoading">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mt-2 text-muted">Buscando os melhores pacotes...</p>
+  </div>
+
+  
+  <div *ngIf="!isLoading">
+    <div *ngIf="packages.length > 0; else noPackages">
+      <p class="text-muted mb-4">{{ totalItems }} pacotes encontrados.</p>
+      <div class="packages-list">
+        <app-package-list-item *ngFor="let pkg of packages" [pacote]="pkg"></app-package-list-item>
+      </div>
+
+ 
+      <div class="d-flex justify-content-center mt-5" *ngIf="totalPages > 1">
+        <nav>
+          <ul class="pagination">
+            <li class="page-item" [class.disabled]="currentPage === 0">
+              <a class="page-link" href="javascript:void(0)" (click)="onPageChange(currentPage - 1)">&laquo;</a>
+            </li>
+            <li class="page-item" *ngFor="let page of pages" [class.active]="currentPage === page">
+              <a class="page-link" href="javascript:void(0)" (click)="onPageChange(page)">{{ page + 1 }}</a>
+            </li>
+            <li class="page-item" [class.disabled]="currentPage >= totalPages - 1">
+              <a class="page-link" href="javascript:void(0)" (click)="onPageChange(currentPage + 1)">&raquo;</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+
+    
+    <ng-template #noPackages>
+      <div class="text-center py-5 empty-state">
+          <i class="bi bi-emoji-frown fs-1 text-muted"></i>
+          <h4 class="mt-3">Nenhum pacote encontrado</h4>
+          <p class="text-muted">Tente alterar os filtros para encontrar mais opções.</p>
+      </div>
+    </ng-template>
+  </div>
+</div>

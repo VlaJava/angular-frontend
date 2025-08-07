@@ -1,0 +1,23 @@
+<div [class]="'message ' + (isBot ? 'message-bot' : 'message-user')">
+  <div [class]="'message-content ' + (isBot ? 'message-content-bot' : 'message-content-user')">
+    
+    <ng-container *ngIf="message.isLoading">
+      <div class="typing-indicator">
+        <span class="typing-text">Avanildo está digitando</span>
+        <div class="typing-dots">
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="!message.isLoading">
+      <p *ngIf="message.text" class="message-text">{{ message.text }}</p>
+      <div *ngIf="message.packages?.length" class="packages-grid">
+        <app-package-card *ngFor="let pack of message.packages" [pacote]="pack"></app-package-card>
+      </div>
+    </ng-container>
+
+  </div>
+</div>

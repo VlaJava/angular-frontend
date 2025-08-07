@@ -1,0 +1,38 @@
+<div class="container-fluid p-4">
+  <h1 class="reports-title">Relatórios</h1>
+  <p class="reports-subtitle">Selecione um tipo de relatório para exportar ou converse com o Super Avanildo para obter insights em tempo real.</p>
+
+  <div class="row g-4">
+    <!-- Coluna da Esquerda: Exportação -->
+    <div class="col-lg-6">
+      <div class="card report-actions">
+        <div class="card-body">
+          <h5 class="card-title fw-bold">Exportar Dados</h5>
+          <div class="input-group">
+            <label for="report-type-select" class="visually-hidden">Tipo de relatório</label>
+            <select class="form-select" [(ngModel)]="selectedReport" id="report-type-select">
+              <option value="salesPerformance">Desempenho de Vendas (Mensal)</option>
+              <option value="packagePerformance">Desempenho de Pacotes</option>
+              <option value="customerValue">Análise de Valor do Cliente</option>
+              <option value="pendingPayments">Pagamentos Pendentes</option>
+            </select>
+            <button class="btn btn-primary" (click)="exportReport()">
+              <i class="fas fa-download me-2" aria-hidden="true"></i>Exportar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Coluna da Direita: Chatbot -->
+    <div class="col-lg-6">
+      <button class="btn-toggle-chatbot" (click)="toggleChatbot()">
+        SuperAvanildo
+      </button>
+
+      <div class="chatbot-container mt-3" *ngIf="showChatbot">
+        <app-super-chatbot></app-super-chatbot>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,16 @@
+<div class="package-card">
+  <img [src]="pack.imageUrl" [alt]="pack.title" class="package-image">
+  <div class="package-content">
+    <h3 class="package-title">{{ pack.title }}</h3>
+    <p class="package-description">{{ pack.description }}</p>
+    <div class="package-footer">
+      <span class="package-price">R$ {{ pack.price.toFixed(2) }}</span>
+      <span class="package-spots">{{ pack.travelerLimit }} vagas</span>
+    </div>
+      <div class="card-footer bg-transparent border-0 pt-0 pb-3">
+      <div class="d-flex justify-content-between align-items-center">
+        <a [routerLink]="['/packages', pack.id]" class="fw-bold text-decoration-none details-link">Ver Mais +</a>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,19 @@
+<div class="card h-100 border-0 shadow-sm package-card">
+  <img [src]="pacote.imageUrl" class="card-img-top" [alt]="pacote.title">
+  <div class="card-body">
+    <h5 class="card-title fw-bold">{{ pacote.title }}</h5>
+    <p class="card-text text-muted small">
+      <i class="bi bi-airplane-engines me-2"></i>{{ pacote.source }} → {{ pacote.destination }}
+    </p>
+    <p class="card-text text-muted small">
+      <i class="bi bi-calendar3 me-2"></i>{{ pacote.startDate | date:'dd/MM/yyyy' }} - {{ pacote.endDate | date:'dd/MM/yyyy' }}
+    </p>
+    <p class="card-text description-text">{{ pacote.description | truncate:100}}</p>
+  </div>
+  <div class="card-footer bg-transparent border-0 pt-0 pb-3">
+    <div class="d-flex justify-content-between align-items-center">
+      
+      <a [routerLink]="['/packages', pacote.id]" class="fw-bold text-decoration-none details-link">Ver Mais +</a>
+    </div>
+  </div>
+</div>

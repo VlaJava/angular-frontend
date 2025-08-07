@@ -1,0 +1,148 @@
+<div class="container my-5 text-center" *ngIf="isLoading">
+  <div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+  <p class="mt-2">Carregando detalhes do pacote...</p>
+</div>
+
+<div class="container my-5" *ngIf="!isLoading && package">
+  <div class="row g-5">
+    <div class="col-lg-7">
+      <img [src]="package.imageUrl" class="img-fluid rounded-3 shadow-lg w-100" [alt]="package.title">
+    </div>
+    <div class="col-lg-5">
+      <h2 class="fw-bold mb-1">{{ package.title }}</h2>
+      <p class="text-muted mb-2"><i class="bi bi-geo-alt me-2"></i>{{ package.destination }}</p>
+      <div class="mb-3">
+        <span class="text-warning fs-5">★★★★☆</span>
+      </div>
+      <p class="mb-4">{{ package.description }}</p>
+      <ul class="list-unstyled">
+        <li>
+          <strong><i class="bi bi-airplane-engines me-2"></i>Origem:</strong>
+          <span class="fw-bold">{{ package.source }}</span>
+        </li>
+        <li *ngIf="numberOfDays">
+          <strong><i class="bi bi-clock me-2"></i>Duração:</strong>
+          <span class="fw-bold">
+            {{ numberOfDays }}
+            <span *ngIf="numberOfDays === 1">dia</span>
+            <span *ngIf="numberOfDays > 1">dias</span>
+          </span>
+        </li>
+        <li>
+          <strong><i class="bi bi-calendar3 me-2"></i>Período de Viagem:</strong>
+          <span class="fw-bold">{{ package.startDate | date:'dd/MM/yyyy' }} - {{ package.endDate | date:'dd/MM/yyyy' }}</span>
+        </li>
+        <li>
+          <strong><i class="bi bi-cash-coin me-2"></i>Preço por pessoa:</strong>
+          <span class="price-value">{{ package.price | currency:'BRL' }}</span>
+        </li>
+      </ul>
+      <div class="d-grid mt-4">
+        <button class="btn btn-orange btn-lg"
+          [routerLink]="['/finalize-booking']"
+          [queryParams]="{
+            title: package.title,
+            destination: package.destination,
+            description: package.description,
+            value: package.price,
+            image: package.imageUrl,
+            days: numberOfDays
+          }"><i class="bi bi-suitcase-lg me-2"></i>
+          Reservar Agora
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ✅ SEÇÃO DE COMODIDADES ATUALIZADA -->
+  <div class="amenities-section text-center my-5">
+    <h4 class="fw-bold mb-4">O que o pacote oferece</h4>
+    <div class="d-flex justify-content-center flex-wrap gap-4">
+      <div class="amenity-item">
+        <i class="fas fa-wifi fa-2x"></i>
+        <span>Wi-Fi Grátis</span>
+      </div>
+      <div class="amenity-item">
+        <i class="fas fa-swimming-pool fa-2x"></i>
+        <span>Piscina</span>
+      </div>
+      <div class="amenity-item">
+        <i class="fas fa-coffee fa-2x"></i>
+        <span>Café da Manhã</span>
+      </div>
+      <div class="amenity-item">
+        <i class="fas fa-snowflake fa-2x"></i>
+        <span>Ar Condicionado</span>
+      </div>
+      <div class="amenity-item">
+        <i class="fas fa-dumbbell fa-2x"></i>
+        <span>Academia</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEÇÃO DE AVALIAÇÕES -->
+  <hr class="my-5">
+
+  <div class="reviews-section">
+    <h3 class="fw-bold text-center mb-5">O que os viajantes dizem</h3>
+
+    <!-- SEÇÃO DE ESTATÍSTICAS -->
+    <div class="row mb-5 stats-container" *ngIf="mockReviews.length > 0">
+      <div class="col-md-4 text-center average-rating-box">
+        <div class="average-score">4.7</div>
+        <div class="star-rating">
+          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+        </div>
+        <div class="total-reviews">Baseado em {{ mockReviews.length }} avaliações</div>
+      </div>
+      <div class="col-md-8 rating-bars">
+        <div class="rating-bar-row">
+          <span>5 estrelas</span>
+          <div class="progress"><div class="progress-bar" style="width: 80%;"></div></div>
+          <span class="rating-count">2</span>
+        </div>
+        <div class="rating-bar-row">
+          <span>4 estrelas</span>
+          <div class="progress"><div class="progress-bar" style="width: 20%;"></div></div>
+          <span class="rating-count">1</span>
+        </div>
+        <div class="rating-bar-row">
+          <span>3 estrelas</span>
+          <div class="progress"><div class="progress-bar" style="width: 0%;"></div></div>
+          <span class="rating-count">0</span>
+        </div>
+        <div class="rating-bar-row">
+          <span>2 estrelas</span>
+          <div class="progress"><div class="progress-bar" style="width: 0%;"></div></div>
+          <span class="rating-count">0</span>
+        </div>
+        <div class="rating-bar-row">
+          <span>1 estrela</span>
+          <div class="progress"><div class="progress-bar" style="width: 0%;"></div></div>
+          <span class="rating-count">0</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-10 mx-auto">
+        <div *ngFor="let review of mockReviews" class="review-card card mb-3">
+          <div class="card-body d-flex">
+            <img [src]="review.avatar" class="rounded-circle me-3" width="60" height="60" alt="Avatar de {{review.name}}">
+            <div>
+              <h5 class="card-title mb-0">{{ review.name }}</h5>
+              <div class="star-rating mb-2">
+                <span *ngFor="let star of getStars(review.rating)" class="text-warning">★</span>
+              </div>
+              <p class="card-text">{{ review.comment }}</p>
+              <small class="text-muted">{{ review.date }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

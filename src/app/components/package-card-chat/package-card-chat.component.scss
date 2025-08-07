@@ -1,0 +1,48 @@
+@use '../../../styles/variables' as *;
+
+.package-card {
+  background-color: $bg-white;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.package-image {
+  width: 100%;
+  height: 12rem;
+  object-fit: cover;
+}
+
+.package-content {
+  padding: 1rem;
+}
+
+.package-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: $text-gray-800;
+}
+
+.package-description {
+  font-size: 0.875rem;
+  color: $text-gray-600;
+  margin-bottom: 0.5rem;
+}
+
+.package-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.package-price {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: $primary-color;
+}
+
+.package-spots {
+  font-size: 0.875rem;
+  color: $text-gray-600;
+}
