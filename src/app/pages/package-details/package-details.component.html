@@ -39,24 +39,37 @@
           <span class="price-value">{{ package.price | currency:'BRL' }}</span>
         </li>
       </ul>
+
       <div class="d-grid mt-4">
-        <button class="btn btn-orange btn-lg"
-          [routerLink]="['/finalize-booking']"
-          [queryParams]="{
-            title: package.title,
-            destination: package.destination,
-            description: package.description,
-            value: package.price,
-            image: package.imageUrl,
-            days: numberOfDays
-          }"><i class="bi bi-suitcase-lg me-2"></i>
-          Reservar Agora
-        </button>
+        <ng-container *ngIf="!hasExistingBooking; else alreadyBookedTemplate">
+          <button class="btn btn-orange btn-lg"
+            [routerLink]="['/finalize-booking']"
+            [queryParams]="{
+              id: package.id,
+              title: package.title,
+              destination: package.destination,
+              description: package.description,
+              value: package.price,
+              image: package.imageUrl,
+              days: numberOfDays
+            }">
+            Reservar Agora
+          </button>
+        </ng-container>
+
+        <ng-template #alreadyBookedTemplate>
+          <div class="alert alert-success text-center" role="alert">
+            <h5 class="alert-heading mb-1 fw-bold">Você já reservou este pacote!</h5>
+            <p class="mb-2">Acompanhe os detalhes na sua área de viagens.</p>
+            <hr>
+            <a routerLink="/reservations" class="btn btn-outline-success fw-bold">Ver Minhas Viagens</a>
+          </div>
+        </ng-template>
       </div>
+      
     </div>
   </div>
 
-  <!-- ✅ SEÇÃO DE COMODIDADES ATUALIZADA -->
   <div class="amenities-section text-center my-5">
     <h4 class="fw-bold mb-4">O que o pacote oferece</h4>
     <div class="d-flex justify-content-center flex-wrap gap-4">
@@ -83,13 +96,11 @@
     </div>
   </div>
 
-  <!-- SEÇÃO DE AVALIAÇÕES -->
   <hr class="my-5">
 
   <div class="reviews-section">
     <h3 class="fw-bold text-center mb-5">O que os viajantes dizem</h3>
 
-    <!-- SEÇÃO DE ESTATÍSTICAS -->
     <div class="row mb-5 stats-container" *ngIf="mockReviews.length > 0">
       <div class="col-md-4 text-center average-rating-box">
         <div class="average-score">4.7</div>
