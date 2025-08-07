@@ -1,0 +1,12 @@
+<div class="page-container">
+  <div class="content-wrapper">
+    <h1>Minhas Reservas</h1>
+
+    <div class="reservations-grid">
+      <app-reservation-card
+        *ngFor="let reservation of reservations$ | async"
+        [reservation]="reservation"
+        (cancel)="handleCancel($event)">
+      </app-reservation-card>
+    </div>
+  </div> </div>

@@ -21,6 +21,7 @@ import { PackagesListComponent } from './pages/packages-list/packages-list.compo
 
 import { adminGuard } from './guards/admin.guard';
 import { authGuard } from './guards/auth.guard';
+import { MyReservationsComponent } from './pages/my-reservations/my-reservations.component';
 
 
 export const routes: Routes = [
@@ -79,6 +80,10 @@ export const routes: Routes = [
     component: BookingFinalizationComponent,
     canActivate: [authGuard],
     title: 'FINALIZAR RESERVA'
+  },
+  {
+    path: 'reservas',
+    component: MyReservationsComponent
   },
  
   // --- Rotas Privadas (Administradores) ---
