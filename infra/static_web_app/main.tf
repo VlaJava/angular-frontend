@@ -4,6 +4,6 @@ resource "azurerm_static_web_app" "swa" {
   location            = var.location
 
   repository_url = var.frontend_repository_url
-  repository_branch = "main"
+  repository_branch = "staging"
   repository_token = var.frontend_repository_token
 }
