@@ -4,10 +4,6 @@ on:
   push:
     branches:
       - staging
-  pull_request:
-    types: [opened, synchronize, reopened, closed]
-    branches:
-      - staging
 
 jobs:
   build_and_deploy_job:
@@ -45,4 +41,5 @@ jobs:
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_ORANGE_CLIFF_0555BCE0F }}
           action: "close"
+
 

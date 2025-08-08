@@ -17,6 +17,7 @@ import { ResetPasswordComponent } from './pages/reset-password/reset-password.co
 import { AccountConfirmedComponent } from './pages/account-confirmed/account-confirmed.component';
 import { PackageAdminComponent } from './pages/packages-admin/packages-admin.component';
 import { PackagesListComponent } from './pages/packages-list/packages-list.component';
+import { AboutComponent } from './pages/about/about.component';
 
 
 import { adminGuard } from './guards/admin.guard';
@@ -53,6 +54,15 @@ export const routes: Routes = [
     title: 'REDEFINIR SENHA'
   },
   {
+    path: 'about',
+    component: AboutComponent 
+  },
+  {
+    path: 'auth/signup/account-confirmation',
+    redirectTo: 'account-confirmation',
+    pathMatch: 'full'
+  },
+  {
     path: 'account-confirmation',
     component: AccountConfirmedComponent,
     title: 'CONTA CONFIRMADA'
@@ -84,9 +94,9 @@ export const routes: Routes = [
   {
     path: 'reservas',
     component: MyReservationsComponent
+
   },
- 
-  // --- Rotas Privadas (Administradores) ---
+
   {
     path: 'admin',
     component: AdminLayoutComponent,
