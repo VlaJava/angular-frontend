@@ -54,6 +54,15 @@ export const routes: Routes = [
     title: 'REDEFINIR SENHA'
   },
   {
+    path: 'about',
+    component: AboutComponent 
+  },
+  {
+    path: 'auth/signup/account-confirmation',
+    redirectTo: 'account-confirmation',
+    pathMatch: 'full'
+  },
+  {
     path: 'account-confirmation',
     component: AccountConfirmedComponent,
     title: 'CONTA CONFIRMADA'
@@ -85,11 +94,7 @@ export const routes: Routes = [
   {
     path: 'reservas',
     component: MyReservationsComponent
-  },
 
-  {
-    path: 'about',
-    component: AboutComponent 
   },
 
   {
