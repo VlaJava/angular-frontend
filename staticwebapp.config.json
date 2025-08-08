@@ -12,7 +12,36 @@
     ".css": "text/css",
     ".js": "application/javascript"
   },
-  "globalHeaders": {
-    "Cache-Control": "no-cache"
-  }
+  "routes": [
+    {
+      "route": "/index.html",
+      "headers": {
+        "Cache-Control": "no-cache"
+      }
+    },
+    {
+      "route": "/",
+      "headers": {
+        "Cache-Control": "no-cache"
+      }
+    },
+    {
+      "route": "/api/*",
+      "headers": {
+        "Cache-Control": "no-store"
+      }
+    },
+    {
+      "route": "/*.{json}",
+      "headers": {
+        "Cache-Control": "no-cache"
+      }
+    },
+    {
+      "route": "/*.{js,css,woff,woff2,ttf,eot,svg,png,jpg,jpeg,gif,ico}",
+      "headers": {
+        "Cache-Control": "public, max-age=604800, must-revalidate"
+      }
+    }
+  ]
 }
