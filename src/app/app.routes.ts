@@ -54,6 +54,10 @@ export const routes: Routes = [
     title: 'REDEFINIR SENHA'
   },
   {
+    path: 'about',
+    component: AboutComponent 
+  },
+  {
     path: 'account-confirmation',
     component: AccountConfirmedComponent,
     title: 'CONTA CONFIRMADA'
