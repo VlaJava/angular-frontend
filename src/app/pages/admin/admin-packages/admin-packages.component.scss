@@ -137,6 +137,14 @@
     }
   }
 
+  .btn-warning{
+    background-color: var(--primary-orange);
+  }
+
+  .bi-pencil-square{
+    color: white;
+  }
+
   .btn-primary {
     background-color: var(--primary-orange);
     color: white;
@@ -149,7 +157,7 @@
   }
 
   .btn-secondary {
-    background-color: #6c757d;
+    background-color: #ff0000;
     color: white;
     border: none;
     padding: 12px 24px;

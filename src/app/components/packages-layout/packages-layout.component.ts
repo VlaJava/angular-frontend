@@ -1,9 +1,10 @@
-import { Component, Input, OnInit, OnChanges } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, OnDestroy } from '@angular/core'; // Adicionado OnDestroy
 import { FormsModule } from '@angular/forms';
 import { PackageCardComponent } from '../package-card/package-card.component';
 import { CommonModule } from '@angular/common';
 import { Package } from '../../types/package.type';
-import { PackageService } from '../../services/package.service';
+import { PackageService, PaginatedPackagesResponse } from '../../services/package.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-packages-layout',
@@ -11,18 +12,46 @@ import { PackageService } from '../../services/package.service';
   imports: [
     CommonModule,
     PackageCardComponent,
-    FormsModule
+    FormsModule, 
+    RouterLink
   ],
   templateUrl: './packages-layout.component.html',
   styleUrls: ['./packages-layout.component.scss']
 })
-export class PackagesLayoutComponent implements OnInit, OnChanges {
+export class PackagesLayoutComponent implements OnInit, OnChanges, OnDestroy { // Implementado OnDestroy
+
+
+  carouselSlides: any[] = [
+
+     {
+      imageUrl: '/assets/carrossel/coroo4.jpg', 
+      
+    },
+    {
+      imageUrl: '/assets/homepage/paris.jpg',
+    
+    },
+    {
+      imageUrl: '/assets/carrossel/Carro5.jpg', 
+      
+    },
+    {
+      imageUrl: '/assets/carrossel/carro3.webp', 
+      
+    },
+    {
+      imageUrl: '/assets/carrossel/carro6.jpg', 
+      
+    }
+    
+  ];
+  currentSlideIndex: number = 0;
+  private slideInterval: any;
+  // --- Fim das Propriedades do Carrossel ---
 
   @Input() package: Package[] = [];
   
-
   filteredPackages: Package[] = [];
-  
 
   filterOrigin: string = '';
   filterDestination: string = '';
@@ -32,90 +61,85 @@ export class PackagesLayoutComponent implements OnInit, OnChanges {
   maxBudget: number = 15000;
   minBudget: number = 1000;
 
+  currentPage: number = 0;
+  totalPages: number = 0;
+  totalItems: number = 0;
+  pageSize: number = 6; 
+
   constructor(
     private packageService: PackageService
   ) { }
 
   ngOnInit() {
-    this.filteredPackages = [...this.package];
+    this.loadPackages();
+    this.startCarousel(); // Inicia o carrossel automático
   }
 
   ngOnChanges() {
-    this.filteredPackages = [...this.package];
-    this.applyFilters();
+    // Lógica de OnChanges, se necessária
+  }
+  
+  ngOnDestroy() {
+    clearInterval(this.slideInterval); // Limpa o intervalo para evitar memory leaks
   }
 
-  
-  applyFilters() {
-    if (!this.package || this.package.length === 0) {
-      this.filteredPackages = [];
-      return;
-    }
-
-    this.filteredPackages = this.package.filter(pkg => {
-    
-      const budgetMatch = pkg.price <= this.budgetValue;
-      
-      const destinationMatch = !this.filterDestination || 
-        pkg.destination.toLowerCase().includes(this.filterDestination.toLowerCase());
-      
-    
-      const originMatch = !this.filterOrigin || 
-        (pkg.source && pkg.source.toLowerCase().includes(this.filterOrigin.toLowerCase()));
-      
-      
-      const startDateMatch = !this.filterStartDate || 
-        !pkg.startDate || 
-        new Date(pkg.startDate) >= new Date(this.filterStartDate);
-      
-      const endDateMatch = !this.filterEndDate || 
-        !pkg.endDate || 
-        new Date(pkg.endDate) <= new Date(this.filterEndDate);
-      
-      const matches = budgetMatch && destinationMatch && originMatch && startDateMatch && endDateMatch;
-      
-      return matches;
-    });
-    
-  
-    console.log('Filtros aplicados:', {
-      totalpackages: this.package.length,
-      budgetValue: this.budgetValue,
-      filterDestination: this.filterDestination,
-      filterOrigin: this.filterOrigin,
-      filterStartDate: this.filterStartDate,
-      filterEndDate: this.filterEndDate,
-      resultados: this.filteredPackages.length
-    });
+  // --- Métodos do Carrossel ---
+  startCarousel() {
+    this.slideInterval = setInterval(() => {
+      this.nextSlide();
+    }, 5000); // Muda de slide a cada 5 segundos
   }
 
+  selectSlide(index: number) {
+    this.currentSlideIndex = index;
+    clearInterval(this.slideInterval);
+    this.startCarousel();
+  }
+
+  nextSlide() {
+    this.currentSlideIndex = (this.currentSlideIndex + 1) % this.carouselSlides.length;
+  }
+
+  prevSlide() {
+    this.currentSlideIndex = (this.currentSlideIndex - 1 + this.carouselSlides.length) % this.carouselSlides.length;
+  }
+  // --- Fim dos Métodos do Carrossel ---
+  
+  loadPackages() {
+    const filters = {
+      source: this.filterOrigin,
+      destination: this.filterDestination,
+      startDate: this.filterStartDate,
+      endDate: this.filterEndDate,
+      price: this.budgetValue
+    };
+
+    this.packageService.getPackages(this.currentPage, this.pageSize, filters)
+      .subscribe((response: PaginatedPackagesResponse) => {
+        this.package = response.content;
+        this.filteredPackages = response.content;
+        this.totalPages = response.totalPages;
+        this.totalItems = response.totalItems;
+        this.currentPage = response.currentPage;
+      });
+  }
+  
   onSearch() {
-    this.applyFilters();
+    this.currentPage = 0;
+    this.loadPackages();
   }
-
 
   onBudgetChange() {
-    this.applyFilters();
+    this.currentPage = 0;
+    this.loadPackages();
   }
-
-  get formattedBudget(): string {
-    return new Intl.NumberFormat('pt-BR', {
-      style: 'currency',
-      currency: 'BRL',
-      minimumFractionDigits: 0
-    }).format(this.budgetValue);
+  
+  onPageChange(page: number): void {
+    if (page >= 0 && page < this.totalPages) {
+      this.currentPage = page;
+      this.loadPackages();
+    }
   }
-
-  get todayDate(): string {
-    const today = new Date();
-    return today.toISOString().split('T')[0];
-  }
-
- 
-  get sectionTitle(): string {
-    return this.hasActiveFilters() ? 'Pacotes Encontrados' : 'Pacotes Imperdíveis';
-  }
-
 
   clearFilters() {
     this.filterOrigin = '';
@@ -123,7 +147,8 @@ export class PackagesLayoutComponent implements OnInit, OnChanges {
     this.filterStartDate = '';
     this.filterEndDate = '';
     this.budgetValue = this.maxBudget;
-    this.filteredPackages = [...this.package];
+    this.currentPage = 0;
+    this.loadPackages();
   }
 
   hasActiveFilters(): boolean {
@@ -152,7 +177,27 @@ export class PackagesLayoutComponent implements OnInit, OnChanges {
         this.filterEndDate = '';
         break;
     }
-    this.applyFilters();
+    this.onSearch(); 
+  }
+  
+  get formattedBudget(): string {
+    return new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+      minimumFractionDigits: 0
+    }).format(this.budgetValue);
   }
 
+  get todayDate(): string {
+    const today = new Date();
+    return today.toISOString().split('T')[0];
+  }
+
+  get sectionTitle(): string {
+    return this.hasActiveFilters() ? 'Pacotes Encontrados' : 'Pacotes Imperdíveis';
+  }
+  
+  get pages(): number[] {
+    return Array(this.totalPages).fill(0).map((x, i) => i);
+  }
 }

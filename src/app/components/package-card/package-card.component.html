@@ -3,8 +3,10 @@
   <div class="card-body">
     <h5 class="card-title fw-bold">{{ pacote.title }}</h5>
     <p class="card-text text-muted small">
-      
-  
+      <i class="bi bi-airplane-engines me-2"></i>{{ pacote.source }} → {{ pacote.destination }}
+    </p>
+    <p class="card-text text-muted small">
+      <i class="bi bi-calendar3 me-2"></i>{{ pacote.startDate | date:'dd/MM/yyyy' }} - {{ pacote.endDate | date:'dd/MM/yyyy' }}
     </p>
     <p class="card-text description-text">{{ pacote.description | truncate:100}}</p>
   </div>

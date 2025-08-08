@@ -1,18 +1,12 @@
 import { Routes } from '@angular/router';
 
-
-
 import { LoginComponent } from './pages/login/login.component';
 import { SignupComponent } from './pages/signup/signup.component';
 import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
 import { DefaultHomeComponent } from './pages/home/default-home/defaultHome.component';
-
-
 import { AdminLayoutComponent } from './components/admin-layout/admin-layout.component';
-
 import { PackageDetailsComponent } from './pages/package-details/package-details.component';
 import { BookingFinalizationComponent } from './pages/booking-finalization/booking-finalization.component';
-
 import { AdminPackagesComponent } from './pages/admin/admin-packages/admin-packages.component';
 import { AdminUsersComponent } from './pages/admin/admin-users/admin-users.component';
 import { AdminReviewsComponent } from './pages/admin/admin-reviews/admin-reviews.component';
@@ -21,11 +15,13 @@ import { AdminDashboardComponent } from './pages/admin/admin-dashboard/admin-das
 import { ProfileComponent } from './pages/profile/profile.component';
 import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
 import { AccountConfirmedComponent } from './pages/account-confirmed/account-confirmed.component';
+import { PackageAdminComponent } from './pages/packages-admin/packages-admin.component';
+import { PackagesListComponent } from './pages/packages-list/packages-list.component';
+
+
 import { adminGuard } from './guards/admin.guard';
 import { authGuard } from './guards/auth.guard';
-import { PackageAdminComponent } from './pages/packages-admin/packages-admin.component';
-
-
+import { MyReservationsComponent } from './pages/my-reservations/my-reservations.component';
 
 
 export const routes: Routes = [
@@ -33,79 +29,76 @@ export const routes: Routes = [
   {
     path: "",
     component: DefaultHomeComponent,
-    pathMatch: 'full'
+    pathMatch: 'full',
+    title: 'ViaJava'
   },
   {
     path: "login",
-    component: LoginComponent
+    component: LoginComponent,
+    title: 'LOGIN'
   },
   {
     path: "signup",
-    component: SignupComponent
+    component: SignupComponent,
+    title: 'CADASTRO'
   },
   {
     path: "forgot-password",
-    component: ForgotPasswordComponent
+    component: ForgotPasswordComponent,
+    title: 'ESQUECI A SENHA'
   },
   {
-
     path: 'reset-password',
-    component: ResetPasswordComponent
-
+    component: ResetPasswordComponent,
+    title: 'REDEFINIR SENHA'
   },
-
   {
-    path: 'auth/signup/account-confirmation',
-    redirectTo: 'account-confirmation',
-    pathMatch: 'full'
-  },
-
-  {
-
     path: 'account-confirmation',
-    component: AccountConfirmedComponent
-
+    component: AccountConfirmedComponent,
+    title: 'CONTA CONFIRMADA'
+  },
+  {
+    path: 'packages',
+    component: PackagesListComponent,
+    title: 'PACOTES'
   },
   {
     path: 'packages/:id',
-    component: PackageDetailsComponent
+    component: PackageDetailsComponent,
+    title: 'DETALHES DO PACOTE'
   },
 
-
-
-    {
-    path: 'finalize-booking', 
-    component: BookingFinalizationComponent
-  },  
-
-  // --- Rota Privada para Usuários Logados ---
+  // --- Rotas Privadas (Usuários Logados) ---
   {
     path: 'profile',
     component: ProfileComponent,
-
+    canActivate: [authGuard],
+    title: 'PERFIL'
   },
   {
     path: 'finalize-booking',
     component: BookingFinalizationComponent,
-    canActivate: [authGuard]
+    canActivate: [authGuard],
+    title: 'FINALIZAR RESERVA'
   },
-
-  // --- Rota Privada para Administradores ---
+  {
+    path: 'reservas',
+    component: MyReservationsComponent
+  },
+ 
+  // --- Rotas Privadas (Administradores) ---
   {
     path: 'admin',
     component: AdminLayoutComponent,
     canActivate: [adminGuard],
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-      { path: 'dashboard', component: AdminDashboardComponent },
-      { path: 'packages', component: AdminPackagesComponent },
-      { path: 'users', component: AdminUsersComponent },
-      { path: 'avaliacoes', component: AdminReviewsComponent },
-      { path: 'relatorios', component: AdminReportsComponent },
-
+      { path: 'dashboard', component: AdminDashboardComponent, title: 'ADMIN | Dashboard' },
+      { path: 'packages', component: AdminPackagesComponent, title: 'ADMIN | Pacotes' },
+      { path: 'packages/edit/:id', component: PackageAdminComponent, title: 'ADMIN | Editar Pacote' },
+      { path: 'users', component: AdminUsersComponent, title: 'ADMIN | Usuários' },
+      { path: 'reviews', component: AdminReviewsComponent, title: 'ADMIN | Avaliações' },
+      { path: 'reports', component: AdminReportsComponent, title: 'ADMIN | Relatórios' },
     ]
   },
-  { path: 'packages/:id/admin', 
-    component: PackageAdminComponent 
-  }
 ];

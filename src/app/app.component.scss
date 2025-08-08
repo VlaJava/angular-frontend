@@ -5,9 +5,10 @@
 }
 
 .main-content {
+  flex: 1;
   padding-top: 90px;
+  padding-bottom: 2rem;
 }
-
 
 .main-content.is-home {
   padding-top: 0;

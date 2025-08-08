@@ -30,7 +30,7 @@
   .pacotes-link {
     font-weight: 600; // Deixando um pouco mais forte
     // Cor padrão será azul escuro para contraste com o fundo laranja
-    color: var(--dark-blue); 
+    color: var(--primary-orange); 
     text-shadow: none; // Garante que não tenha sombra neste estado
     transition: color 0.3s ease-in-out; // Adiciona a transição suave de cor
   }

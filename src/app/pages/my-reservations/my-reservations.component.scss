@@ -1,0 +1,27 @@
+.page-container {
+  // O padding pode ser ajustado ou mantido, dependendo do efeito desejado.
+  // Vamos adicionar um pouco de padding vertical.
+  padding: 40px 20px;
+  background-color: #f7f7f7;
+  min-height: 100vh;
+}
+
+// NOVO: Estilos para o nosso contêiner de conteúdo
+.content-wrapper {
+  width: 100%;                  // Ocupa toda a largura disponível
+  max-width: 1280px;            // Mas não mais que 1280px (um bom valor para telas grandes)
+  margin-left: auto;            // Margem automática na esquerda...
+  margin-right: auto;           // ...e na direita, para centralizar o bloco
+}
+
+h1 {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #222;
+  margin-bottom: 30px;
+}
+
+.reservations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 30px;
+}
