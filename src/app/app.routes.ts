@@ -26,6 +26,7 @@ import { authGuard } from './guards/auth.guard';
 import { PackageAdminComponent } from './pages/packages-admin/packages-admin.component';
 import { UserReservationsComponent } from './pages/user-reservations/user-reservations.component';
 import { PackagesListComponent } from './pages/packages-list/packages-list.component';
+import { AboutComponent } from './pages/about/about.component';
 
 
 
@@ -92,6 +93,10 @@ export const routes: Routes = [
   {
     path: 'reservations',
     component: UserReservationsComponent
+  },
+  {
+    path: 'about',
+    component: AboutComponent 
   },
 
   // --- Rota Privada para Administradores ---
