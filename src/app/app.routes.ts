@@ -58,6 +58,11 @@ export const routes: Routes = [
     component: AboutComponent 
   },
   {
+    path: 'auth/signup/account-confirmation',
+    redirectTo: 'account-confirmation',
+    pathMatch: 'full'
+  },
+  {
     path: 'account-confirmation',
     component: AccountConfirmedComponent,
     title: 'CONTA CONFIRMADA'
