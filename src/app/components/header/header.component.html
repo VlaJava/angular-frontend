@@ -10,7 +10,8 @@
     </a>
     <div class="d-flex align-items-center">
       <a class="nav-link pacotes-link" [routerLink]="['/packages']">PACOTES</a>
-      
+      <a class="nav-link pacotes-link" [routerLink]="['/about']">SOBRE NÓS</a>
+
       <div *ngIf="currentUser$ | async as currentUser; else loggedOutMenu">
         <div ngbDropdown class="d-inline-block">
           <button class="btn btn-outline-light rounded-circle p-0 user-icon-button" ngbDropdownToggle>

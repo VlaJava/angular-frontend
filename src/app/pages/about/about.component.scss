@@ -1,0 +1,302 @@
+.about-container {
+  min-height: 100vh;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Seção de Boas-vindas */
+.welcome-section {
+  padding: 4rem 2rem;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+
+  .welcome-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  .welcome-text {
+    h1 {
+      font-size: 3rem;
+      color: #333;
+      margin-bottom: 1rem;
+      font-weight: 300;
+    }
+
+    .brand-highlight {
+      color: #ff6b35;
+      font-weight: 600;
+    }
+
+    .subtitle {
+      font-size: 1.3rem;
+      color: #666;
+      margin-bottom: 3rem;
+      font-style: italic;
+    }
+  }
+
+  .project-description {
+    h2 {
+      font-size: 2.5rem;
+      color: var(--primary-orange);
+      margin-bottom: 2rem;
+      font-weight: 400;
+    }
+
+    h3{
+        margin-bottom: 8px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+
+      .feature-item {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+
+        .feature-number {
+          background: #ffe4d6;
+          color: #ff6b35;
+          padding: 0.3rem 0.8rem;
+          border-radius: 20px;
+          font-weight: bold;
+          font-size: 0.9rem;
+        }
+
+        h3 {
+          color: #ff6b35;
+          margin: 1rem 0 0.5rem 0;
+          font-size: 1.1rem;
+        }
+
+        p {
+          color: #666;
+          line-height: 1.5;
+          margin: 0;
+        }
+      }
+    }
+  }
+
+  .main-logo {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+  }
+}
+
+/* Seção de Tecnologias */
+.technologies-section {
+  padding: 4rem 2rem;
+  background: white;
+
+  .tech-content {
+    max-width: 1200px;
+    margin: 0 auto;
+
+    h2 {
+      font-size: 2.5rem;
+      color: #333;
+      text-align: center;
+      margin-bottom: 3rem;
+      font-weight: 400;
+    }
+
+    .tech-categories {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+
+      .tech-category {
+        background: #f8f9fa;
+        padding: 2rem;
+        border-radius: 15px;
+        text-align: center;
+
+        .category-title {
+          font-size: 1.3rem;
+          font-weight: 600;
+          margin-bottom: 1.5rem;
+          padding: 0.5rem 1rem;
+          border-radius: 25px;
+          color: white;
+          display: inline-block;
+
+          &.frontend { background: #e74c3c; }
+          &.backend { background: #3498db; }
+          &.security { background: #f39c12; }
+          &.infrastructure { background: #9b59b6; }
+          &.ai { background: #1abc9c; }
+          &.bd { background: #34495e; }
+        }
+
+        .tech-items {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+
+          .tech-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: white;
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+
+            .tech-logo {
+              width: 40px;
+              height: 40px;
+              object-fit: contain;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Seção da Equipe */
+.team-section {
+  padding: 4rem 2rem;
+  background: linear-gradient(135deg, #e9ecef 0%, #f8f9fa 100%);
+
+  .team-content {
+    max-width: 1200px;
+    margin: 0 auto;
+
+    h2 {
+      font-size: 2.5rem;
+      color: #333;
+      text-align: center;
+      margin-bottom: 3rem;
+      font-weight: 400;
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-bottom: 3rem;
+      justify-items: center;
+
+      .team-member-link {
+        text-decoration: none;
+        color: inherit;
+        width: 100%;
+        max-width: 280px;
+        
+        &:hover {
+          text-decoration: none;
+          color: inherit;
+        }
+      }
+
+      .team-member {
+        text-align: center;
+        background: white;
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        width: 100%;
+        cursor: pointer;
+
+        &:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+        }
+
+        .member-photo {
+          margin-bottom: 1rem;
+
+          .member-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #ff6b35;
+            transition: border-color 0.3s ease;
+          }
+        }
+
+        .member-name {
+          color: #333;
+          font-size: 1.2rem;
+          font-weight: 500;
+          margin: 0;
+        }
+
+        &:hover .member-img {
+          border-color: #e55a2b;
+        }
+      }
+    }
+
+    .copyright {
+      text-align: center;
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid #ddd;
+      color: #666;
+    }
+  }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .welcome-section {
+    .welcome-content {
+      grid-template-columns: 1fr;
+      text-align: center;
+    }
+    
+    .welcome-text {
+      h1 {
+        font-size: 2rem;
+      }
+    }
+    
+    .project-description {
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  }
+  
+  .technologies-section {
+    .tech-content {
+      .tech-categories {
+        grid-template-columns: 1fr;
+      }
+    }
+  }
+  
+  .team-section {
+    .team-content {
+      .team-grid {
+        grid-template-columns: repeat(2, 1fr); // 2 colunas em tablets
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .team-section {
+    .team-content {
+      .team-grid {
+        grid-template-columns: 1fr; // 1 coluna em mobile
+      }
+    }
+  }
+}

@@ -17,6 +17,7 @@ import { ResetPasswordComponent } from './pages/reset-password/reset-password.co
 import { AccountConfirmedComponent } from './pages/account-confirmed/account-confirmed.component';
 import { PackageAdminComponent } from './pages/packages-admin/packages-admin.component';
 import { PackagesListComponent } from './pages/packages-list/packages-list.component';
+import { AboutComponent } from './pages/about/about.component';
 
 
 import { adminGuard } from './guards/admin.guard';
@@ -85,8 +86,12 @@ export const routes: Routes = [
     path: 'reservas',
     component: MyReservationsComponent
   },
- 
-  // --- Rotas Privadas (Administradores) ---
+
+  {
+    path: 'about',
+    component: AboutComponent 
+  },
+
   {
     path: 'admin',
     component: AdminLayoutComponent,
