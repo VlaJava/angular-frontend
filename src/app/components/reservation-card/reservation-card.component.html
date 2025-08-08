@@ -1,0 +1,44 @@
+<div class="card" [ngClass]="'status-' + reservation.status.toLowerCase()">
+  <div class="card-image-container">
+    <img [src]="reservation.imageUrl" [alt]="reservation.title" class="card-image">
+    <span class="status-badge" [ngClass]="{
+      'pending': reservation.status === ReservationStatus.Pendente,
+      'confirmed': reservation.status === ReservationStatus.Confirmado,
+      'canceled': reservation.status === ReservationStatus.Cancelado
+    }">
+      {{ reservation.status }}
+    </span>
+  </div>
+
+  <div class="card-content">
+    <h3 class="card-title">{{ reservation.title }}</h3>
+    <p class="card-location">{{ reservation.location }}</p>
+
+    <div class="card-details">
+      <p>
+        <span class="icon">&#x1F4C5;</span> Data da Viagem: {{ reservation.travelDate | date:'dd/MM/yyyy' }}
+      </p>
+      <p>
+        <span class="icon">&#36;</span> Valor: {{ reservation.price | currency:'BRL':'symbol':'1.2-2' }}
+      </p>
+
+      <p *ngIf="reservation.status === ReservationStatus.Confirmado && reservation.paymentDate">
+         <span class="icon">&#x1F4B3;</span> Data de Pagamento: {{ reservation.paymentDate | date:'dd/MM/yyyy' }}
+      </p>
+
+      <p *ngIf="reservation.paymentMethod">
+        <span class="icon">&#x1F4B8;</span> Método de Pagamento: {{ reservation.paymentMethod }}
+      </p>
+    </div>
+
+    <div class="card-actions">
+      <button *ngIf="reservation.status === ReservationStatus.Pendente" (click)="onCancel()" class="btn-cancel">
+        Cancelar Viagem
+      </button>
+
+      <p *ngIf="reservation.status === ReservationStatus.Confirmado" class="info-text">
+        Para cancelar ou pedido de reembolso, entre em contato com nossa central de atendimento.
+      </p>
+    </div>
+  </div>
+</div>

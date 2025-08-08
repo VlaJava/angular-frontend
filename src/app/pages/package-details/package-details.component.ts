@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { PackageService } from '../../services/package.service';
 import { Package } from '../../types/package.type';
+import { BookingService } from '../../services/booking.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
     selector: 'app-package-details',
@@ -16,8 +18,9 @@ export class PackageDetailsComponent implements OnInit {
   package: Package | undefined;
   isLoading = true;
   numberOfDays: number | null = null;
+  hasExistingBooking = false;
 
-  // Array com dados de exemplo para as avaliações
+  
   mockReviews = [
     {
       name: 'Ana Pereira',
@@ -42,11 +45,12 @@ export class PackageDetailsComponent implements OnInit {
     }
   ];
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private packageService: PackageService
-  ) { }
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private packageService = inject(PackageService);
+  private bookingService = inject(BookingService);
+
+  constructor() { }
 
   ngOnInit(): void {
     const packageId = this.route.snapshot.paramMap.get('id');
@@ -54,18 +58,22 @@ export class PackageDetailsComponent implements OnInit {
     if (packageId) {
       this.isLoading = true;
       
-      this.packageService.getPackageById(packageId).subscribe({
-        next: (data) => {
-          if (data) {
-            this.package = data;
-            this.numberOfDays = this.calculateNumberOfDays(data.startDate, data.endDate);
+      forkJoin({
+        packageDetails: this.packageService.getPackageById(packageId),
+        bookingExists: this.bookingService.checkIfBookingExists(packageId)
+      }).subscribe({
+        next: ({ packageDetails, bookingExists }) => {
+          if (packageDetails) {
+            this.package = packageDetails;
+            this.numberOfDays = this.calculateNumberOfDays(packageDetails.startDate, packageDetails.endDate);
+            this.hasExistingBooking = bookingExists;
           } else {
             this.router.navigate(['/']);
           }
           this.isLoading = false;
         },
         error: (err) => {
-          console.error('Erro ao buscar o pacote:', err);
+          console.error('Erro ao buscar detalhes do pacote ou reservas:', err);
           this.router.navigate(['/']);
           this.isLoading = false;
         }
@@ -75,7 +83,6 @@ export class PackageDetailsComponent implements OnInit {
     }
   }
 
-  // Método auxiliar para criar um array para o loop das estrelas
   getStars(rating: number): number[] {
     return Array(rating).fill(0);
   }
