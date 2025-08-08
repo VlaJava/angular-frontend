@@ -85,11 +85,7 @@ export const routes: Routes = [
   {
     path: 'reservas',
     component: MyReservationsComponent
-  },
 
-  {
-    path: 'about',
-    component: AboutComponent 
   },
 
   {
