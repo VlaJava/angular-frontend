@@ -139,4 +139,20 @@
     opacity: 1;
     text-decoration: underline;
   }
+
+  // Estiliza o widget do Google para se adequar ao tema escuro do footer
+#google_translate_element_footer {
+  .goog-te-gadget-simple {
+    background-color: transparent !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-radius: 0.25rem;
+    padding: 0.25rem 0.5rem;
+  }
+
+  .goog-te-gadget-simple span,
+  .goog-te-gadget-simple a {
+    color: #ffffff !important;
+    text-decoration: none;
+  }
+}
 }

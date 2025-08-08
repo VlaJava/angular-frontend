@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChatMessage, Sender } from '../../types/chatbot.types';
-import { PackageCardComponent } from '../package-card-chat/package-card-chat.component';
+import { PackageCardComponent } from '../package-card/package-card.component';
 
 @Component({
     selector: 'app-message',
